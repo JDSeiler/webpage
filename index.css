@@ -1,10 +1,44 @@
 /* 
 Color pallete:
-Light: E9E6D7
-Dark: 161A1A
-Mid: 334350
+Light: #E9E6D7
+Dark: #161A1A
+Mid: #334350
 
-Light accent: 789599
-Dark accent: 49879E
+Light accent: #789599
+Dark accent: #49879E
+
+
+Fonts:
+
+font-family: 'Nanum Gothic', sans-serif;
+font-family: 'Roboto', sans-serif;
 
 */
+
+body {
+    background-color: #161A1A
+}
+
+.largeText {
+    color: #E9E6D7;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 1.5em;
+    padding-left: 15%;
+    padding-right: 15%;
+}
+
+#primaryLargeText {
+    padding-top: 5%;
+}
+
+#horizontalRule {
+    border-color: #49879E
+}
+
+.bodyText {
+    color: #E9E6D7;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5em;
+    padding-left: 15%;
+    padding-right: 15%;
+}
