@@ -42,3 +42,16 @@ body {
     padding-left: 15%;
     padding-right: 15%;
 }
+
+.card {
+    background-color: #334350;
+    transition: transform .5s;
+    border-radius: 1em;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+
+.card:hover {
+    background-color: #4b6376;
+    transform: scale(1.3);
+}
