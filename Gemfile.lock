@@ -254,7 +254,7 @@ PLATFORMS
 
 DEPENDENCIES
   bulma-clean-theme
-  github-pages
+  github-pages (~> 204)
   tzinfo (~> 1.2)
   tzinfo-data
   wdm (~> 0.1.1)
