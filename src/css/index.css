@@ -1,4 +1,168 @@
-.main-content {
+/* https://www.joshwcomeau.com/css/custom-css-reset */
+
+/*
+  1. Use a more-intuitive box-sizing model.
+*/
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/*
+  2. Remove default margin
+*/
+* {
+  margin: 0;
+}
+
+/*
+  Typographic tweaks!
+  3. Add accessible line-height
+  4. Improve text rendering
+*/
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  background: var(--bg);
+}
+
+/*
+  5. Improve media defaults
+*/
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/*
+  6. Remove built-in form typography styles
+*/
+input, button, textarea, select {
+  font: inherit;
+}
+
+
+:root {
+  /* Default font settings */
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings:
+    "slnt" 0;
+
+  /* Theme colors */
+  --bg: hsl(0, 25%, 95%);
+  --fg: hsl(0, 3%, 7%);
+  --primary: hsl(41, 100%, 53%);
+  --secondary: hsl(199, 60%, 45%);
+}
+
+#nav-bar {
   display: flex;
-  margin: 2rem;
+  gap: 2rem;
+  width: 100vw;
+  padding: 1rem;
+  border-bottom: 4px solid black;
+
+  > .spacer {
+    border: 1px solid black
+  }
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--fg);
+  font-weight: bold;
+  background: var(--primary);
+  padding: 0.5rem;
+  border: 2px solid black;
+
+  transition: transform ease-in 100ms, box-shadow ease-in 100ms;
+  box-shadow: -4px 4px;
+}
+
+.nav-link:hover {
+  transform: translate(4px, -4px);
+  box-shadow: -10px 10px;
+}
+
+.nav-link:active {
+  transform: translate(0px, 0px);
+  box-shadow: 0px 0px;
+}
+
+#content-area {
+  flex-grow: 2;
+}
+
+/*
+=================
+MAIN LANDING PAGE
+=================
+*/
+
+#landing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#landing > * {
+  width: 40vw;
+}
+
+.banner {
+  margin: 1rem;
+  border: 2px solid black;
+  padding: 1rem;
+  text-align: center;
+}
+
+.blurb {
+  margin: 1rem;
+  font-size: 1.25rem
+}
+
+/*
+============
+SOCIALS PAGE
+============
+*/
+
+
+#socials {
+  margin: 1rem;
+}
+
+#socials-header {
+  color: var(--fg);
+}
+
+#socials-list {
+  display: flex;
+  margin-top: 0.5rem;
+  flex-direction: column;
+  border: 2px solid black;  
+}
+
+.social-link {
+  text-decoration: none;
+  color: var(--fg);
+  padding: 1rem;
+  font-weight: bold;
+  font-size: 1.5rem;
+  transition: background-color 200ms linear;
+}
+
+.social-link:not(:last-child) {
+  border-bottom: 2px solid black;
+}
+
+.social-link#github:hover {
+  background-color: #6E5494;
+}
+
+.social-link#linkedin:hover {
+  background-color: #0A66C2;
 }
