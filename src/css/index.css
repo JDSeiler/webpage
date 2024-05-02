@@ -173,6 +173,10 @@ POST STYLING
 ============
 */
 
+.post-container {
+  margin-top: 2rem;
+}
+
 .post-container > blockquote {
   padding: 0.5rem;
   margin-top: 0.5rem;
@@ -200,6 +204,7 @@ POST STYLING
 }
 
 .post-container > p {
+  font-size: 1.125rem;
   line-height: 1.5;
   margin-top: 1rem;
   margin-bottom: 1rem;
