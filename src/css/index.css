@@ -190,7 +190,8 @@ POST STYLING
 .post-container > pre {
   border: 1px solid black;
   box-shadow: -8px 8px black;
-  padding: 0.25rem;
+  /* This padding applies to code-blocks without a language tagged */
+  padding: 1rem;
 }
 
 .post-container > ol {
