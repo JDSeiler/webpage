@@ -13,9 +13,6 @@ module.exports = function(eleventyConfig) {
     // input and output directories
     dir: {
       input: "src",
-    },
-    // uderlying deployment is at jdseiler.github.io/webpage/
-    // but 11ty expects links to be at the domain root by default
-    pathPrefix: "/webpage/",
+    }
   };
 };
