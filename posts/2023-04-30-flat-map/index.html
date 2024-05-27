@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/webpage/css/index.css">
+    <link rel="stylesheet" href="/webpage/css/prism-gruvbox-dark.css">
+  </head>
+  <body>
+    <div id="nav-bar">
+      <a class="nav-link" href="/webpage/">SEILER'S CORNER</a>
+      <div class="spacer"></div>
+      <a class="nav-link" href="/webpage/about">ABOUT</a>
+      <a class="nav-link" href="/webpage/blog">BLOG</a>
+      <a class="nav-link" href="/webpage/socials">SOCIALS</a>
+    </div>
+    <div class="content-area">
+      <div class="post-container">
+ <h1>Understanding the <code>flatMap</code> function</h1>
+<p>If you, like me, have spent any time in
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array">MDN's Array reference</a>,
+you've probably run across <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap">flatMap</a>.
+It's description is rather impenetrable:</p>
+<blockquote>
+<p>It is identical to a map() followed by a flat() of depth 1</p>
+</blockquote>
+<p>For quite some time, I reacted to that description with head scratching and
+general puzzlement. But relatively recently I began to understand what <code>flatMap</code>
+is good for. My goal, dear reader, is to impart this knowledge to you.</p>
+<h2>The Punchline</h2>
+<p>The normal <code>map</code> function lets us perform a <em>1-to-1 mapping</em>. For each input
+element we get back exactly one output element.</p>
+<p>What <code>flatMap</code> allows us to do is perform a <em>1-to-any mapping</em>. For each input
+element we can choose to:</p>
+<ul>
+<li>Omit this element from the output array by returning an empty array.</li>
+<li>Emit <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> output elements by returning an array of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> values.</li>
+</ul>
+<p>In my experience, I mostly find <code>flatMap</code> useful for its ability to return any
+number of output elements for each input element. The ability to filter elements
+at the same time is a nice bonus.</p>
+<p>Let's move on to an example to show how <code>flatMap</code> might be useful in an
+<em>almost-like-real-life</em> sort of scenario.</p>
+<h2>Example</h2>
+<p>Imagine we are working on a website for a bookshop, and we have the following
+data structures:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token comment">// typescript</span>
+<span class="token keyword">interface</span> <span class="token class-name">Author</span> <span class="token punctuation">{</span>
+  name<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  books<span class="token operator">:</span> Book<span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">Book</span> <span class="token punctuation">{</span>
+  title<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+  published<span class="token operator">:</span> Date<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p>Suppose we want to write a function that takes a list of <code>Author</code> objects and
+returns a list of all of the <code>Book</code>s. What are some ways we could write such a
+function without <code>flatMap</code>?</p>
+<pre class="language-ts"><code class="language-ts"><span class="token comment">// typescript</span>
+<span class="token keyword">const</span> <span class="token function-variable function">getAuthorsBooksIter</span> <span class="token operator">=</span> <span class="token punctuation">(</span>authors<span class="token operator">:</span> Author<span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> books <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> author <span class="token keyword">of</span> authors<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">const</span> book <span class="token keyword">of</span> author<span class="token punctuation">.</span>books<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      books<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>book<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> books<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Or a slightly more functional approach</span>
+<span class="token keyword">const</span> <span class="token function-variable function">getAuthorsBooksFunc</span> <span class="token operator">=</span> <span class="token punctuation">(</span>authors<span class="token operator">:</span> Author<span class="token punctuation">)</span> <span class="token operator">=></span>
+   authors<span class="token punctuation">.</span><span class="token function">reduce</span><span class="token punctuation">(</span>
+    <span class="token punctuation">(</span>books<span class="token punctuation">,</span> author<span class="token punctuation">)</span> <span class="token operator">=></span> books<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>author<span class="token punctuation">.</span>books<span class="token punctuation">)</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Of course, you can write this with <code>flatMap</code> too, and it's much shorter
+(otherwise it would've made for a pretty lousy example):</p>
+<pre class="language-ts"><code class="language-ts"><span class="token comment">// typescript</span>
+<span class="token keyword">const</span> <span class="token function-variable function">getAuthorsBooksFlatMap</span> <span class="token operator">=</span> <span class="token punctuation">(</span>authors<span class="token punctuation">)</span> <span class="token operator">=></span>
+  authors<span class="token punctuation">.</span><span class="token function">flatMap</span><span class="token punctuation">(</span>author <span class="token operator">=></span> author<span class="token punctuation">.</span>books<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Another situation where <code>flatMap</code> is very helpful is when writing recursive
+functions. Say you want to write a function that takes in an object and produces
+a list of the primitive values from that object.</p>
+<pre><code>// input
+{
+  foo: 'bar',
+  baz: {
+    qux: 100,
+    zap: {
+      zorp: false
+    }
+  }
+}
+
+// output
+['bar', 100, false]
+</code></pre>
+<p>We can write this function relatively easily with <code>flatMap</code>:</p>
+<pre class="language-js"><code class="language-js"><span class="token keyword">const</span> <span class="token function-variable function">getObjValues</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">o</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> o <span class="token operator">===</span> <span class="token string">'object'</span> <span class="token operator">&amp;&amp;</span> o <span class="token operator">!==</span> <span class="token keyword">null</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> Object<span class="token punctuation">.</span><span class="token function">values</span><span class="token punctuation">(</span>o<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">flatMap</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">v</span><span class="token punctuation">)</span> <span class="token operator">=></span>
+      <span class="token function">getObjValues</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">return</span> <span class="token punctuation">[</span>o<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+
+</div>
+
+    </div>
+  </body>
+</html>

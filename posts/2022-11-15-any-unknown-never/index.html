@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/webpage/css/index.css">
+    <link rel="stylesheet" href="/webpage/css/prism-gruvbox-dark.css">
+  </head>
+  <body>
+    <div id="nav-bar">
+      <a class="nav-link" href="/webpage/">SEILER'S CORNER</a>
+      <div class="spacer"></div>
+      <a class="nav-link" href="/webpage/about">ABOUT</a>
+      <a class="nav-link" href="/webpage/blog">BLOG</a>
+      <a class="nav-link" href="/webpage/socials">SOCIALS</a>
+    </div>
+    <div class="content-area">
+      <div class="post-container">
+ <p>In my years of writing TypeScript, I've encountered areas of the language where
+myself and others often get tripped up. One example are three special types:</p>
+<ul>
+<li><code>any</code></li>
+<li><code>unknown</code></li>
+<li><code>never</code></li>
+</ul>
+<p>In this post, I want to give a rundown of what these types mean and how to use
+them from a practical perspective.</p>
+<h1><code>any</code></h1>
+<p><code>any</code> is the most straightfoward of the three special types. A value of type
+<code>any</code> can be, well, anything! You can think of variables with the type <code>any</code> as
+having type-checking disabled. We say that all types are assignable to <code>any</code>,
+and that <code>any</code> is assignable to any type.</p>
+<pre class="language-ts"><code class="language-ts"><span class="token comment">// All of the following is legal, even if it's not valid/useful</span>
+
+<span class="token comment">// "foo" could be any value of any type. That's what we mean when we say all </span>
+<span class="token comment">// types "are assignable" to `any`</span>
+<span class="token keyword">let</span> x<span class="token operator">:</span> <span class="token builtin">any</span> <span class="token operator">=</span> <span class="token string">"foo"</span><span class="token punctuation">;</span>
+<span class="token keyword">let</span> y<span class="token operator">:</span> <span class="token builtin">number</span> <span class="token operator">=</span> x<span class="token punctuation">;</span>
+x<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+x<span class="token punctuation">.</span>someProperty<span class="token punctuation">;</span>
+x<span class="token punctuation">.</span><span class="token function">someMadeUpMethodName</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">square</span> <span class="token operator">=</span> <span class="token punctuation">(</span>n<span class="token operator">:</span> <span class="token builtin">number</span><span class="token punctuation">)</span> <span class="token operator">=></span> n<span class="token operator">*</span>n<span class="token punctuation">;</span>
+<span class="token comment">// mySquare will be NaN here, not good!</span>
+<span class="token comment">// `any` can be used in the place of any type. `square` expects a value of type</span>
+<span class="token comment">// `number` but we substitute in `any`. This is what we mean when we say `any`</span>
+<span class="token comment">// "is assignable to" any type</span>
+<span class="token class-name"><span class="token keyword">let</span></span> mySquare <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Typically, <code>any</code> is used as an escape-hatch from the type system when it'd be
+too difficult or tedious to convince TypeScript that some code is correct.</p>
+<h1><code>unknown</code></h1>
+<p><code>unknown</code> is the &quot;type-safe&quot; version of <code>any</code>. You can assign anything to a
+variable of type <code>unknown</code>, but basically no operations are permitted on an
+<code>unknown</code> value except for assignment to <code>any</code> and type-casting.</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">let</span> x<span class="token operator">:</span> <span class="token builtin">unknown</span> <span class="token operator">=</span> <span class="token string">"foo"</span>
+
+<span class="token comment">// ILLEGAL! </span>
+<span class="token keyword">let</span> y<span class="token operator">:</span> <span class="token builtin">number</span> <span class="token operator">=</span> x<span class="token punctuation">;</span>
+
+<span class="token comment">// LEGAL! Anything is assignable to `any`.</span>
+<span class="token keyword">let</span> z<span class="token operator">:</span> <span class="token builtin">any</span> <span class="token operator">=</span> x<span class="token punctuation">;</span> 
+<span class="token comment">// LEGAL! Type-casting `unknown` is allowed (and generally necessary).</span>
+<span class="token keyword">let</span> w<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">=</span> x <span class="token keyword">as</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Using `unknown` in any way is also illegal.</span>
+<span class="token comment">// The following 3 lines would cause a compiler error:</span>
+<span class="token keyword">let</span> result <span class="token operator">=</span> x <span class="token operator">+</span> x<span class="token punctuation">;</span>
+<span class="token keyword">let</span> propertyAccess <span class="token operator">=</span> x<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
+<span class="token keyword">let</span> callingMethods <span class="token operator">=</span> x<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token comment">// and just about anything else you can think of...</span></code></pre>
+<p>The utility of <code>unknown</code> is that it lets us write code that accepts values of
+any type, but forces us to more-or-less safely assert the type of the value
+before the compiler will let us use it. TypeScript offers many different ways
+for asserting or otherwise specifying the type of a value, and the details are
+outside the scope of this post. But, you can read all about it in the
+TypeScript manual page on <a href="https://www.typescriptlang.org/docs/handbook/2/narrowing.html">narrowing</a>.</p>
+<h1>The characters so far:</h1>
+<ul>
+<li><code>any</code>
+<ul>
+<li>Can be assigned a value of any type.</li>
+<li>Can be used in place of any type.</li>
+</ul>
+</li>
+<li><code>unknown</code>
+<ul>
+<li>Can be assigned a value of any type.</li>
+<li><strong>Cannot</strong> be used without a type-cast.</li>
+</ul>
+</li>
+</ul>
+<h1><code>never</code></h1>
+<p>You can think of <code>never</code> as the &quot;opposite&quot; of <code>any</code> and <code>unknown</code>. Whereas <code>any</code>
+and <code>unknown</code> are types that contain all possible values, <code>never</code> is a type that
+contains <strong>no</strong> values.</p>
+<p>Unsurprisingly, this means that the only things you can assign to a variable of
+type <code>never</code> are more expressions with the type <code>never</code>. The use of the term
+&quot;expression&quot; is very purposeful, because there is no such thing as a <em>value</em>
+with type <code>never</code>, by definition.</p>
+<p>Less intuitively, an expression of type <code>never</code> can be assigned to any variable
+of any type. For example:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">function</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">:</span> <span class="token builtin">never</span> <span class="token punctuation">{</span>
+  <span class="token keyword">throw</span> <span class="token string">"err"</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// This is legal!</span>
+<span class="token keyword">const</span> bar<span class="token operator">:</span> <span class="token builtin">number</span> <span class="token operator">=</span> <span class="token function">foo</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>This is a kind of <a href="https://en.wikipedia.org/wiki/Vacuous_truth">vacuous truth</a>.
+It's true, in an unsatisfying way, that <code>bar</code> is being assigned a number because
+it's not being assigned any value at all.</p>
+<p>If it's not obvious to you why <code>never</code> is useful or even necessary, you are not
+alone. Unless you're writing advanced conditional types (a topic for another day)
+you are pretty unlikely to need <code>never</code>. Though, you may encounter it from time
+to time if you're using a library with complex generic types and you don't
+specify the type arguments correctly.</p>
+<p><code>never</code> serves some important theoretical purposes (another topic for another
+day), but the most practical usecase I can think of for most people is
+exhaustiveness checking. Here's an example:</p>
+<pre class="language-ts"><code class="language-ts"><span class="token keyword">interface</span> <span class="token class-name">ComputerScienceStudent</span> <span class="token punctuation">{</span>
+  major<span class="token operator">:</span> <span class="token string">'cs'</span><span class="token punctuation">;</span>
+  favoriteLanguage<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">ArchitectureStudent</span> <span class="token punctuation">{</span>
+  major<span class="token operator">:</span> <span class="token string">'arch'</span><span class="token punctuation">;</span>
+  favoriteBuilding<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">interface</span> <span class="token class-name">MathStudent</span> <span class="token punctuation">{</span>
+  major<span class="token operator">:</span> <span class="token string">'math'</span>
+  favoriteEquation<span class="token operator">:</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">type</span> <span class="token class-name">Student</span> <span class="token operator">=</span>
+ <span class="token operator">|</span> ComputerScienceStudent
+ <span class="token operator">|</span> ArchitectureStudent
+ <span class="token operator">|</span> MathStudent<span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">greetStudent</span><span class="token punctuation">(</span>student<span class="token operator">:</span> Student<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">switch</span> <span class="token punctuation">(</span>student<span class="token punctuation">.</span>major<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">case</span> <span class="token string">'cs'</span><span class="token operator">:</span>
+      <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Student's favorite language is </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>student<span class="token punctuation">.</span>favoriteLanguage<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token string">'arch'</span><span class="token operator">:</span>
+      <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Student's favorite building is: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>student<span class="token punctuation">.</span>favoriteBuilding<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token keyword">case</span> <span class="token string">'math'</span><span class="token operator">:</span>
+      <span class="token builtin">console</span><span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">Students favorite equation is: </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>student<span class="token punctuation">.</span>favoriteEquation<span class="token interpolation-punctuation punctuation">}</span></span><span class="token template-punctuation string">`</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token keyword">return</span><span class="token punctuation">;</span>
+    <span class="token keyword">default</span><span class="token operator">:</span>
+      <span class="token comment">// THIS IS THE IMPORTANT BIT</span>
+      <span class="token comment">// This assignment will produce a compiler error if you are not</span>
+      <span class="token comment">// handling every possible variant of `Student`.</span>
+      <span class="token keyword">const</span> _check<span class="token operator">:</span> <span class="token builtin">never</span> <span class="token operator">=</span> student<span class="token punctuation">;</span>
+      <span class="token keyword">return</span> _check
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>What we're doing is producing a statement that is only valid if it's impossible
+for the <code>default</code> case of the switch statement to actually run. The <code>default</code>
+case will never run if all the variants of <code>Student</code> are processed by a preceding
+branch of the <code>switch</code>. So, if we were to add a variant to the <code>Student</code> type
+later and fail to update <code>greetStudent</code>, we'd get a compile error because it
+would be possible to assign a real value to the <code>_check</code> variable.</p>
+<h1>Summary</h1>
+<ul>
+<li><code>any</code> and <code>unknown</code> are both types that encompass all possible values.</li>
+<li><code>any</code> basically turns off type-checking.</li>
+<li><code>unknown</code> allows you to process values of any type, while also forcing you
+to in some way assert the type of the value before you can actually use it.</li>
+<li><code>never</code> is a type that contains no values.</li>
+<li>Outside the world of conditional types, <code>never</code> is pretty niche. You can use
+it to make sure you're processing all variants of a discriminated union type.</li>
+<li><code>never</code> becomes way more uesful when you're writing conditional and/or
+recursive types. If you're doing that you probably didn't need this post.</li>
+</ul>
+
+</div>
+
+    </div>
+  </body>
+</html>

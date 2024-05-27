@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/webpage/css/index.css">
+    <link rel="stylesheet" href="/webpage/css/prism-gruvbox-dark.css">
+  </head>
+  <body>
+    <div id="nav-bar">
+      <a class="nav-link" href="/webpage/">SEILER'S CORNER</a>
+      <div class="spacer"></div>
+      <a class="nav-link" href="/webpage/about">ABOUT</a>
+      <a class="nav-link" href="/webpage/blog">BLOG</a>
+      <a class="nav-link" href="/webpage/socials">SOCIALS</a>
+    </div>
+    <div class="content-area">
+      <div class="post-container">
+ <h1>Exploring the Elementary Cellular Automata</h1>
+<p>Recently, I became quite interested in cellular automata. For the uninitiated,
+a cellular automata is a grid (not necessarily square, you might have triangular
+or hexagon cells) of colored cells. Each cell in the grid updates based on the
+states of neighboring cells. One of the most famous cellular automata is
+<a href="https://conwaylife.com/">Conway's Game of Life</a>, but in this post we'll be
+exploring a different kind of automata.</p>
+<h2>Elementary Cellular Automata</h2>
+<p>The elementary cellular automata are the simplest varietal.
+They are one-dimensional automata where each cell can only be on or off
+(some fancier automata have cells which can be in more than 2 states). By
+one-dimensional, I mean that the automata lives in a single, infinitely long row
+of cells.</p>
+<p>To &quot;run&quot; an automata, we start by coloring in our choice of cells. To advance
+the automata, we look at each cell, and figure out what its next state should
+be based on our rules. Once we've figured out the next states for all cells, we
+update them all at once.</p>
+<p>The astute reader will have squinted at my use of the phrase &quot;every cell&quot;,
+since I said previously that there are an infinite number of cells. Of course,
+we can't have an infinite row of cells in reality, so we begrudgingly stop
+computing the automata at the boundaries of our space.</p>
+<p>To figure out the next value of a cell, you look at that cell's
+value and the values of its left and right neighbors. Depending on the values
+of all three cells, we assign a new value to the center cell.</p>
+<p>Because we only ever consider three cells at a time, and each cell can have
+two values, we can completely describe an elementary cellular automata in 8
+rules (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">2^3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141079999999999em;vertical-align:0em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span>).</p>
+<h2>Defining Elementary Cellular Automata</h2>
+<p>First, let's talk about a way to notate the update rules for a single cell.
+We describe how to update a single cell with 4 binary numbers: <code>110 -&gt; 0</code>.
+The three numbers on the left describe the states of the center cell (the
+center number), and its left and right neighbors (the first and last digits
+respectively). The number on the right is the new state of the center cell.</p>
+<h2>Wolfram Codes</h2>
+<p>Now, we could notate all 8 rules for our automata in the manner just described,
+but a smart guy named Stephen Wolfram (yes, <a href="https://www.wolframalpha.com/">that Wolfram</a>)
+came up with a much more compact notation called the <a href="https://en.wikipedia.org/wiki/Wolfram_code">Wolfram Code</a>.</p>
+<p>To construct a Wolfram Code for an elementary cellular automata, we first lay
+out each of the 8 possible states in a predefined order:</p>
+<pre><code>111 110 101 100 011 010 001 000
+</code></pre>
+<p>This order is descending numeric order, if you interpret each state as a binary
+number.</p>
+<p>Next, we line up our &quot;output states&quot; (the 4th number in the notation we
+introduced previously) underneath the &quot;input states&quot;:</p>
+<pre><code>111 110 101 100 011 010 001 000
+ 0   0   0   1   1   1   1   0
+</code></pre>
+<p>Then, we treat the binary digits we've just laid out as a number, in this
+case: <code>00011110</code> or <code>30</code> in base 10. Thus, <code>30</code> is the Wolfram Code with the
+following rules:</p>
+<ul>
+<li><code>111 -&gt; 0</code></li>
+<li><code>110 -&gt; 0</code></li>
+<li><code>101 -&gt; 0</code></li>
+<li><code>100 -&gt; 1</code></li>
+<li><code>011 -&gt; 1</code></li>
+<li><code>010 -&gt; 1</code></li>
+<li><code>001 -&gt; 1</code></li>
+<li><code>000 -&gt; 0</code></li>
+</ul>
+<p>You can, of course, reverse this process to take any number from 0 to 255 and
+convert it to the explicit automata rules.</p>
+<h2>Visualizing the Elementary Automata</h2>
+<p>To sate my curiosity about these automata, I build a visualizer that you can
+try <a href="https://jdseiler.github.io/automata-explorer/">here</a>! Each of the
+elementary automata can be visualized in two modes: &quot;centered&quot; and &quot;random&quot;. In
+centered mode, the automata starts as a single cell in the center of the screen.
+In random mode, cells in the first row are turned on randomly, often times
+resulting in much more chaotic and interesting pictures. Since the automata are
+being drawn using the HTML Canvas API, you can save the images at full size to
+your computer if you'd like.</p>
+<p>Here are some of my favorite automata:</p>
+<ul>
+<li>Rule 18</li>
+<li>Rule 30 (this one is <a href="https://en.wikipedia.org/wiki/Rule_30">quite famous</a>)</li>
+<li>Rule 73</li>
+<li>Rule 105</li>
+<li>Rule 110 (this one is <a href="https://en.wikipedia.org/wiki/Rule_110">also quite famous</a>)</li>
+<li>Rule 169 (specifically in random mode)</li>
+</ul>
+<p>The source code for the visualize is available on GitHub at:
+https://github.com/JDSeiler/automata-explorer. The implementation is...
+uninspired... but it was a great afternoon project.</p>
+
+</div>
+
+    </div>
+  </body>
+</html>
