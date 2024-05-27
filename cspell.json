@@ -1,0 +1,11 @@
+{
+    "dictionaries": ["blog-dictionary"],
+    "dictionaryDefinitions": [
+        {
+            "name": "blog-dictionary",
+            "path": "./blog-dictionary.txt",
+            "addWords": true
+        }
+    ]
+}
+
