@@ -14,9 +14,9 @@ felt like I had any deep understanding of how it _really_ works. I knew how
 React worked practically, certainly enough to be productive at work, but I
 lacked a fundamental understanding of what makes React tick.
 
-I hope this will be a series of posts where I'll share my "a-ha!" moments.
-Throughout I'll be assuming an intermediate-advanced knowledge of JavaScript and
-React.
+I hope this will be a series of posts where I can share my "a-ha!" moments about
+React. Throughout I'll be assuming an intermediate-advanced knowledge of
+JavaScript and React.
 
 # Credits
 
