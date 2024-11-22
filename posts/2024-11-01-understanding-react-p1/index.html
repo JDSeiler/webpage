@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/prism-gruvbox-dark.css" />
+  </head>
+  <body>
+    <div id="nav-bar">
+      <a class="nav-link" href="/">SEILER'S CORNER</a>
+      <div class="spacer"></div>
+      <a class="nav-link" href="/about">ABOUT</a>
+      <a class="nav-link" href="/blog">BLOG</a>
+      <a class="nav-link" href="/socials">SOCIALS</a>
+    </div>
+    <div class="content-area">
+      <div class="post-container">
+ <h1>Understanding React: Part 1</h1>
+<p>I have a confession to make.</p>
+<p>I've written React for many years, but it wasn't until this year that I really
+felt like I had any deep understanding of how it <em>really</em> works. I knew how
+React worked practically, certainly enough to be productive at work, but I
+lacked a fundamental understanding of what makes React tick.</p>
+<p>I hope this will be a series of posts where I can share my &quot;a-ha!&quot; moments about
+React. Throughout I'll be assuming an intermediate-advanced knowledge of
+JavaScript and React.</p>
+<h1>Credits</h1>
+<p>The person who sparked my new understanding of React was Nadia Makarevich, the
+author of the <a href="https://www.developerway.com/">Developer Way</a> blog and the book
+&quot;Advanced React&quot;. I can highly recommend the content in &quot;Advanced React&quot;, but
+(and perhaps I just got a lemon) my Amazon print-on-demand copy quickly started
+falling apart. So, maybe get the Kindle edition and spare yourself some trouble.</p>
+<h1>Elements vs Components</h1>
+<p>I want to start at the very beginning. &quot;Element&quot; and &quot;Component&quot; are words that
+any React developer should know, but what are they exactly?</p>
+<p>Components are the core building blocks in React. They are normal functions
+which return elements.</p>
+<blockquote>
+<p>If you're working with an older learning resource or React project, you may also
+see components defined as classes which extend <code>Component</code> and implement a
+<code>render</code> method. At this point, class based components are a legacy style, and
+so I'm going to focus on function components instead.</p>
+</blockquote>
+<p>Elements, in turn, are normal JavaScript objects that tell React what to render.
+Creating elements is extremely cheap and doing so, by itself, does <em>not</em> cause
+any rendering to occur. We typically create elements using JSX, but JSX is simply
+syntax sugar for the <code>createElement</code> function.</p>
+<pre class="language-tsx"><code class="language-tsx"><span class="token comment">// This:</span>
+<span class="token keyword">const</span> <span class="token function-variable function">ContactCard</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> firstName<span class="token punctuation">,</span> lastName <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token plain-text">
+      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span><span class="token punctuation">{</span>firstName<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span><span class="token plain-text">
+      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>span</span><span class="token punctuation">></span></span><span class="token punctuation">{</span>lastName<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>span</span><span class="token punctuation">></span></span><span class="token plain-text">
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Is the same as:</span>
+<span class="token keyword">const</span> <span class="token function-variable function">ContactCard</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> firstName<span class="token punctuation">,</span> lastName <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span>
+    <span class="token string">"div"</span><span class="token punctuation">,</span>
+    <span class="token keyword">null</span><span class="token punctuation">,</span> <span class="token comment">// no props</span>
+    React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"span"</span><span class="token punctuation">,</span> firstName<span class="token punctuation">)</span><span class="token punctuation">,</span>
+    React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span><span class="token string">"span"</span><span class="token punctuation">,</span> lastName<span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>We can see exactly what the output of <code>createElement</code> looks like by logging it:</p>
+<pre class="language-js"><code class="language-js"><span class="token comment">// createElement('div', null, 'hello')</span>
+<span class="token comment">// aka</span>
+<span class="token comment">// &lt;div>&lt;/div></span>
+<span class="token punctuation">{</span>
+  <span class="token string-property property">"type"</span><span class="token operator">:</span> <span class="token string">"div"</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"key"</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"ref"</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"props"</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"_owner"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token string-property property">"@r"</span><span class="token operator">:</span> <span class="token number">9</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"_store"</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>There are some internal properties that, despite their beguiling mystery, we
+wont be exploring. But, we can see:</p>
+<ol>
+<li>this is a very normal looking object, and</li>
+<li>the properties of the object map to the JSX in an obvious way.</li>
+</ol>
+<p>The built-in HTML elements are a bit of a special case, because we call
+<code>createElement</code> with a string. When using our own function components, we'd
+actually write: <code>createElement(MyComponent)</code> and React would produce an object
+like:</p>
+<pre class="language-js"><code class="language-js"><span class="token punctuation">{</span>
+  <span class="token string-property property">"type"</span><span class="token operator">:</span> MyComponent<span class="token punctuation">,</span>
+  <span class="token comment">// snip</span>
+<span class="token punctuation">}</span></code></pre>
+<p>You might be wondering where child elements are in the output. Let's find out
+with another example. I'll cut out the <code>_owner</code> and <code>_store</code> properties to make
+the output a bit easier to parse. They're not relevant to what we're looking at
+anyway.</p>
+<pre class="language-js"><code class="language-js"><span class="token function">createElement</span><span class="token punctuation">(</span>
+  <span class="token string">'div'</span><span class="token punctuation">,</span>
+  <span class="token punctuation">{</span> <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token string">"foo"</span><span class="token punctuation">,</span> <span class="token literal-property property">ref</span><span class="token operator">:</span> <span class="token string">'span'</span><span class="token punctuation">,</span> <span class="token literal-property property">className</span><span class="token operator">:</span> <span class="token string">"contact-card"</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token function">createElement</span><span class="token punctuation">(</span>
+    <span class="token string">'span'</span><span class="token punctuation">,</span>
+    <span class="token keyword">null</span><span class="token punctuation">,</span>
+    <span class="token string">"\"Hello\""</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">)</span>
+<span class="token comment">// creates:</span>
+<span class="token punctuation">{</span>
+  <span class="token string-property property">"type"</span><span class="token operator">:</span> <span class="token string">"div"</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"key"</span><span class="token operator">:</span> <span class="token string">"foo"</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"ref"</span><span class="token operator">:</span> <span class="token string">"span"</span><span class="token punctuation">,</span>
+  <span class="token string-property property">"props"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token string-property property">"className"</span><span class="token operator">:</span> <span class="token string">"contact-card"</span><span class="token punctuation">,</span>
+    <span class="token string-property property">"children"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token string-property property">"type"</span><span class="token operator">:</span> <span class="token string">"span"</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"key"</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"ref"</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+      <span class="token string-property property">"props"</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token comment">// The double quotes tell React that this is the string "Hello" and not</span>
+        <span class="token comment">// a component called `Hello`.</span>
+        <span class="token string-property property">"children"</span><span class="token operator">:</span> <span class="token string">"\"Hello\""</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<p>If you've written much React, this probably wont be a surprise, since you access child
+components through the <code>children</code> prop. The only thing special about the <code>children</code>
+prop is that React adds it for you automatically. To hammer this home, the following
+examples are practically identical:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">const</span> <span class="token function-variable function">IconButton</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> icon <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>super-icon-styles<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text">
+      </span><span class="token punctuation">{</span>icon<span class="token punctuation">}</span><span class="token plain-text">
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> usage <span class="token operator">=</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">IconButton</span></span> <span class="token attr-name">icon</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://placecats.com/300/200<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span><span class="token punctuation">;</span>
+
+<span class="token comment">// Versus</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">IconButton</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter"><span class="token punctuation">{</span> children <span class="token punctuation">}</span></span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span> <span class="token attr-name">className</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>super-icon-styles<span class="token punctuation">"</span></span><span class="token punctuation">></span></span><span class="token plain-text">
+      </span><span class="token punctuation">{</span>children<span class="token punctuation">}</span><span class="token plain-text">
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><span class="token punctuation">;</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> usage <span class="token operator">=</span> <span class="token punctuation">(</span>
+  <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">IconButton</span></span><span class="token punctuation">></span></span><span class="token plain-text">
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://placecats.com/300/200<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><span class="token plain-text">
+  </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">IconButton</span></span><span class="token punctuation">></span></span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h1>Rendering and Reconciliation</h1>
+<p>OK, great, JSX is simply sugar for <code>createElement</code> and elements themselves are plain-old
+objects. But how does this all come together during rendering?</p>
+<p>A typical React entrypoint is going to look something like this:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">import</span> <span class="token punctuation">{</span> createRoot <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'react-dom/client'</span><span class="token punctuation">;</span>
+<span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./app'</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> domNode <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'root'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> root <span class="token operator">=</span> <span class="token function">createRoot</span><span class="token punctuation">(</span>domNode<span class="token punctuation">)</span><span class="token punctuation">;</span>
+root<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">App</span></span> <span class="token punctuation">/></span></span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>Desugaring the JSX, we get:</p>
+<pre class="language-jsx"><code class="language-jsx">root<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span>
+  React<span class="token punctuation">.</span><span class="token function">createElement</span><span class="token punctuation">(</span>
+    App<span class="token punctuation">,</span>
+    <span class="token keyword">null</span><span class="token punctuation">,</span>
+    <span class="token keyword">null</span>
+  <span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p>And if we evaluate that <code>createElement</code> call, we get <em>something</em> like:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token comment">// The more mystical properties of the element have been omitted</span>
+root<span class="token punctuation">.</span><span class="token function">render</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  <span class="token literal-property property">type</span><span class="token operator">:</span> App<span class="token punctuation">,</span>
+  <span class="token literal-property property">key</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">ref</span><span class="token operator">:</span> <span class="token keyword">null</span><span class="token punctuation">,</span>
+  <span class="token literal-property property">props</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre>
+<p>In order to figure out what to do with this, React has to do some work to resolve
+components into native HTML elements. Starting with this root element, React will
+perform this general process for each node in the element tree:</p>
+<pre><code>Is this node a component?
+  Yes:
+    Call the component and pass it this node's props
+    Replace this node with the element returned by the component
+  No:
+    This must be a built in HTML element
+    Continue on to the next node
+</code></pre>
+<p>React repeats this resolution process, layer by layer, until it has converted
+every element into something it knows how to render.</p>
+<blockquote>
+<p>You can read more in <a href="https://legacy.reactjs.org/blog/2015/12/18/react-components-elements-and-instances.html">this post</a>
+from the legacy React docs. It's rather old but the concepts are the same.</p>
+</blockquote>
+<blockquote>
+<p>This <a href="https://react.dev/learn/understanding-your-ui-as-a-tree#the-render-tree">newer post</a>
+covers some of the same ground, but it doesn't get into the nitty-gritty as much.</p>
+</blockquote>
+<p>Once React has this tree of elements, it does the work to figure out what to
+actually put on the webpage. This is also why you need both the <code>react</code> and
+<code>react-dom</code> packages to write a React web app. The <code>react</code> package creates the
+tree of elements, which is agnostic to how the UI is being rendered. Then, the
+<code>react-dom</code> package takes the element tree and figures out how to render it
+<em>specifically</em> as a webpage.</p>
+<h2>Subsequent Renders</h2>
+<p>React wouldn't be that useful if our apps were static and only rendered once.
+Things change! Our applications have <em>state</em>. When a state change occurs in your
+React app, React will rerender that element (the affected node in the element
+tree) and all of its children. This process produces a new element tree, which
+React compares to the original to figure out what it needs to update on the DOM.
+In some cases, React might only need to update a few attributes, but in other
+cases React might need to destroy and rebuild entire subtrees of the DOM.</p>
+<p>For further reading, this process of figuring out what changed by comparing
+element trees is called <em>reconciliation</em>.</p>
+<h2>Recap</h2>
+<ol>
+<li>Components are functions which return elements.</li>
+<li>Elements are lightweight JavaScript objects which describe what needs to be
+rendered.</li>
+<li>React recursively resolves elements which refer to components (as opposed to
+HTML elements) by calling the Component and passing the provided props. This
+progressively refines the element tree until it is entirely defined by HTML
+elements.</li>
+<li>When React is re-rendering, it is comparing two element trees and using
+heuristics to figure out what changed and update the real DOM as quickly as
+possible. This process is called reconciliation.</li>
+</ol>
+<h1>Application</h1>
+<p>The understanding of JSX as function calls, and React's deep interest in the
+element tree, leads to some insights.</p>
+<h2>What Triggers Re-Renders</h2>
+<p>When you first learn React, you're taught that when a component re-renders, React
+will re-render its children too. Using the knowledge that JSX is sugar for function
+calls, we can see why this is the case:</p>
+<pre class="language-jsx"><code class="language-jsx"><span class="token keyword">const</span> <span class="token function-variable function">Parent</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// Every time Parent re-renders, we're making a NEW</span>
+  <span class="token comment">// object for Child.</span>
+  <span class="token comment">// That object may have all the same keys and values,</span>
+  <span class="token comment">// but it's a new object in memory.</span>
+  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">Child</span></span> <span class="token punctuation">/></span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>This fact is also why props are <strong>not</strong> relevant to re-rendering, by default.
+A child component is always going to re-render when its parent re-renders,
+regardless of prop changes, because new renders create new objects.</p>
+<p>Ultimately, all re-renders are directly or indirectly caused by state changes.
+Either a component had a state update itself, or one of its parents up the chain
+had a state update.</p>
+<h2>Elements as Props</h2>
+<p>When we talk about parent-child relationships, as it pertains to re-renders, it
+is important to note that it's <em>not</em> about how the JSX is nested.</p>
+<p>Consider the following VERY contrived example:</p>
+<pre class="language-tsx"><code class="language-tsx"><span class="token keyword">const</span> <span class="token function-variable function">MainPage</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">FastUpdater</span></span><span class="token punctuation">></span></span><span class="token plain-text">
+      </span><span class="token punctuation">{</span><span class="token comment">/*
+      The implementation of SlowToRender isn't important.
+      It could be any component that takes a while to render.
+      */</span><span class="token punctuation">}</span><span class="token plain-text">
+      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">SlowToRender</span></span> <span class="token punctuation">/></span></span><span class="token plain-text">
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">FastUpdater</span></span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">const</span> <span class="token function-variable function">FastUpdater</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> children <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// A made up hook that constantly updates</span>
+  <span class="token comment">// with the current Epoch time, in milliseconds.</span>
+  <span class="token keyword">const</span> timestamp <span class="token operator">=</span> <span class="token function">useTimeMilliseconds</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token plain-text">
+      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>h1</span><span class="token punctuation">></span></span><span class="token plain-text"> The time is </span><span class="token punctuation">{</span>timestamp<span class="token punctuation">}</span><span class="token plain-text"> </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>h1</span><span class="token punctuation">></span></span><span class="token plain-text">
+      </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">></span></span><span class="token punctuation">{</span>children<span class="token punctuation">}</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span><span class="token plain-text">
+    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">></span></span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p>On first blush, this might seem like a bad idea. <code>FastUpdater</code> is going to
+continuously re-render. Surely that's going to make <code>SlowToRender</code> constantly
+re-render and tank our performance? Not so! Let's rewrite the example to make it
+more clear:</p>
+<pre class="language-tsx"><code class="language-tsx"><span class="token comment">// This is equivalent to the previous implementation of MainPage.</span>
+<span class="token keyword">const</span> <span class="token function-variable function">MainPage</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+  <span class="token comment">// Remember this is just sugar for `createElement`, which just</span>
+  <span class="token comment">// makes a plain-old JS object.</span>
+  <span class="token keyword">const</span> slow <span class="token operator">=</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">SlowToRender</span></span> <span class="token punctuation">/></span></span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span><span class="token class-name">FastUpdater</span></span> <span class="token attr-name">children</span><span class="token script language-javascript"><span class="token script-punctuation punctuation">=</span><span class="token punctuation">{</span>slow<span class="token punctuation">}</span></span> <span class="token punctuation">/></span></span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span></code></pre>
+<p><code>slow</code> is created when <code>MainPage</code> renders, and that object is passed to
+<code>FastUpdater</code>, which returns it wrapped in some extra markup. Every render,
+<code>FastUpdater</code> is getting the exact same child. Not even a child element with
+merely the same <em>values</em>, but literally the same object in memory.</p>
+<p>When React looks at the element tree returned by <code>MainPage</code>, it's going to look
+through for anything that's changed. When it see's that the part represented by
+<code>slow</code> is <em>exactly the same object</em> it was before, it's going to skip over it.
+That's why it's not going to re-render!</p>
+<p>It can be confusing to untangle all of the different tree-shaped concepts, like the
+JSX nesting, element tree, DOM tree, etc. But at the end of the day, remember that
+JSX is only a thin layer on top of functions and simple nested objects.</p>
+<blockquote>
+<p>You can read more in the <a href="https://react.dev/reference/react/createElement"><code>createElement</code> docs</a>.</p>
+</blockquote>
+<h2>Memoization</h2>
+<p>We'll wrap up part 1 with a brief look at an often misapplied feature of React: memoization.</p>
+<p>Recall from earlier that React doesn't care if props have changed when it's
+deciding whether to re-render a component. But, sometimes we <em>want</em> to prevent
+re-renders if props are unchanged.</p>
+<p>We could implement this by writing a function that:</p>
+<ol>
+<li>Looks at the incoming props to see if we've seen them before.</li>
+<li>If we have seen them before, return a stored copy of that rendered component.
+Remember that this will be a plain JS object.</li>
+<li>If we've not seen them before, render the component and return it, but also
+store a copy in case we try to render with these same props again.</li>
+</ol>
+<p>This technique is called <strong>memoization</strong> and React already provides this
+function for you. It's called <a href="https://react.dev/reference/react/memo">memo</a>.
+When you wrap a component in <code>memo</code>, it will usually not re-render with its
+parent, so long as its props are unchanged. &quot;Usually&quot; is an important caveat,
+since React reserves the right to re-render your component anyway.</p>
+<p>In practice, memoization has some pitfalls.</p>
+<p>First, any values that are not primitive values must <em>themselves</em> be memoized,
+because React uses shallow/referential equality to determine if a prop has
+changed. Sometimes, this results in large &quot;memoization chains&quot; where a single
+mistake will break memoization for all downstream values/components.</p>
+<p>Second, memoization can make performance <em>worse</em>. Sometimes, people assume that
+the computation required to check if props have changed must be cheaper than
+re-rendering the component. This is not a safe assumption! There are a lot of
+things that go into performance, and it's not a good use of time to apply
+memoization without a benchmark in place to see if it's doing anything.</p>
+<p>Beyond the performance implications, it creates extra cognitive overhead in the
+code. Memoization is easy to break for non-trivial components due to the
+&quot;memoization chains&quot; described above, and future maintainers may have to perform
+extra work to preserve it. Without concrete evidence that the memoization is
+effective, I don't think it's worth the trouble.</p>
+<h1>Next Time</h1>
+<p>In Part 2, I'll discuss how to understand, manage, and eliminate effects.</p>
+
+</div>
+
+    </div>
+  </body>
+</html>
