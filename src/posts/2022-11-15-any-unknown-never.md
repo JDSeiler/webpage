@@ -15,7 +15,7 @@ In this post, I want to give a rundown of what these types mean and how to use
 them from a practical perspective.
 
 # `any`
-`any` is the most straightfoward of the three special types. A value of type
+`any` is the most straightforward of the three special types. A value of type
 `any` can be, well, anything! You can think of variables with the type `any` as
 having type-checking disabled. We say that all types are assignable to `any`,
 and that `any` is assignable to any type.
@@ -23,7 +23,7 @@ and that `any` is assignable to any type.
 ```ts
 // All of the following is legal, even if it's not valid/useful
 
-// "foo" could be any value of any type. That's what we mean when we say all 
+// "foo" could be any value of any type. That's what we mean when we say all
 // types "are assignable" to `any`
 let x: any = "foo";
 let y: number = x;
@@ -50,11 +50,11 @@ variable of type `unknown`, but basically no operations are permitted on an
 ```ts
 let x: unknown = "foo"
 
-// ILLEGAL! 
+// ILLEGAL!
 let y: number = x;
 
 // LEGAL! Anything is assignable to `any`.
-let z: any = x; 
+let z: any = x;
 // LEGAL! Type-casting `unknown` is allowed (and generally necessary).
 let w: string = x as string;
 
@@ -162,7 +162,7 @@ What we're doing is producing a statement that is only valid if it's impossible
 for the `default` case of the switch statement to actually run. The `default`
 case will never run if all the variants of `Student` are processed by a preceding
 branch of the `switch`. So, if we were to add a variant to the `Student` type
-later and fail to update `greetStudent`, we'd get a compile error because it 
+later and fail to update `greetStudent`, we'd get a compile error because it
 would be possible to assign a real value to the `_check` variable.
 
 # Summary
@@ -173,6 +173,5 @@ to in some way assert the type of the value before you can actually use it.
 - `never` is a type that contains no values.
 - Outside the world of conditional types, `never` is pretty niche. You can use
 it to make sure you're processing all variants of a discriminated union type.
-- `never` becomes way more uesful when you're writing conditional and/or
+- `never` becomes way more useful when you're writing conditional and/or
 recursive types. If you're doing that you probably didn't need this post.
-
