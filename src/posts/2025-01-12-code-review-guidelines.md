@@ -6,57 +6,50 @@ layout: layouts/post-layout.njk
 ---
 
 # General Principles for Quality Code Reviews
-At my day job, code review is something that everyone can
-participate in. There's an understanding that if you don't
-know what you're talking about, you wont leave a review.
-Otherwise, anyone can leave a review on any PR. My team is
-really small, so this self-organizing system generally works.
+At my day job, code review is something that everyone can participate in.
+There's an understanding that if you don't know what you're talking about, you
+wont leave a review. Otherwise, anyone can review anything. My team is really
+small, so this self-organizing system works pretty well.
 
-Now, I've never been the best communicator. So when I first
-started having to leave code reviews, I began to worry about
-whether or not I was leaving _good_ reviews. So, I went out
-on the web to find some authoritative-enough looking
-opinions and compiled them into a personal note.
+As I grew in my role, code review became a larger and larger part of my job, and
+I wanted to make sure I was writing quality reviews. So, I went out on the web
+to find some authoritative-enough opinions and compiled them into a personal
+note.
 
-What you're about to read is an adaptation of that note to
-fit on my blog. I'll link out to original sources and
-note what constitutes my own opinions, as appropriate.
+What you're about to read is an adaptation of that note to fit on my blog. I'll
+link out to original sources and note what constitutes my own opinions, as
+appropriate.
 
-Throughout this post you'll see the terms "Pull Request" (PR)
-and "Change List" (CL). I treat them as synonyms and use them
-to mean "a `git` patch that someone wants to merge into some
-other branch, typically the main branch".
+Throughout this post you'll see the terms "Pull Request" (PR) and "Change List"
+(CL). I treat them as synonyms and use them to mean "a `git` patch that someone
+wants to merge into some other branch, typically the main branch".
 
 # Why Code Review Matters
-Why should we even care about writing good reviews? What do
-I even mean when I say a review is "good" or "bad"?
+Why should we even care about writing good reviews? What do I even mean when I
+say a review is "good" or "bad"?
 
 In my opinion, the functional goals of code review are:
 
-- To function as an educational opportunity between two or
-  more engineers.
+- To serve as an educational opportunity between two or more engineers.
 - To spot quality or correctness errors before merging.
 
-"Correctness" here meaning: "Does the software do what it is
-designed/intended to do?" and "quality" meaning: "Is the
-implenentation readable, maintainable, and free of bugs,
-performances problems, etc?"
+"Correctness" here meaning: "Does the software do what it is designed/intended
+to do?" and "quality" meaning: "Is the implementation readable, maintainable,
+and free of bugs, performance problems, etc?"
 
-Naturally, the most basic difference between a good review
-and a bad one is whether or not the review accomplishes the
-goals above. We cannot count on code review to catch all
-problems, since reviews are conducted with limited time
-and reviewers are fallible humans, just like everyone.
-However, I don't think it's controversial to say that a code
-review that fails to identify a critical error is "bad".
+Naturally, the most basic difference between a good and bad reviews is whether
+or not a review accomplishes the functional goals. We cannot count on code
+review to catch all problems, since reviews are conducted with limited time and
+reviewers are fallible, just like everyone. But, if your review process never
+facilitates education or catches an error, then you should seriously reconsider
+what you're doing.
 
-Beyond the functional goals, there are more qualitative
-aspects to what makes a good review:
+Beyond the functional goals, there are qualitative aspects to a good review:
 
-- Was the review time-efficient? Was time wasted waiting for
-  responses to comments? Was the PR too big to review in a
-  reasonable amount of time? Did you have to overly clarify
-  review comments because of poor communication?
+- Was the review time-efficient?
+    - Was time wasted waiting for responses to comments?
+    -  Was the PR too big to review in a reasonable amount of time?
+    - Did you have to overly clarify review comments because of poor communication?
 - Was the review frustrating to the reviewee? I'll elaborate
   more on this later. But, writing reviews that don't make
   people defensive ("being kind") is not only good for
@@ -68,13 +61,13 @@ among all of their code review guidelines:
 
 > In general, reviewers should favor approving a CL
 > \[change list\] once it is in a state where it definitely
-> improves the overall code health of the system, being
+> improves the overall code health of the system being
 > worked on, even if the CL isn't perfect.
 
 Put another way, in absence of a specific guideline, ask
 yourself if the change makes the system better. What's
 acceptable or what "better" means is going to be different
-from company to company, but the idea still works.
+from company to company, but the idea transfers.
 
 # What's Worth Talking About
 One of the simplest strategies you can employ to keep reviews
@@ -234,7 +227,7 @@ as well as boost morale.
 # Phrasing Feedback
 Philipp Hauer's blog post
 [Code Review Guidelines for Humans](https://phauer.com/2018/code-review-guidelines)
-is the inspiration for this sections.
+is the inspiration for this section.
 
 ## Why Kindness Matters
 From a technical perspective, the "Senior Principle" is the
@@ -252,7 +245,7 @@ provides my favorite argument for why we should be kind:
 > reaction.
 
 ## Avoiding Defensive Reactions
-But, concretely, _how_ can we avoid making people defensive?
+How do we avoid making people defensive?
 Here are two strategies I've found very easy to apply.
 
 First, focus on the code. The review you're writing is about
@@ -260,10 +253,11 @@ the code and *not* the author.
 
 If you direct a comment at the author of a change instead of
 the change itself, it's hard for them to not take it
-personally because, well, it's directed at *them personally*.
+personally because, well, you literally made it personal.
 
-Keeping the comments focused on the code helps keep the review
-objective and supports collective ownership.
+Keeping the comments focused on the code helps keep the review objective and
+supports collective ownership. The review process is not about "your code" and
+"my code". It is about **the** code.
 
 Second, write from *your point of view* using words like "I",
 "me", and "my". For example:
@@ -288,7 +282,7 @@ Statements specifically about the code are technical opinions
 that can be argued using technical facts and data. Statements
 about your own opinions and experience are simply what they
 are. Keeping your review to those two areas as much as
-possible can help making reviewees feel defensive.
+possible can help you avoid making people defensive.
 
 ## Explain Your Reasoning
 When giving feedback, explain your thought process to give the
@@ -304,12 +298,61 @@ change to be made. If you're too specific about what to do,
 you rob people of the opportunity to figure things out for
 themselves and really learn.
 
+## Don't Write the Code
+This section is in regards to a particular species of review comment, that looks something like:
+
+```
+Try this: <big block of code>
+```
+
+I call this kind of comment "back seat implementation", and it is very different
+from providing a code example as part of a well-formed review comment.
+Instead, back seat implementation involves dumping a substantial amount of code,
+which itself is more or less complete, and expecting the reviewee to incorporate
+or heavily reference it in their PR. These kinds of comments often lack context
+about the underlying technical or stylistic problem being addressed, and instead
+demand a particular *solution* without explaining what the problem is.
+
+There are very few situations where this *might* be acceptable:
+
+1. There is actually only one feasible way to solve a problem, and the reviewee
+is not getting it.
+2. The reviewee has directly asked you for implementation help.
+3. Production is on fire, this PR will fix it, and needs to be resolved ASAP.
+
+Otherwise, hand feeding a solution to the reviewee has serious problems:
+
+1. It is insulting to the PR author to write the code for them. It's like saying
+that their investment of time and energy was unimportant or that they are not
+capable of getting the change right.
+2. It is a waste of time because the PR author will need to copy/adapt the code
+you've already written back into their PR. Inevitably, there will be additional
+hiccups and loose ends that will take **extra** time to fix. This extra time
+comes from the fact that you, the reviewer, have demanded a particular
+implementation instead of letting the reviewee develop a solution using their
+own mind.
+3. It's arrogant and dismissive to provide an implementation. It's saying:
+"I don't care how you would solve the problem, I want you to solve it the
+way **I** would do it". Why should the PR author bother doing any work if
+the reviewer is going to redo it for them?
+4. It robs the PR author of the opportunity to learn by doing.
+
+Reviewers are often the people who are most comfortable with a particular
+project or area of code, so it can be frustrating watching a novice struggle
+through a change the reviewer thinks is "obvious". You **must** resist the urge
+to jump in an "fix" everything by doing it yourself or providing them code
+snippets. People will not learn at their full potential if they are not allowed
+to struggle. Furthermore, few things are more damaging to morale than being brushed
+aside for someone else to do the work. If someone truly needs to be removed from
+a particular piece of work, then that situation should be handled specially and
+with substantial tact.
+
 ## Conventional Comments
 Lastly, I want to plug a semi-structured format for writing
 commits that I've found incredibly helpful:
-i[Conventional Comments](https://conventionalcomments.org/)
+[Conventional Comments](https://conventionalcomments.org/)
 
-Convetional Comments are essentially a set of tone-markers
+Conventional Comments are essentially a set of tone-markers
 you can use to make your feedback less ambiguous. The format
 is simple:
 ```
