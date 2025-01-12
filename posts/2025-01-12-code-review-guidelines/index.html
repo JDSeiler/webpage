@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/prism-gruvbox-dark.css" />
+  </head>
+  <body>
+    <div id="nav-bar">
+      <a class="nav-link" href="/">SEILER'S CORNER</a>
+      <div class="spacer"></div>
+      <a class="nav-link" href="/about">ABOUT</a>
+      <a class="nav-link" href="/blog">BLOG</a>
+      <a class="nav-link" href="/socials">SOCIALS</a>
+    </div>
+    <div class="content-area">
+      <div class="post-container">
+ <h1>General Principles for Quality Code Reviews</h1>
+<p>At my day job, code review is something that everyone can participate in.
+There's an understanding that if you don't know what you're talking about, you
+wont leave a review. Otherwise, anyone can review anything. My team is really
+small, so this self-organizing system works pretty well.</p>
+<p>As I grew in my role, code review became a larger and larger part of my job, and
+I wanted to make sure I was writing quality reviews. So, I went out on the web
+to find some authoritative-enough opinions and compiled them into a personal
+note.</p>
+<p>What you're about to read is an adaptation of that note to fit on my blog. I'll
+link out to original sources and note what constitutes my own opinions, as
+appropriate.</p>
+<p>Throughout this post you'll see the terms &quot;Pull Request&quot; (PR) and &quot;Change List&quot;
+(CL). I treat them as synonyms and use them to mean &quot;a <code>git</code> patch that someone
+wants to merge into some other branch, typically the main branch&quot;.</p>
+<h1>Why Code Review Matters</h1>
+<p>Why should we even care about writing good reviews? What do I even mean when I
+say a review is &quot;good&quot; or &quot;bad&quot;?</p>
+<p>In my opinion, the functional goals of code review are:</p>
+<ul>
+<li>To serve as an educational opportunity between two or more engineers.</li>
+<li>To spot quality or correctness errors before merging.</li>
+</ul>
+<p>&quot;Correctness&quot; here meaning: &quot;Does the software do what it is designed/intended
+to do?&quot; and &quot;quality&quot; meaning: &quot;Is the implementation readable, maintainable,
+and free of bugs, performance problems, etc?&quot;</p>
+<p>Naturally, the most basic difference between a good and bad reviews is whether
+or not a review accomplishes the functional goals. We cannot count on code
+review to catch all problems, since reviews are conducted with limited time and
+reviewers are fallible, just like everyone. But, if your review process never
+facilitates education or catches an error, then you should seriously reconsider
+what you're doing.</p>
+<p>Beyond the functional goals, there are qualitative aspects to a good review:</p>
+<ul>
+<li>Was the review time-efficient?
+<ul>
+<li>Was time wasted waiting for responses to comments?</li>
+<li>Was the PR too big to review in a reasonable amount of time?</li>
+<li>Did you have to overly clarify review comments because of poor communication?</li>
+</ul>
+</li>
+<li>Was the review frustrating to the reviewee? I'll elaborate
+more on this later. But, writing reviews that don't make
+people defensive (&quot;being kind&quot;) is not only good for
+morale, it's also more efficient.</li>
+</ul>
+<h1>&quot;The Senior Principle&quot;</h1>
+<p>Google cites the following as <a href="https://google.github.io/eng-practices/review/reviewer/standard.html">The Senior Principle</a>
+among all of their code review guidelines:</p>
+<blockquote>
+<p>In general, reviewers should favor approving a CL
+[change list] once it is in a state where it definitely
+improves the overall code health of the system being
+worked on, even if the CL isn't perfect.</p>
+</blockquote>
+<p>Put another way, in absence of a specific guideline, ask
+yourself if the change makes the system better. What's
+acceptable or what &quot;better&quot; means is going to be different
+from company to company, but the idea transfers.</p>
+<h1>What's Worth Talking About</h1>
+<p>One of the simplest strategies you can employ to keep reviews
+effective and lean is to <em>make fewer comments</em>. You can make
+fewer comments without sacrificing review quality by focusing
+on the things that really matter.</p>
+<h2>Three Filters for Feedback</h2>
+<p>Before leaving any feedback, you can pass it through three
+yes/no screener questions. If you answer &quot;no&quot; to any of these
+questions, then you need to rephrase your comment or discard
+it entirely, as the case may be.</p>
+<ol>
+<li>Is it true?</li>
+<li>Is it necessary?</li>
+<li>Is it kind?</li>
+</ol>
+<p>These screener questions have been proposed by many people,
+and they're applicable to all communication, not just PR
+review feedback.</p>
+<p>If your feedback is not even true, then it will not only be
+unhelpful, but actually antagonistic to the reviewee and
+your team.</p>
+<p>If your feedback is not necessary, then you're creating
+distracting noise for the reviewee. This distraction is not
+only frustrating, but also wasteful of people's time and
+attention.</p>
+<p>Finally, if your feedback is unkind, then you should reword
+your comment until you can deliver it in a kind way. I'll
+speak more about kindness and why it matters later. But
+for now, suffice it to say that by delivering unkind
+feedback, you're actively working against yourself as a
+reviewer.</p>
+<p>Many folks have written about these filters, but I
+specifically encountered them through Philipp Hauer's
+post on Code Review Guidelines:
+<a href="https://phauer.com/2018/code-review-guidelines/#three-filters-for-feedback">Hauer - Three Filters for Feedback</a></p>
+<h2>Pick Your Battles</h2>
+<p>Another helpful tidbit from Philipp Hauer is:
+<a href="https://phauer.com/2018/code-review-guidelines/#dont-jump-in-front-of-every-train">&quot;Don't Jump in Front of Every Train&quot;</a>.</p>
+<p>This is another way to say that not everything that comes to
+your mind is worth leaving as a comment.</p>
+<p>When reviewing, focus is important. You should zero in on
+the issues that are most important to you. It is neither
+feasible, nor helpful, to bring up every little thing you
+don't like. This will annoy the PR author and erode your
+relationship with them. In the same way that not every
+thought which crosses our mind is worth saying, not every
+potential PR comment is worth posting.</p>
+<p>Furthermore, you need to accept that there are multiple ways
+to solve nearly every issue. Just because someone didn't pick
+your preferred method to solve the problem, doesn't mean their
+choice is less valid.</p>
+<h2>Technical Basics</h2>
+<p>This post is more concerned with how to write a <em>good</em> code
+review, as opposed to how to write one at all. But, a review
+that doesn't handle the basics can hardly be called &quot;good&quot;.
+So, make sure you're covering the technical basics in your
+review. These are going to vary slightly from org to org,
+but generally speaking, examine:</p>
+<ol>
+<li>Does the PR actually do what the author intends?</li>
+<li>Is the PR understandable and maintainable?</li>
+<li>Is the PR well documented, as necessary?</li>
+<li>Is the PR well tested?</li>
+<li>Does the PR integrate well with the existing codebase?</li>
+</ol>
+<p>Beyond the basics, there are two specific topics that are
+worth speaking about more: complexity and style.</p>
+<h2>Complexity</h2>
+<p><a href="https://google.github.io/eng-practices/review/reviewer/looking-for.html">Google Standard of Code Review: What to look for in a code review</a></p>
+<p>Code should not be more complex than it needs to be.
+The following are warning signs of complexity:</p>
+<ul>
+<li>The code cannot be understood in a reasonable amount
+of time.</li>
+<li>Developers are likely to introduce bugs when they call
+or modify the code.</li>
+<li>The code is over-engineered. It is solving tomorrow's
+problems today.</li>
+</ul>
+<p>If the code is difficult for you to read and understand,
+then it's likely that it will be difficult for maintainers
+to understand too.</p>
+<p>When looking for complexity, sometimes it's helpful to look
+at the broader context that a change lives in.</p>
+<p>Google makes a big deal of complexity, from: <a href="https://google.github.io/eng-practices/review/reviewer/looking-for.html#context">What to look for in a code review - Context</a></p>
+<blockquote>
+<p>Don’t accept CLs that degrade the code health of the system.
+Most systems become complex through many small changes that
+add up, so it’s important to prevent even small complexities
+in new changes.</p>
+</blockquote>
+<h2>Style</h2>
+<p>Style issues are <em>dangerous</em>. They are easy to have opinions
+about, argue about, and typically <em>don't matter that much</em>.
+Style is important, because consistently formatting code aids
+in reading and writing. However, because of how subjective
+style decisions are, it's important to set up structures to
+prevent the wasting of time by arguing about them.</p>
+<p>I strongly think that, when it comes to how code looks, it
+should be <em>boring</em>. Pick a common style guide for the
+language you're using (some languages have only one, and it
+might be built into the toolchain!) and <em>stick with it</em>.</p>
+<p>Even more important than being formatted in a boring and
+unsurprising way, projects should be formatted <em>consistently</em>
+within themselves. Ideally, your style choices should be
+enforced automatically through a formatting tool. This way,
+any individual developer can simply run the tool and forget
+about it. Examples of this include <code>prettier</code> for JavaScript,
+<code>black</code> for Python, <code>cargo fmt</code> for Rust, or <code>go fmt</code> for Go.</p>
+<p>If your style choices cannot be enforced automatically, they
+should be written down so that disagreements about style can
+be decided by a written document. If your project has no
+automatic formatting or written style guide, then you should
+consider starting work on that, and then defer to the
+following hierarchy:</p>
+<ul>
+<li>Defer to the style of the surrounding code or other
+existing precedent in your project.</li>
+<li>Defer to norms for the language you're using.</li>
+<li>If no other precedent exists: accept the PR author's.</li>
+</ul>
+<p>Try to zero in on the technical facts that often underpin
+differences in style, and if several approaches can be
+shown to be equally valid, accept the author's choice.</p>
+<p>One caveat here is that PR authors should <strong>not</strong> mix
+major style changes with functional changes. Style changes
+can easily obscure functional changes, and so it's best
+if they can be split into separate PRs.</p>
+<h2>Praise</h2>
+<p>People learn not only by being told what they did wrong but
+also by being told when they do something good. Besides,
+it can be disheartening to only ever receive negative
+feedback. So, when you see something you genuinely think is
+good in a PR, leave some encouraging positive feedback!</p>
+<p>Doing so can reinforce behaviors you want to see more of,
+as well as boost morale.</p>
+<h1>Phrasing Feedback</h1>
+<p>Philipp Hauer's blog post
+<a href="https://phauer.com/2018/code-review-guidelines">Code Review Guidelines for Humans</a>
+is the inspiration for this section.</p>
+<h2>Why Kindness Matters</h2>
+<p>From a technical perspective, the &quot;Senior Principle&quot; is the
+health of the codebase. From an interpersonal perspective,
+I think the senior principle is kindness.</p>
+<p><a href="https://phauer.com/2018/code-review-guidelines/#is-it-kind">Philipp Hauer</a>
+provides my favorite argument for why we should be kind:</p>
+<blockquote>
+<p>Being kind does <em>not</em> mean that we grab us by the hands,
+sing “Kumbaya My Lord”, and stop saying something
+unpleasant. The point is, that being kind is a smart
+strategy to give feedback that will be accepted. It’s
+efficient because you don’t trigger someone’s defensive
+reaction.</p>
+</blockquote>
+<h2>Avoiding Defensive Reactions</h2>
+<p>How do we avoid making people defensive?
+Here are two strategies I've found very easy to apply.</p>
+<p>First, focus on the code. The review you're writing is about
+the code and <em>not</em> the author.</p>
+<p>If you direct a comment at the author of a change instead of
+the change itself, it's hard for them to not take it
+personally because, well, you literally made it personal.</p>
+<p>Keeping the comments focused on the code helps keep the review objective and
+supports collective ownership. The review process is not about &quot;your code&quot; and
+&quot;my code&quot;. It is about <strong>the</strong> code.</p>
+<p>Second, write from <em>your point of view</em> using words like &quot;I&quot;,
+&quot;me&quot;, and &quot;my&quot;. For example:</p>
+<ul>
+<li>I think...</li>
+<li>Personally, I would...</li>
+<li>In my opinion...</li>
+<li>I don't understand...</li>
+<li>My suggestion...</li>
+<li>This code makes me think...</li>
+</ul>
+<p>This is a common strategy in communication and conflict
+resolution called <a href="https://en.wikipedia.org/wiki/I-message">I-Messages</a>.</p>
+<p>Prefer I-Messages, where possible, over &quot;You-Messages&quot; like:</p>
+<ul>
+<li>You did...</li>
+<li>You are doing...</li>
+<li>Why did / don't you...</li>
+<li>You should...</li>
+</ul>
+<p>Statements specifically about the code are technical opinions
+that can be argued using technical facts and data. Statements
+about your own opinions and experience are simply what they
+are. Keeping your review to those two areas as much as
+possible can help you avoid making people defensive.</p>
+<h2>Explain Your Reasoning</h2>
+<p>When giving feedback, explain your thought process to give the
+reviewee additional context. Overly terse feedback like:
+&quot;Don't do it this way, use a <code>BufReader</code> instead.&quot; probably
+doesn't give the reviewee enough context about what you
+actually think the problem is and what change you'd like to
+see.</p>
+<p>Of course, you need to strike a balance between giving
+guidance and being <em>too</em> specific about how you want a
+change to be made. If you're too specific about what to do,
+you rob people of the opportunity to figure things out for
+themselves and really learn.</p>
+<h2>Don't Write the Code</h2>
+<p>This section is in regards to a particular species of review comment, that looks something like:</p>
+<pre><code>Try this: &lt;big block of code&gt;
+</code></pre>
+<p>I call this kind of comment &quot;back seat implementation&quot;, and it is very different
+from providing a code example as part of a well-formed review comment.
+Instead, back seat implementation involves dumping a substantial amount of code,
+which itself is more or less complete, and expecting the reviewee to incorporate
+or heavily reference it in their PR. These kinds of comments often lack context
+about the underlying technical or stylistic problem being addressed, and instead
+demand a particular <em>solution</em> without explaining what the problem is.</p>
+<p>There are very few situations where this <em>might</em> be acceptable:</p>
+<ol>
+<li>There is actually only one feasible way to solve a problem, and the reviewee
+is not getting it.</li>
+<li>The reviewee has directly asked you for implementation help.</li>
+<li>Production is on fire, this PR will fix it, and needs to be resolved ASAP.</li>
+</ol>
+<p>Otherwise, hand feeding a solution to the reviewee has serious problems:</p>
+<ol>
+<li>It is insulting to the PR author to write the code for them. It's like saying
+that their investment of time and energy was unimportant or that they are not
+capable of getting the change right.</li>
+<li>It is a waste of time because the PR author will need to copy/adapt the code
+you've already written back into their PR. Inevitably, there will be additional
+hiccups and loose ends that will take <strong>extra</strong> time to fix. This extra time
+comes from the fact that you, the reviewer, have demanded a particular
+implementation instead of letting the reviewee develop a solution using their
+own mind.</li>
+<li>It's arrogant and dismissive to provide an implementation. It's saying:
+&quot;I don't care how you would solve the problem, I want you to solve it the
+way <strong>I</strong> would do it&quot;. Why should the PR author bother doing any work if
+the reviewer is going to redo it for them?</li>
+<li>It robs the PR author of the opportunity to learn by doing.</li>
+</ol>
+<p>Reviewers are often the people who are most comfortable with a particular
+project or area of code, so it can be frustrating watching a novice struggle
+through a change the reviewer thinks is &quot;obvious&quot;. You <strong>must</strong> resist the urge
+to jump in an &quot;fix&quot; everything by doing it yourself or providing them code
+snippets. People will not learn at their full potential if they are not allowed
+to struggle. Furthermore, few things are more damaging to morale than being brushed
+aside for someone else to do the work. If someone truly needs to be removed from
+a particular piece of work, then that situation should be handled specially and
+with substantial tact.</p>
+<h2>Conventional Comments</h2>
+<p>Lastly, I want to plug a semi-structured format for writing
+commits that I've found incredibly helpful:
+<a href="https://conventionalcomments.org/">Conventional Comments</a></p>
+<p>Conventional Comments are essentially a set of tone-markers
+you can use to make your feedback less ambiguous. The format
+is simple:</p>
+<pre><code>&lt;label&gt; [decorations]: &lt;subject&gt;
+
+[discussion]
+</code></pre>
+<ul>
+<li><code>label</code> :: Describes the kind of comment.</li>
+<li><code>decorations</code> (optional) :: 0 or more decorations that
+tweak the meaning of the label.</li>
+<li><code>subject</code> :: The main line of the review comment.</li>
+<li><code>discussion</code> (optional) :: 0 or more follow-on sentences
+or paragraphs that elaborate on the <code>subject</code>.</li>
+</ul>
+<p>Personally, I think most of the value of the system is in
+the labels and decorations, and everything else you can
+do how you want. But, what's valuable is going to vary from
+team to team.</p>
+<p>I wont regurgitate the system when you can read about it
+yourself on the source. But I will note what I think is good
+about it:</p>
+<ol>
+<li>Having to label my feedback helps me clarify what I'm
+even saying. Particularly, it helps me cut out feedback
+that's really about my personal implementation preferences.</li>
+<li>The labels and decorations clearly and concisely
+communicate the type/urgency of the comment, letting me
+focus on the meat of my review comment. Instead of having
+to type &quot;Only implement this if it's not that much work&quot;, I
+can write &quot;suggestion (if-easy)&quot; and focus on my suggestion.</li>
+<li>Makes reviews more efficient by immediately giving the
+reviewee context on the type of comment you're leaving and
+how much of their attention it will require.</li>
+</ol>
+<h1>Wrapping Up</h1>
+<p>Over the past few years, these guidelines and strategies have
+served me well, and I hope they'll do the same for you!</p>
+<p>Writing code reviews is a skill that takes practice to perfect.
+I've got plenty of room to improve, but by being intentional
+with the principles and strategies I've shared in this post,
+I've gotten more confident in my review writing.</p>
+<p>I'll concede that &quot;more confident&quot; does not mean &quot;better&quot;.
+But until I hear otherwise from a coworker, I'll keep thinking,
+trying my best, and seeing what happens.</p>
+
+</div>
+
+    </div>
+  </body>
+</html>

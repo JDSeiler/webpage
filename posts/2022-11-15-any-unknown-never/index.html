@@ -28,13 +28,13 @@ myself and others often get tripped up. One example are three special types:</p>
 <p>In this post, I want to give a rundown of what these types mean and how to use
 them from a practical perspective.</p>
 <h1><code>any</code></h1>
-<p><code>any</code> is the most straightfoward of the three special types. A value of type
+<p><code>any</code> is the most straightforward of the three special types. A value of type
 <code>any</code> can be, well, anything! You can think of variables with the type <code>any</code> as
 having type-checking disabled. We say that all types are assignable to <code>any</code>,
 and that <code>any</code> is assignable to any type.</p>
 <pre class="language-ts"><code class="language-ts"><span class="token comment">// All of the following is legal, even if it's not valid/useful</span>
 
-<span class="token comment">// "foo" could be any value of any type. That's what we mean when we say all </span>
+<span class="token comment">// "foo" could be any value of any type. That's what we mean when we say all</span>
 <span class="token comment">// types "are assignable" to `any`</span>
 <span class="token keyword">let</span> x<span class="token operator">:</span> <span class="token builtin">any</span> <span class="token operator">=</span> <span class="token string">"foo"</span><span class="token punctuation">;</span>
 <span class="token keyword">let</span> y<span class="token operator">:</span> <span class="token builtin">number</span> <span class="token operator">=</span> x<span class="token punctuation">;</span>
@@ -56,11 +56,11 @@ variable of type <code>unknown</code>, but basically no operations are permitted
 <code>unknown</code> value except for assignment to <code>any</code> and type-casting.</p>
 <pre class="language-ts"><code class="language-ts"><span class="token keyword">let</span> x<span class="token operator">:</span> <span class="token builtin">unknown</span> <span class="token operator">=</span> <span class="token string">"foo"</span>
 
-<span class="token comment">// ILLEGAL! </span>
+<span class="token comment">// ILLEGAL!</span>
 <span class="token keyword">let</span> y<span class="token operator">:</span> <span class="token builtin">number</span> <span class="token operator">=</span> x<span class="token punctuation">;</span>
 
 <span class="token comment">// LEGAL! Anything is assignable to `any`.</span>
-<span class="token keyword">let</span> z<span class="token operator">:</span> <span class="token builtin">any</span> <span class="token operator">=</span> x<span class="token punctuation">;</span> 
+<span class="token keyword">let</span> z<span class="token operator">:</span> <span class="token builtin">any</span> <span class="token operator">=</span> x<span class="token punctuation">;</span>
 <span class="token comment">// LEGAL! Type-casting `unknown` is allowed (and generally necessary).</span>
 <span class="token keyword">let</span> w<span class="token operator">:</span> <span class="token builtin">string</span> <span class="token operator">=</span> x <span class="token keyword">as</span> <span class="token builtin">string</span><span class="token punctuation">;</span>
 
@@ -172,7 +172,7 @@ to in some way assert the type of the value before you can actually use it.</li>
 <li><code>never</code> is a type that contains no values.</li>
 <li>Outside the world of conditional types, <code>never</code> is pretty niche. You can use
 it to make sure you're processing all variants of a discriminated union type.</li>
-<li><code>never</code> becomes way more uesful when you're writing conditional and/or
+<li><code>never</code> becomes way more useful when you're writing conditional and/or
 recursive types. If you're doing that you probably didn't need this post.</li>
 </ul>
 
