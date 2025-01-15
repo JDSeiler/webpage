@@ -1,0 +1,1050 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+  <title>Seiler&#39;s Corner</title>
+  <subtitle>Weblog of Jordan Seiler</subtitle>
+  <link href="https://jordanseiler.xyz/feed.xml" rel="self" />
+  <link href="https://jordanseiler.xyz/blog/" />
+  <updated>2025-01-12T00:00:00Z</updated>
+  <id>https://jordanseiler.xyz/blog/</id>
+  <author>
+    <name>Jordan Seiler</name>
+  </author>
+  <entry>
+    <title>General Principles for Quality Code Reviews</title>
+    <link href="https://jordanseiler.xyz/posts/2025-01-12-code-review-guidelines/" />
+    <updated>2025-01-12T00:00:00Z</updated>
+    <id>https://jordanseiler.xyz/posts/2025-01-12-code-review-guidelines/</id>
+    <content type="html">&lt;h1&gt;General Principles for Quality Code Reviews&lt;/h1&gt;
+&lt;p&gt;At my day job, code review is something that everyone can participate in.
+There&#39;s an understanding that if you don&#39;t know what you&#39;re talking about, you
+wont leave a review. Otherwise, anyone can review anything. My team is really
+small, so this self-organizing system works pretty well.&lt;/p&gt;
+&lt;p&gt;As I grew in my role, code review became a larger and larger part of my job, and
+I wanted to make sure I was writing quality reviews. So, I went out on the web
+to find some authoritative-enough opinions and compiled them into a personal
+note.&lt;/p&gt;
+&lt;p&gt;What you&#39;re about to read is an adaptation of that note to fit on my blog. I&#39;ll
+link out to original sources and note what constitutes my own opinions, as
+appropriate.&lt;/p&gt;
+&lt;p&gt;Throughout this post you&#39;ll see the terms &amp;quot;Pull Request&amp;quot; (PR) and &amp;quot;Change List&amp;quot;
+(CL). I treat them as synonyms and use them to mean &amp;quot;a &lt;code&gt;git&lt;/code&gt; patch that someone
+wants to merge into some other branch, typically the main branch&amp;quot;.&lt;/p&gt;
+&lt;h1&gt;Why Code Review Matters&lt;/h1&gt;
+&lt;p&gt;Why should we even care about writing good reviews? What do I even mean when I
+say a review is &amp;quot;good&amp;quot; or &amp;quot;bad&amp;quot;?&lt;/p&gt;
+&lt;p&gt;In my opinion, the functional goals of code review are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;To serve as an educational opportunity between two or more engineers.&lt;/li&gt;
+&lt;li&gt;To spot quality or correctness errors before merging.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&amp;quot;Correctness&amp;quot; here meaning: &amp;quot;Does the software do what it is designed/intended
+to do?&amp;quot; and &amp;quot;quality&amp;quot; meaning: &amp;quot;Is the implementation readable, maintainable,
+and free of bugs, performance problems, etc?&amp;quot;&lt;/p&gt;
+&lt;p&gt;Naturally, the most basic difference between a good and bad reviews is whether
+or not a review accomplishes the functional goals. We cannot count on code
+review to catch all problems, since reviews are conducted with limited time and
+reviewers are fallible, just like everyone. But, if your review process never
+facilitates education or catches an error, then you should seriously reconsider
+what you&#39;re doing.&lt;/p&gt;
+&lt;p&gt;Beyond the functional goals, there are qualitative aspects to a good review:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Was the review time-efficient?
+&lt;ul&gt;
+&lt;li&gt;Was time wasted waiting for responses to comments?&lt;/li&gt;
+&lt;li&gt;Was the PR too big to review in a reasonable amount of time?&lt;/li&gt;
+&lt;li&gt;Did you have to overly clarify review comments because of poor communication?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Was the review frustrating to the reviewee? I&#39;ll elaborate
+more on this later. But, writing reviews that don&#39;t make
+people defensive (&amp;quot;being kind&amp;quot;) is not only good for
+morale, it&#39;s also more efficient.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;&amp;quot;The Senior Principle&amp;quot;&lt;/h1&gt;
+&lt;p&gt;Google cites the following as &lt;a href=&quot;https://google.github.io/eng-practices/review/reviewer/standard.html&quot;&gt;The Senior Principle&lt;/a&gt;
+among all of their code review guidelines:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In general, reviewers should favor approving a CL
+[change list] once it is in a state where it definitely
+improves the overall code health of the system being
+worked on, even if the CL isn&#39;t perfect.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Put another way, in absence of a specific guideline, ask
+yourself if the change makes the system better. What&#39;s
+acceptable or what &amp;quot;better&amp;quot; means is going to be different
+from company to company, but the idea transfers.&lt;/p&gt;
+&lt;h1&gt;What&#39;s Worth Talking About&lt;/h1&gt;
+&lt;p&gt;One of the simplest strategies you can employ to keep reviews
+effective and lean is to &lt;em&gt;make fewer comments&lt;/em&gt;. You can make
+fewer comments without sacrificing review quality by focusing
+on the things that really matter.&lt;/p&gt;
+&lt;h2&gt;Three Filters for Feedback&lt;/h2&gt;
+&lt;p&gt;Before leaving any feedback, you can pass it through three
+yes/no screener questions. If you answer &amp;quot;no&amp;quot; to any of these
+questions, then you need to rephrase your comment or discard
+it entirely, as the case may be.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Is it true?&lt;/li&gt;
+&lt;li&gt;Is it necessary?&lt;/li&gt;
+&lt;li&gt;Is it kind?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;These screener questions have been proposed by many people,
+and they&#39;re applicable to all communication, not just PR
+review feedback.&lt;/p&gt;
+&lt;p&gt;If your feedback is not even true, then it will not only be
+unhelpful, but actually antagonistic to the reviewee and
+your team.&lt;/p&gt;
+&lt;p&gt;If your feedback is not necessary, then you&#39;re creating
+distracting noise for the reviewee. This distraction is not
+only frustrating, but also wasteful of people&#39;s time and
+attention.&lt;/p&gt;
+&lt;p&gt;Finally, if your feedback is unkind, then you should reword
+your comment until you can deliver it in a kind way. I&#39;ll
+speak more about kindness and why it matters later. But
+for now, suffice it to say that by delivering unkind
+feedback, you&#39;re actively working against yourself as a
+reviewer.&lt;/p&gt;
+&lt;p&gt;Many folks have written about these filters, but I
+specifically encountered them through Philipp Hauer&#39;s
+post on Code Review Guidelines:
+&lt;a href=&quot;https://phauer.com/2018/code-review-guidelines/#three-filters-for-feedback&quot;&gt;Hauer - Three Filters for Feedback&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Pick Your Battles&lt;/h2&gt;
+&lt;p&gt;Another helpful tidbit from Philipp Hauer is:
+&lt;a href=&quot;https://phauer.com/2018/code-review-guidelines/#dont-jump-in-front-of-every-train&quot;&gt;&amp;quot;Don&#39;t Jump in Front of Every Train&amp;quot;&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;This is another way to say that not everything that comes to
+your mind is worth leaving as a comment.&lt;/p&gt;
+&lt;p&gt;When reviewing, focus is important. You should zero in on
+the issues that are most important to you. It is neither
+feasible, nor helpful, to bring up every little thing you
+don&#39;t like. This will annoy the PR author and erode your
+relationship with them. In the same way that not every
+thought which crosses our mind is worth saying, not every
+potential PR comment is worth posting.&lt;/p&gt;
+&lt;p&gt;Furthermore, you need to accept that there are multiple ways
+to solve nearly every issue. Just because someone didn&#39;t pick
+your preferred method to solve the problem, doesn&#39;t mean their
+choice is less valid.&lt;/p&gt;
+&lt;h2&gt;Technical Basics&lt;/h2&gt;
+&lt;p&gt;This post is more concerned with how to write a &lt;em&gt;good&lt;/em&gt; code
+review, as opposed to how to write one at all. But, a review
+that doesn&#39;t handle the basics can hardly be called &amp;quot;good&amp;quot;.
+So, make sure you&#39;re covering the technical basics in your
+review. These are going to vary slightly from org to org,
+but generally speaking, examine:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Does the PR actually do what the author intends?&lt;/li&gt;
+&lt;li&gt;Is the PR understandable and maintainable?&lt;/li&gt;
+&lt;li&gt;Is the PR well documented, as necessary?&lt;/li&gt;
+&lt;li&gt;Is the PR well tested?&lt;/li&gt;
+&lt;li&gt;Does the PR integrate well with the existing codebase?&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Beyond the basics, there are two specific topics that are
+worth speaking about more: complexity and style.&lt;/p&gt;
+&lt;h2&gt;Complexity&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://google.github.io/eng-practices/review/reviewer/looking-for.html&quot;&gt;Google Standard of Code Review: What to look for in a code review&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Code should not be more complex than it needs to be.
+The following are warning signs of complexity:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The code cannot be understood in a reasonable amount
+of time.&lt;/li&gt;
+&lt;li&gt;Developers are likely to introduce bugs when they call
+or modify the code.&lt;/li&gt;
+&lt;li&gt;The code is over-engineered. It is solving tomorrow&#39;s
+problems today.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;If the code is difficult for you to read and understand,
+then it&#39;s likely that it will be difficult for maintainers
+to understand too.&lt;/p&gt;
+&lt;p&gt;When looking for complexity, sometimes it&#39;s helpful to look
+at the broader context that a change lives in.&lt;/p&gt;
+&lt;p&gt;Google makes a big deal of complexity, from: &lt;a href=&quot;https://google.github.io/eng-practices/review/reviewer/looking-for.html#context&quot;&gt;What to look for in a code review - Context&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Don’t accept CLs that degrade the code health of the system.
+Most systems become complex through many small changes that
+add up, so it’s important to prevent even small complexities
+in new changes.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Style&lt;/h2&gt;
+&lt;p&gt;Style issues are &lt;em&gt;dangerous&lt;/em&gt;. They are easy to have opinions
+about, argue about, and typically &lt;em&gt;don&#39;t matter that much&lt;/em&gt;.
+Style is important, because consistently formatting code aids
+in reading and writing. However, because of how subjective
+style decisions are, it&#39;s important to set up structures to
+prevent the wasting of time by arguing about them.&lt;/p&gt;
+&lt;p&gt;I strongly think that, when it comes to how code looks, it
+should be &lt;em&gt;boring&lt;/em&gt;. Pick a common style guide for the
+language you&#39;re using (some languages have only one, and it
+might be built into the toolchain!) and &lt;em&gt;stick with it&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Even more important than being formatted in a boring and
+unsurprising way, projects should be formatted &lt;em&gt;consistently&lt;/em&gt;
+within themselves. Ideally, your style choices should be
+enforced automatically through a formatting tool. This way,
+any individual developer can simply run the tool and forget
+about it. Examples of this include &lt;code&gt;prettier&lt;/code&gt; for JavaScript,
+&lt;code&gt;black&lt;/code&gt; for Python, &lt;code&gt;cargo fmt&lt;/code&gt; for Rust, or &lt;code&gt;go fmt&lt;/code&gt; for Go.&lt;/p&gt;
+&lt;p&gt;If your style choices cannot be enforced automatically, they
+should be written down so that disagreements about style can
+be decided by a written document. If your project has no
+automatic formatting or written style guide, then you should
+consider starting work on that, and then defer to the
+following hierarchy:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Defer to the style of the surrounding code or other
+existing precedent in your project.&lt;/li&gt;
+&lt;li&gt;Defer to norms for the language you&#39;re using.&lt;/li&gt;
+&lt;li&gt;If no other precedent exists: accept the PR author&#39;s.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Try to zero in on the technical facts that often underpin
+differences in style, and if several approaches can be
+shown to be equally valid, accept the author&#39;s choice.&lt;/p&gt;
+&lt;p&gt;One caveat here is that PR authors should &lt;strong&gt;not&lt;/strong&gt; mix
+major style changes with functional changes. Style changes
+can easily obscure functional changes, and so it&#39;s best
+if they can be split into separate PRs.&lt;/p&gt;
+&lt;h2&gt;Praise&lt;/h2&gt;
+&lt;p&gt;People learn not only by being told what they did wrong but
+also by being told when they do something good. Besides,
+it can be disheartening to only ever receive negative
+feedback. So, when you see something you genuinely think is
+good in a PR, leave some encouraging positive feedback!&lt;/p&gt;
+&lt;p&gt;Doing so can reinforce behaviors you want to see more of,
+as well as boost morale.&lt;/p&gt;
+&lt;h1&gt;Phrasing Feedback&lt;/h1&gt;
+&lt;p&gt;Philipp Hauer&#39;s blog post
+&lt;a href=&quot;https://phauer.com/2018/code-review-guidelines&quot;&gt;Code Review Guidelines for Humans&lt;/a&gt;
+is the inspiration for this section.&lt;/p&gt;
+&lt;h2&gt;Why Kindness Matters&lt;/h2&gt;
+&lt;p&gt;From a technical perspective, the &amp;quot;Senior Principle&amp;quot; is the
+health of the codebase. From an interpersonal perspective,
+I think the senior principle is kindness.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://phauer.com/2018/code-review-guidelines/#is-it-kind&quot;&gt;Philipp Hauer&lt;/a&gt;
+provides my favorite argument for why we should be kind:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Being kind does &lt;em&gt;not&lt;/em&gt; mean that we grab us by the hands,
+sing “Kumbaya My Lord”, and stop saying something
+unpleasant. The point is, that being kind is a smart
+strategy to give feedback that will be accepted. It’s
+efficient because you don’t trigger someone’s defensive
+reaction.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Avoiding Defensive Reactions&lt;/h2&gt;
+&lt;p&gt;How do we avoid making people defensive?
+Here are two strategies I&#39;ve found very easy to apply.&lt;/p&gt;
+&lt;p&gt;First, focus on the code. The review you&#39;re writing is about
+the code and &lt;em&gt;not&lt;/em&gt; the author.&lt;/p&gt;
+&lt;p&gt;If you direct a comment at the author of a change instead of
+the change itself, it&#39;s hard for them to not take it
+personally because, well, you literally made it personal.&lt;/p&gt;
+&lt;p&gt;Keeping the comments focused on the code helps keep the review objective and
+supports collective ownership. The review process is not about &amp;quot;your code&amp;quot; and
+&amp;quot;my code&amp;quot;. It is about &lt;strong&gt;the&lt;/strong&gt; code.&lt;/p&gt;
+&lt;p&gt;Second, write from &lt;em&gt;your point of view&lt;/em&gt; using words like &amp;quot;I&amp;quot;,
+&amp;quot;me&amp;quot;, and &amp;quot;my&amp;quot;. For example:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;I think...&lt;/li&gt;
+&lt;li&gt;Personally, I would...&lt;/li&gt;
+&lt;li&gt;In my opinion...&lt;/li&gt;
+&lt;li&gt;I don&#39;t understand...&lt;/li&gt;
+&lt;li&gt;My suggestion...&lt;/li&gt;
+&lt;li&gt;This code makes me think...&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This is a common strategy in communication and conflict
+resolution called &lt;a href=&quot;https://en.wikipedia.org/wiki/I-message&quot;&gt;I-Messages&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Prefer I-Messages, where possible, over &amp;quot;You-Messages&amp;quot; like:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;You did...&lt;/li&gt;
+&lt;li&gt;You are doing...&lt;/li&gt;
+&lt;li&gt;Why did / don&#39;t you...&lt;/li&gt;
+&lt;li&gt;You should...&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Statements specifically about the code are technical opinions
+that can be argued using technical facts and data. Statements
+about your own opinions and experience are simply what they
+are. Keeping your review to those two areas as much as
+possible can help you avoid making people defensive.&lt;/p&gt;
+&lt;h2&gt;Explain Your Reasoning&lt;/h2&gt;
+&lt;p&gt;When giving feedback, explain your thought process to give the
+reviewee additional context. Overly terse feedback like:
+&amp;quot;Don&#39;t do it this way, use a &lt;code&gt;BufReader&lt;/code&gt; instead.&amp;quot; probably
+doesn&#39;t give the reviewee enough context about what you
+actually think the problem is and what change you&#39;d like to
+see.&lt;/p&gt;
+&lt;p&gt;Of course, you need to strike a balance between giving
+guidance and being &lt;em&gt;too&lt;/em&gt; specific about how you want a
+change to be made. If you&#39;re too specific about what to do,
+you rob people of the opportunity to figure things out for
+themselves and really learn.&lt;/p&gt;
+&lt;h2&gt;Don&#39;t Write the Code&lt;/h2&gt;
+&lt;p&gt;This section is in regards to a particular species of review comment, that looks something like:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Try this: &amp;lt;big block of code&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I call this kind of comment &amp;quot;back seat implementation&amp;quot;, and it is very different
+from providing a code example as part of a well-formed review comment.
+Instead, back seat implementation involves dumping a substantial amount of code,
+which itself is more or less complete, and expecting the reviewee to incorporate
+or heavily reference it in their PR. These kinds of comments often lack context
+about the underlying technical or stylistic problem being addressed, and instead
+demand a particular &lt;em&gt;solution&lt;/em&gt; without explaining what the problem is.&lt;/p&gt;
+&lt;p&gt;There are very few situations where this &lt;em&gt;might&lt;/em&gt; be acceptable:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;There is actually only one feasible way to solve a problem, and the reviewee
+is not getting it.&lt;/li&gt;
+&lt;li&gt;The reviewee has directly asked you for implementation help.&lt;/li&gt;
+&lt;li&gt;Production is on fire, this PR will fix it, and needs to be resolved ASAP.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Otherwise, hand feeding a solution to the reviewee has serious problems:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;It is insulting to the PR author to write the code for them. It&#39;s like saying
+that their investment of time and energy was unimportant or that they are not
+capable of getting the change right.&lt;/li&gt;
+&lt;li&gt;It is a waste of time because the PR author will need to copy/adapt the code
+you&#39;ve already written back into their PR. Inevitably, there will be additional
+hiccups and loose ends that will take &lt;strong&gt;extra&lt;/strong&gt; time to fix. This extra time
+comes from the fact that you, the reviewer, have demanded a particular
+implementation instead of letting the reviewee develop a solution using their
+own mind.&lt;/li&gt;
+&lt;li&gt;It&#39;s arrogant and dismissive to provide an implementation. It&#39;s saying:
+&amp;quot;I don&#39;t care how you would solve the problem, I want you to solve it the
+way &lt;strong&gt;I&lt;/strong&gt; would do it&amp;quot;. Why should the PR author bother doing any work if
+the reviewer is going to redo it for them?&lt;/li&gt;
+&lt;li&gt;It robs the PR author of the opportunity to learn by doing.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Reviewers are often the people who are most comfortable with a particular
+project or area of code, so it can be frustrating watching a novice struggle
+through a change the reviewer thinks is &amp;quot;obvious&amp;quot;. You &lt;strong&gt;must&lt;/strong&gt; resist the urge
+to jump in an &amp;quot;fix&amp;quot; everything by doing it yourself or providing them code
+snippets. People will not learn at their full potential if they are not allowed
+to struggle. Furthermore, few things are more damaging to morale than being brushed
+aside for someone else to do the work. If someone truly needs to be removed from
+a particular piece of work, then that situation should be handled specially and
+with substantial tact.&lt;/p&gt;
+&lt;h2&gt;Conventional Comments&lt;/h2&gt;
+&lt;p&gt;Lastly, I want to plug a semi-structured format for writing
+commits that I&#39;ve found incredibly helpful:
+&lt;a href=&quot;https://conventionalcomments.org/&quot;&gt;Conventional Comments&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Conventional Comments are essentially a set of tone-markers
+you can use to make your feedback less ambiguous. The format
+is simple:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;label&amp;gt; [decorations]: &amp;lt;subject&amp;gt;
+
+[discussion]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;label&lt;/code&gt; :: Describes the kind of comment.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;decorations&lt;/code&gt; (optional) :: 0 or more decorations that
+tweak the meaning of the label.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;subject&lt;/code&gt; :: The main line of the review comment.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;discussion&lt;/code&gt; (optional) :: 0 or more follow-on sentences
+or paragraphs that elaborate on the &lt;code&gt;subject&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Personally, I think most of the value of the system is in
+the labels and decorations, and everything else you can
+do how you want. But, what&#39;s valuable is going to vary from
+team to team.&lt;/p&gt;
+&lt;p&gt;I wont regurgitate the system when you can read about it
+yourself on the source. But I will note what I think is good
+about it:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Having to label my feedback helps me clarify what I&#39;m
+even saying. Particularly, it helps me cut out feedback
+that&#39;s really about my personal implementation preferences.&lt;/li&gt;
+&lt;li&gt;The labels and decorations clearly and concisely
+communicate the type/urgency of the comment, letting me
+focus on the meat of my review comment. Instead of having
+to type &amp;quot;Only implement this if it&#39;s not that much work&amp;quot;, I
+can write &amp;quot;suggestion (if-easy)&amp;quot; and focus on my suggestion.&lt;/li&gt;
+&lt;li&gt;Makes reviews more efficient by immediately giving the
+reviewee context on the type of comment you&#39;re leaving and
+how much of their attention it will require.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Wrapping Up&lt;/h1&gt;
+&lt;p&gt;Over the past few years, these guidelines and strategies have
+served me well, and I hope they&#39;ll do the same for you!&lt;/p&gt;
+&lt;p&gt;Writing code reviews is a skill that takes practice to perfect.
+I&#39;ve got plenty of room to improve, but by being intentional
+with the principles and strategies I&#39;ve shared in this post,
+I&#39;ve gotten more confident in my review writing.&lt;/p&gt;
+&lt;p&gt;I&#39;ll concede that &amp;quot;more confident&amp;quot; does not mean &amp;quot;better&amp;quot;.
+But until I hear otherwise from a coworker, I&#39;ll keep thinking,
+trying my best, and seeing what happens.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Understanding React: Part 1</title>
+    <link href="https://jordanseiler.xyz/posts/2024-11-01-understanding-react-p1/" />
+    <updated>2024-11-01T00:00:00Z</updated>
+    <id>https://jordanseiler.xyz/posts/2024-11-01-understanding-react-p1/</id>
+    <content type="html">&lt;h1&gt;Understanding React: Part 1&lt;/h1&gt;
+&lt;p&gt;I have a confession to make.&lt;/p&gt;
+&lt;p&gt;I&#39;ve written React for many years, but it wasn&#39;t until this year that I really
+felt like I had any deep understanding of how it &lt;em&gt;really&lt;/em&gt; works. I knew how
+React worked practically, certainly enough to be productive at work, but I
+lacked a fundamental understanding of what makes React tick.&lt;/p&gt;
+&lt;p&gt;I hope this will be a series of posts where I can share my &amp;quot;a-ha!&amp;quot; moments about
+React. Throughout I&#39;ll be assuming an intermediate-advanced knowledge of
+JavaScript and React.&lt;/p&gt;
+&lt;h1&gt;Credits&lt;/h1&gt;
+&lt;p&gt;The person who sparked my new understanding of React was Nadia Makarevich, the
+author of the &lt;a href=&quot;https://www.developerway.com/&quot;&gt;Developer Way&lt;/a&gt; blog and the book
+&amp;quot;Advanced React&amp;quot;. I can highly recommend the content in &amp;quot;Advanced React&amp;quot;, but
+(and perhaps I just got a lemon) my Amazon print-on-demand copy quickly started
+falling apart. So, maybe get the Kindle edition and spare yourself some trouble.&lt;/p&gt;
+&lt;h1&gt;Elements vs Components&lt;/h1&gt;
+&lt;p&gt;I want to start at the very beginning. &amp;quot;Element&amp;quot; and &amp;quot;Component&amp;quot; are words that
+any React developer should know, but what are they exactly?&lt;/p&gt;
+&lt;p&gt;Components are the core building blocks in React. They are normal functions
+which return elements.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;If you&#39;re working with an older learning resource or React project, you may also
+see components defined as classes which extend &lt;code&gt;Component&lt;/code&gt; and implement a
+&lt;code&gt;render&lt;/code&gt; method. At this point, class based components are a legacy style, and
+so I&#39;m going to focus on function components instead.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Elements, in turn, are normal JavaScript objects that tell React what to render.
+Creating elements is extremely cheap and doing so, by itself, does &lt;em&gt;not&lt;/em&gt; cause
+any rendering to occur. We typically create elements using JSX, but JSX is simply
+syntax sugar for the &lt;code&gt;createElement&lt;/code&gt; function.&lt;/p&gt;
+&lt;pre class=&quot;language-tsx&quot;&gt;&lt;code class=&quot;language-tsx&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// This:&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;ContactCard&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; firstName&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; lastName &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;div&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;span&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;firstName&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;span&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;span&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;lastName&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;span&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;div&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;// Is the same as:&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;ContactCard&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; firstName&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; lastName &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; React&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;createElement&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;div&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// no props&lt;/span&gt;
+    React&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;createElement&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;span&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; firstName&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    React&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;createElement&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;span&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; lastName&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can see exactly what the output of &lt;code&gt;createElement&lt;/code&gt; looks like by logging it:&lt;/p&gt;
+&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// createElement(&#39;div&#39;, null, &#39;hello&#39;)&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// aka&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// &amp;lt;div&gt;&amp;lt;/div&gt;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;div&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;key&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;ref&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;props&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;_owner&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token string-property property&quot;&gt;&quot;@r&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;9&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;_store&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;There are some internal properties that, despite their beguiling mystery, we
+wont be exploring. But, we can see:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;this is a very normal looking object, and&lt;/li&gt;
+&lt;li&gt;the properties of the object map to the JSX in an obvious way.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The built-in HTML elements are a bit of a special case, because we call
+&lt;code&gt;createElement&lt;/code&gt; with a string. When using our own function components, we&#39;d
+actually write: &lt;code&gt;createElement(MyComponent)&lt;/code&gt; and React would produce an object
+like:&lt;/p&gt;
+&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; MyComponent&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// snip&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You might be wondering where child elements are in the output. Let&#39;s find out
+with another example. I&#39;ll cut out the &lt;code&gt;_owner&lt;/code&gt; and &lt;code&gt;_store&lt;/code&gt; properties to make
+the output a bit easier to parse. They&#39;re not relevant to what we&#39;re looking at
+anyway.&lt;/p&gt;
+&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token function&quot;&gt;createElement&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;token string&quot;&gt;&#39;div&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token literal-property property&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token literal-property property&quot;&gt;ref&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;span&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token literal-property property&quot;&gt;className&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;contact-card&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;createElement&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&#39;span&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;&#92;&quot;Hello&#92;&quot;&quot;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// creates:&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;div&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;key&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;ref&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;span&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token string-property property&quot;&gt;&quot;props&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token string-property property&quot;&gt;&quot;className&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;contact-card&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token string-property property&quot;&gt;&quot;children&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token string-property property&quot;&gt;&quot;type&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;span&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string-property property&quot;&gt;&quot;key&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string-property property&quot;&gt;&quot;ref&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+      &lt;span class=&quot;token string-property property&quot;&gt;&quot;props&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;// The double quotes tell React that this is the string &quot;Hello&quot; and not&lt;/span&gt;
+        &lt;span class=&quot;token comment&quot;&gt;// a component called `Hello`.&lt;/span&gt;
+        &lt;span class=&quot;token string-property property&quot;&gt;&quot;children&quot;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&#92;&quot;Hello&#92;&quot;&quot;&lt;/span&gt;
+      &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;If you&#39;ve written much React, this probably wont be a surprise, since you access child
+components through the &lt;code&gt;children&lt;/code&gt; prop. The only thing special about the &lt;code&gt;children&lt;/code&gt;
+prop is that React adds it for you automatically. To hammer this home, the following
+examples are practically identical:&lt;/p&gt;
+&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;IconButton&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; icon &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;div&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;className&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;super-icon-styles&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;icon&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;div&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; usage &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;IconButton&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;icon&lt;/span&gt;&lt;span class=&quot;token script language-javascript&quot;&gt;&lt;span class=&quot;token script-punctuation punctuation&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;img&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;https://placecats.com/300/200&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;// Versus&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;IconButton&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; children &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;div&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;className&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;super-icon-styles&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;children&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;div&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; usage &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;IconButton&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;img&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;https://placecats.com/300/200&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;IconButton&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h1&gt;Rendering and Reconciliation&lt;/h1&gt;
+&lt;p&gt;OK, great, JSX is simply sugar for &lt;code&gt;createElement&lt;/code&gt; and elements themselves are plain-old
+objects. But how does this all come together during rendering?&lt;/p&gt;
+&lt;p&gt;A typical React entrypoint is going to look something like this:&lt;/p&gt;
+&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; createRoot &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;react-dom/client&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; App &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;./app&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; domNode &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;root&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; root &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;createRoot&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;domNode&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+root&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;App&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Desugaring the JSX, we get:&lt;/p&gt;
+&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;root&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+  React&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;createElement&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    App&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And if we evaluate that &lt;code&gt;createElement&lt;/code&gt; call, we get &lt;em&gt;something&lt;/em&gt; like:&lt;/p&gt;
+&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// The more mystical properties of the element have been omitted&lt;/span&gt;
+root&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; App&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;ref&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+  &lt;span class=&quot;token literal-property property&quot;&gt;props&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In order to figure out what to do with this, React has to do some work to resolve
+components into native HTML elements. Starting with this root element, React will
+perform this general process for each node in the element tree:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Is this node a component?
+  Yes:
+    Call the component and pass it this node&#39;s props
+    Replace this node with the element returned by the component
+  No:
+    This must be a built in HTML element
+    Continue on to the next node
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;React repeats this resolution process, layer by layer, until it has converted
+every element into something it knows how to render.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;You can read more in &lt;a href=&quot;https://legacy.reactjs.org/blog/2015/12/18/react-components-elements-and-instances.html&quot;&gt;this post&lt;/a&gt;
+from the legacy React docs. It&#39;s rather old but the concepts are the same.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;This &lt;a href=&quot;https://react.dev/learn/understanding-your-ui-as-a-tree#the-render-tree&quot;&gt;newer post&lt;/a&gt;
+covers some of the same ground, but it doesn&#39;t get into the nitty-gritty as much.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Once React has this tree of elements, it does the work to figure out what to
+actually put on the webpage. This is also why you need both the &lt;code&gt;react&lt;/code&gt; and
+&lt;code&gt;react-dom&lt;/code&gt; packages to write a React web app. The &lt;code&gt;react&lt;/code&gt; package creates the
+tree of elements, which is agnostic to how the UI is being rendered. Then, the
+&lt;code&gt;react-dom&lt;/code&gt; package takes the element tree and figures out how to render it
+&lt;em&gt;specifically&lt;/em&gt; as a webpage.&lt;/p&gt;
+&lt;h2&gt;Subsequent Renders&lt;/h2&gt;
+&lt;p&gt;React wouldn&#39;t be that useful if our apps were static and only rendered once.
+Things change! Our applications have &lt;em&gt;state&lt;/em&gt;. When a state change occurs in your
+React app, React will rerender that element (the affected node in the element
+tree) and all of its children. This process produces a new element tree, which
+React compares to the original to figure out what it needs to update on the DOM.
+In some cases, React might only need to update a few attributes, but in other
+cases React might need to destroy and rebuild entire subtrees of the DOM.&lt;/p&gt;
+&lt;p&gt;For further reading, this process of figuring out what changed by comparing
+element trees is called &lt;em&gt;reconciliation&lt;/em&gt;.&lt;/p&gt;
+&lt;h2&gt;Recap&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Components are functions which return elements.&lt;/li&gt;
+&lt;li&gt;Elements are lightweight JavaScript objects which describe what needs to be
+rendered.&lt;/li&gt;
+&lt;li&gt;React recursively resolves elements which refer to components (as opposed to
+HTML elements) by calling the Component and passing the provided props. This
+progressively refines the element tree until it is entirely defined by HTML
+elements.&lt;/li&gt;
+&lt;li&gt;When React is re-rendering, it is comparing two element trees and using
+heuristics to figure out what changed and update the real DOM as quickly as
+possible. This process is called reconciliation.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Application&lt;/h1&gt;
+&lt;p&gt;The understanding of JSX as function calls, and React&#39;s deep interest in the
+element tree, leads to some insights.&lt;/p&gt;
+&lt;h2&gt;What Triggers Re-Renders&lt;/h2&gt;
+&lt;p&gt;When you first learn React, you&#39;re taught that when a component re-renders, React
+will re-render its children too. Using the knowledge that JSX is sugar for function
+calls, we can see why this is the case:&lt;/p&gt;
+&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;Parent&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// Every time Parent re-renders, we&#39;re making a NEW&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// object for Child.&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// That object may have all the same keys and values,&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// but it&#39;s a new object in memory.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Child&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This fact is also why props are &lt;strong&gt;not&lt;/strong&gt; relevant to re-rendering, by default.
+A child component is always going to re-render when its parent re-renders,
+regardless of prop changes, because new renders create new objects.&lt;/p&gt;
+&lt;p&gt;Ultimately, all re-renders are directly or indirectly caused by state changes.
+Either a component had a state update itself, or one of its parents up the chain
+had a state update.&lt;/p&gt;
+&lt;h2&gt;Elements as Props&lt;/h2&gt;
+&lt;p&gt;When we talk about parent-child relationships, as it pertains to re-renders, it
+is important to note that it&#39;s &lt;em&gt;not&lt;/em&gt; about how the JSX is nested.&lt;/p&gt;
+&lt;p&gt;Consider the following VERY contrived example:&lt;/p&gt;
+&lt;pre class=&quot;language-tsx&quot;&gt;&lt;code class=&quot;language-tsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;MainPage&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;FastUpdater&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token comment&quot;&gt;/*
+      The implementation of SlowToRender isn&#39;t important.
+      It could be any component that takes a while to render.
+      */&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;SlowToRender&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;FastUpdater&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;FastUpdater&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; children &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// A made up hook that constantly updates&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// with the current Epoch time, in milliseconds.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; timestamp &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;useTimeMilliseconds&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;div&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;h1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt; The time is &lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;timestamp&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt; &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;h1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+      &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;div&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;children&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;div&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;div&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;On first blush, this might seem like a bad idea. &lt;code&gt;FastUpdater&lt;/code&gt; is going to
+continuously re-render. Surely that&#39;s going to make &lt;code&gt;SlowToRender&lt;/code&gt; constantly
+re-render and tank our performance? Not so! Let&#39;s rewrite the example to make it
+more clear:&lt;/p&gt;
+&lt;pre class=&quot;language-tsx&quot;&gt;&lt;code class=&quot;language-tsx&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// This is equivalent to the previous implementation of MainPage.&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;MainPage&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// Remember this is just sugar for `createElement`, which just&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// makes a plain-old JS object.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; slow &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;SlowToRender&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;FastUpdater&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;children&lt;/span&gt;&lt;span class=&quot;token script language-javascript&quot;&gt;&lt;span class=&quot;token script-punctuation punctuation&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;slow&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;slow&lt;/code&gt; is created when &lt;code&gt;MainPage&lt;/code&gt; renders, and that object is passed to
+&lt;code&gt;FastUpdater&lt;/code&gt;, which returns it wrapped in some extra markup. Every render,
+&lt;code&gt;FastUpdater&lt;/code&gt; is getting the exact same child. Not even a child element with
+merely the same &lt;em&gt;values&lt;/em&gt;, but literally the same object in memory.&lt;/p&gt;
+&lt;p&gt;When React looks at the element tree returned by &lt;code&gt;MainPage&lt;/code&gt;, it&#39;s going to look
+through for anything that&#39;s changed. When it see&#39;s that the part represented by
+&lt;code&gt;slow&lt;/code&gt; is &lt;em&gt;exactly the same object&lt;/em&gt; it was before, it&#39;s going to skip over it.
+That&#39;s why it&#39;s not going to re-render!&lt;/p&gt;
+&lt;p&gt;It can be confusing to untangle all of the different tree-shaped concepts, like the
+JSX nesting, element tree, DOM tree, etc. But at the end of the day, remember that
+JSX is only a thin layer on top of functions and simple nested objects.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;You can read more in the &lt;a href=&quot;https://react.dev/reference/react/createElement&quot;&gt;&lt;code&gt;createElement&lt;/code&gt; docs&lt;/a&gt;.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Memoization&lt;/h2&gt;
+&lt;p&gt;We&#39;ll wrap up part 1 with a brief look at an often misapplied feature of React: memoization.&lt;/p&gt;
+&lt;p&gt;Recall from earlier that React doesn&#39;t care if props have changed when it&#39;s
+deciding whether to re-render a component. But, sometimes we &lt;em&gt;want&lt;/em&gt; to prevent
+re-renders if props are unchanged.&lt;/p&gt;
+&lt;p&gt;We could implement this by writing a function that:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Looks at the incoming props to see if we&#39;ve seen them before.&lt;/li&gt;
+&lt;li&gt;If we have seen them before, return a stored copy of that rendered component.
+Remember that this will be a plain JS object.&lt;/li&gt;
+&lt;li&gt;If we&#39;ve not seen them before, render the component and return it, but also
+store a copy in case we try to render with these same props again.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This technique is called &lt;strong&gt;memoization&lt;/strong&gt; and React already provides this
+function for you. It&#39;s called &lt;a href=&quot;https://react.dev/reference/react/memo&quot;&gt;memo&lt;/a&gt;.
+When you wrap a component in &lt;code&gt;memo&lt;/code&gt;, it will usually not re-render with its
+parent, so long as its props are unchanged. &amp;quot;Usually&amp;quot; is an important caveat,
+since React reserves the right to re-render your component anyway.&lt;/p&gt;
+&lt;p&gt;In practice, memoization has some pitfalls.&lt;/p&gt;
+&lt;p&gt;First, any values that are not primitive values must &lt;em&gt;themselves&lt;/em&gt; be memoized,
+because React uses shallow/referential equality to determine if a prop has
+changed. Sometimes, this results in large &amp;quot;memoization chains&amp;quot; where a single
+mistake will break memoization for all downstream values/components.&lt;/p&gt;
+&lt;p&gt;Second, memoization can make performance &lt;em&gt;worse&lt;/em&gt;. Sometimes, people assume that
+the computation required to check if props have changed must be cheaper than
+re-rendering the component. This is not a safe assumption! There are a lot of
+things that go into performance, and it&#39;s not a good use of time to apply
+memoization without a benchmark in place to see if it&#39;s doing anything.&lt;/p&gt;
+&lt;p&gt;Beyond the performance implications, it creates extra cognitive overhead in the
+code. Memoization is easy to break for non-trivial components due to the
+&amp;quot;memoization chains&amp;quot; described above, and future maintainers may have to perform
+extra work to preserve it. Without concrete evidence that the memoization is
+effective, I don&#39;t think it&#39;s worth the trouble.&lt;/p&gt;
+&lt;h1&gt;Next Time&lt;/h1&gt;
+&lt;p&gt;In Part 2, I&#39;ll discuss how to understand, manage, and eliminate effects.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Understanding the flatMap function</title>
+    <link href="https://jordanseiler.xyz/posts/2023-04-30-flat-map/" />
+    <updated>2024-04-30T00:00:00Z</updated>
+    <id>https://jordanseiler.xyz/posts/2023-04-30-flat-map/</id>
+    <content type="html">&lt;h1&gt;Understanding the &lt;code&gt;flatMap&lt;/code&gt; function&lt;/h1&gt;
+&lt;p&gt;If you, like me, have spent any time in
+&lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array&quot;&gt;MDN&#39;s Array reference&lt;/a&gt;,
+you&#39;ve probably run across &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flatMap&quot;&gt;flatMap&lt;/a&gt;.
+It&#39;s description is rather impenetrable:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;It is identical to a map() followed by a flat() of depth 1&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;For quite some time, I reacted to that description with head scratching and
+general puzzlement. But relatively recently I began to understand what &lt;code&gt;flatMap&lt;/code&gt;
+is good for. My goal, dear reader, is to impart this knowledge to you.&lt;/p&gt;
+&lt;h2&gt;The Punchline&lt;/h2&gt;
+&lt;p&gt;The normal &lt;code&gt;map&lt;/code&gt; function lets us perform a &lt;em&gt;1-to-1 mapping&lt;/em&gt;. For each input
+element we get back exactly one output element.&lt;/p&gt;
+&lt;p&gt;What &lt;code&gt;flatMap&lt;/code&gt; allows us to do is perform a &lt;em&gt;1-to-any mapping&lt;/em&gt;. For each input
+element we can choose to:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Omit this element from the output array by returning an empty array.&lt;/li&gt;
+&lt;li&gt;Emit &lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;N&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;N&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.68333em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.10903em;&quot;&gt;N&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt; output elements by returning an array of &lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;N&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;N&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.68333em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathnormal&quot; style=&quot;margin-right:0.10903em;&quot;&gt;N&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt; values.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In my experience, I mostly find &lt;code&gt;flatMap&lt;/code&gt; useful for its ability to return any
+number of output elements for each input element. The ability to filter elements
+at the same time is a nice bonus.&lt;/p&gt;
+&lt;p&gt;Let&#39;s move on to an example to show how &lt;code&gt;flatMap&lt;/code&gt; might be useful in an
+&lt;em&gt;almost-like-real-life&lt;/em&gt; sort of scenario.&lt;/p&gt;
+&lt;h2&gt;Example&lt;/h2&gt;
+&lt;p&gt;Imagine we are working on a website for a bookshop, and we have the following
+data structures:&lt;/p&gt;
+&lt;pre class=&quot;language-ts&quot;&gt;&lt;code class=&quot;language-ts&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// typescript&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Author&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  name&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  books&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Book&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Book&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  title&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  published&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Date&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Suppose we want to write a function that takes a list of &lt;code&gt;Author&lt;/code&gt; objects and
+returns a list of all of the &lt;code&gt;Book&lt;/code&gt;s. What are some ways we could write such a
+function without &lt;code&gt;flatMap&lt;/code&gt;?&lt;/p&gt;
+&lt;pre class=&quot;language-ts&quot;&gt;&lt;code class=&quot;language-ts&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// typescript&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;getAuthorsBooksIter&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;authors&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Author&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; books &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; author &lt;span class=&quot;token keyword&quot;&gt;of&lt;/span&gt; authors&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; book &lt;span class=&quot;token keyword&quot;&gt;of&lt;/span&gt; author&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;books&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      books&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;push&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;book&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; books&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;// Or a slightly more functional approach&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;getAuthorsBooksFunc&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;authors&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Author&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt;
+   authors&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;reduce&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;books&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; author&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; books&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;concat&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;author&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;books&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Of course, you can write this with &lt;code&gt;flatMap&lt;/code&gt; too, and it&#39;s much shorter
+(otherwise it would&#39;ve made for a pretty lousy example):&lt;/p&gt;
+&lt;pre class=&quot;language-ts&quot;&gt;&lt;code class=&quot;language-ts&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// typescript&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;getAuthorsBooksFlatMap&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;authors&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt;
+  authors&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;flatMap&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;author &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; author&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;books&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Another situation where &lt;code&gt;flatMap&lt;/code&gt; is very helpful is when writing recursive
+functions. Say you want to write a function that takes in an object and produces
+a list of the primitive values from that object.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// input
+{
+  foo: &#39;bar&#39;,
+  baz: {
+    qux: 100,
+    zap: {
+      zorp: false
+    }
+  }
+}
+
+// output
+[&#39;bar&#39;, 100, false]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can write this function relatively easily with &lt;code&gt;flatMap&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&quot;language-js&quot;&gt;&lt;code class=&quot;language-js&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;getObjValues&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;typeof&lt;/span&gt; o &lt;span class=&quot;token operator&quot;&gt;===&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;object&#39;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; o &lt;span class=&quot;token operator&quot;&gt;!==&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; Object&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;o&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;flatMap&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt;
+      &lt;span class=&quot;token function&quot;&gt;getObjValues&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;v&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;o&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Exploring the Elementary Cellular Automata</title>
+    <link href="https://jordanseiler.xyz/posts/2022-12-03-cellular-automata/" />
+    <updated>2022-12-03T00:00:00Z</updated>
+    <id>https://jordanseiler.xyz/posts/2022-12-03-cellular-automata/</id>
+    <content type="html">&lt;h1&gt;Exploring the Elementary Cellular Automata&lt;/h1&gt;
+&lt;p&gt;Recently, I became quite interested in cellular automata. For the uninitiated,
+a cellular automata is a grid (not necessarily square, you might have triangular
+or hexagon cells) of colored cells. Each cell in the grid updates based on the
+states of neighboring cells. One of the most famous cellular automata is
+&lt;a href=&quot;https://conwaylife.com/&quot;&gt;Conway&#39;s Game of Life&lt;/a&gt;, but in this post we&#39;ll be
+exploring a different kind of automata.&lt;/p&gt;
+&lt;h2&gt;Elementary Cellular Automata&lt;/h2&gt;
+&lt;p&gt;The elementary cellular automata are the simplest varietal.
+They are one-dimensional automata where each cell can only be on or off
+(some fancier automata have cells which can be in more than 2 states). By
+one-dimensional, I mean that the automata lives in a single, infinitely long row
+of cells.&lt;/p&gt;
+&lt;p&gt;To &amp;quot;run&amp;quot; an automata, we start by coloring in our choice of cells. To advance
+the automata, we look at each cell, and figure out what its next state should
+be based on our rules. Once we&#39;ve figured out the next states for all cells, we
+update them all at once.&lt;/p&gt;
+&lt;p&gt;The astute reader will have squinted at my use of the phrase &amp;quot;every cell&amp;quot;,
+since I said previously that there are an infinite number of cells. Of course,
+we can&#39;t have an infinite row of cells in reality, so we begrudgingly stop
+computing the automata at the boundaries of our space.&lt;/p&gt;
+&lt;p&gt;To figure out the next value of a cell, you look at that cell&#39;s
+value and the values of its left and right neighbors. Depending on the values
+of all three cells, we assign a new value to the center cell.&lt;/p&gt;
+&lt;p&gt;Because we only ever consider three cells at a time, and each cell can have
+two values, we can completely describe an elementary cellular automata in 8
+rules (&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;msup&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;mn&gt;3&lt;/mn&gt;&lt;/msup&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;2^3&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.8141079999999999em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.8141079999999999em;&quot;&gt;&lt;span style=&quot;top:-3.063em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;3&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;).&lt;/p&gt;
+&lt;h2&gt;Defining Elementary Cellular Automata&lt;/h2&gt;
+&lt;p&gt;First, let&#39;s talk about a way to notate the update rules for a single cell.
+We describe how to update a single cell with 4 binary numbers: &lt;code&gt;110 -&amp;gt; 0&lt;/code&gt;.
+The three numbers on the left describe the states of the center cell (the
+center number), and its left and right neighbors (the first and last digits
+respectively). The number on the right is the new state of the center cell.&lt;/p&gt;
+&lt;h2&gt;Wolfram Codes&lt;/h2&gt;
+&lt;p&gt;Now, we could notate all 8 rules for our automata in the manner just described,
+but a smart guy named Stephen Wolfram (yes, &lt;a href=&quot;https://www.wolframalpha.com/&quot;&gt;that Wolfram&lt;/a&gt;)
+came up with a much more compact notation called the &lt;a href=&quot;https://en.wikipedia.org/wiki/Wolfram_code&quot;&gt;Wolfram Code&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;To construct a Wolfram Code for an elementary cellular automata, we first lay
+out each of the 8 possible states in a predefined order:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;111 110 101 100 011 010 001 000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This order is descending numeric order, if you interpret each state as a binary
+number.&lt;/p&gt;
+&lt;p&gt;Next, we line up our &amp;quot;output states&amp;quot; (the 4th number in the notation we
+introduced previously) underneath the &amp;quot;input states&amp;quot;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;111 110 101 100 011 010 001 000
+ 0   0   0   1   1   1   1   0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Then, we treat the binary digits we&#39;ve just laid out as a number, in this
+case: &lt;code&gt;00011110&lt;/code&gt; or &lt;code&gt;30&lt;/code&gt; in base 10. Thus, &lt;code&gt;30&lt;/code&gt; is the Wolfram Code with the
+following rules:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;111 -&amp;gt; 0&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;110 -&amp;gt; 0&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;101 -&amp;gt; 0&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;100 -&amp;gt; 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;011 -&amp;gt; 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;010 -&amp;gt; 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;001 -&amp;gt; 1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;000 -&amp;gt; 0&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can, of course, reverse this process to take any number from 0 to 255 and
+convert it to the explicit automata rules.&lt;/p&gt;
+&lt;h2&gt;Visualizing the Elementary Automata&lt;/h2&gt;
+&lt;p&gt;To sate my curiosity about these automata, I build a visualizer that you can
+try &lt;a href=&quot;https://jdseiler.github.io/automata-explorer/&quot;&gt;here&lt;/a&gt;! Each of the
+elementary automata can be visualized in two modes: &amp;quot;centered&amp;quot; and &amp;quot;random&amp;quot;. In
+centered mode, the automata starts as a single cell in the center of the screen.
+In random mode, cells in the first row are turned on randomly, often times
+resulting in much more chaotic and interesting pictures. Since the automata are
+being drawn using the HTML Canvas API, you can save the images at full size to
+your computer if you&#39;d like.&lt;/p&gt;
+&lt;p&gt;Here are some of my favorite automata:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Rule 18&lt;/li&gt;
+&lt;li&gt;Rule 30 (this one is &lt;a href=&quot;https://en.wikipedia.org/wiki/Rule_30&quot;&gt;quite famous&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Rule 73&lt;/li&gt;
+&lt;li&gt;Rule 105&lt;/li&gt;
+&lt;li&gt;Rule 110 (this one is &lt;a href=&quot;https://en.wikipedia.org/wiki/Rule_110&quot;&gt;also quite famous&lt;/a&gt;)&lt;/li&gt;
+&lt;li&gt;Rule 169 (specifically in random mode)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The source code for the visualize is available on GitHub at:
+https://github.com/JDSeiler/automata-explorer. The implementation is...
+uninspired... but it was a great afternoon project.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Any, Unknown, and Never, in TypeScript</title>
+    <link href="https://jordanseiler.xyz/posts/2022-11-15-any-unknown-never/" />
+    <updated>2022-11-15T00:00:00Z</updated>
+    <id>https://jordanseiler.xyz/posts/2022-11-15-any-unknown-never/</id>
+    <content type="html">&lt;p&gt;In my years of writing TypeScript, I&#39;ve encountered areas of the language where
+myself and others often get tripped up. One example are three special types:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;any&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unknown&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;never&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In this post, I want to give a rundown of what these types mean and how to use
+them from a practical perspective.&lt;/p&gt;
+&lt;h1&gt;&lt;code&gt;any&lt;/code&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;code&gt;any&lt;/code&gt; is the most straightforward of the three special types. A value of type
+&lt;code&gt;any&lt;/code&gt; can be, well, anything! You can think of variables with the type &lt;code&gt;any&lt;/code&gt; as
+having type-checking disabled. We say that all types are assignable to &lt;code&gt;any&lt;/code&gt;,
+and that &lt;code&gt;any&lt;/code&gt; is assignable to any type.&lt;/p&gt;
+&lt;pre class=&quot;language-ts&quot;&gt;&lt;code class=&quot;language-ts&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// All of the following is legal, even if it&#39;s not valid/useful&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;// &quot;foo&quot; could be any value of any type. That&#39;s what we mean when we say all&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// types &quot;are assignable&quot; to `any`&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; x&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;any&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;foo&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; y&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; x&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+x&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+x&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;someProperty&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+x&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;someMadeUpMethodName&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token function-variable function&quot;&gt;square&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; n&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;n&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// mySquare will be NaN here, not good!&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// `any` can be used in the place of any type. `square` expects a value of type&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// `number` but we substitute in `any`. This is what we mean when we say `any`&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// &quot;is assignable to&quot; any type&lt;/span&gt;
+&lt;span class=&quot;token class-name&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt;&lt;/span&gt; mySquare &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;square&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;y&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Typically, &lt;code&gt;any&lt;/code&gt; is used as an escape-hatch from the type system when it&#39;d be
+too difficult or tedious to convince TypeScript that some code is correct.&lt;/p&gt;
+&lt;h1&gt;&lt;code&gt;unknown&lt;/code&gt;&lt;/h1&gt;
+&lt;p&gt;&lt;code&gt;unknown&lt;/code&gt; is the &amp;quot;type-safe&amp;quot; version of &lt;code&gt;any&lt;/code&gt;. You can assign anything to a
+variable of type &lt;code&gt;unknown&lt;/code&gt;, but basically no operations are permitted on an
+&lt;code&gt;unknown&lt;/code&gt; value except for assignment to &lt;code&gt;any&lt;/code&gt; and type-casting.&lt;/p&gt;
+&lt;pre class=&quot;language-ts&quot;&gt;&lt;code class=&quot;language-ts&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; x&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;unknown&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;foo&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;// ILLEGAL!&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; y&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; x&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;// LEGAL! Anything is assignable to `any`.&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; z&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;any&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; x&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// LEGAL! Type-casting `unknown` is allowed (and generally necessary).&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; w&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; x &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;// Using `unknown` in any way is also illegal.&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// The following 3 lines would cause a compiler error:&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; result &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; x &lt;span class=&quot;token operator&quot;&gt;+&lt;/span&gt; x&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; propertyAccess &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; x&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;length&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt; callingMethods &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; x&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;toString&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;// and just about anything else you can think of...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The utility of &lt;code&gt;unknown&lt;/code&gt; is that it lets us write code that accepts values of
+any type, but forces us to more-or-less safely assert the type of the value
+before the compiler will let us use it. TypeScript offers many different ways
+for asserting or otherwise specifying the type of a value, and the details are
+outside the scope of this post. But, you can read all about it in the
+TypeScript manual page on &lt;a href=&quot;https://www.typescriptlang.org/docs/handbook/2/narrowing.html&quot;&gt;narrowing&lt;/a&gt;.&lt;/p&gt;
+&lt;h1&gt;The characters so far:&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;any&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;Can be assigned a value of any type.&lt;/li&gt;
+&lt;li&gt;Can be used in place of any type.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unknown&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;Can be assigned a value of any type.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cannot&lt;/strong&gt; be used without a type-cast.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;&lt;code&gt;never&lt;/code&gt;&lt;/h1&gt;
+&lt;p&gt;You can think of &lt;code&gt;never&lt;/code&gt; as the &amp;quot;opposite&amp;quot; of &lt;code&gt;any&lt;/code&gt; and &lt;code&gt;unknown&lt;/code&gt;. Whereas &lt;code&gt;any&lt;/code&gt;
+and &lt;code&gt;unknown&lt;/code&gt; are types that contain all possible values, &lt;code&gt;never&lt;/code&gt; is a type that
+contains &lt;strong&gt;no&lt;/strong&gt; values.&lt;/p&gt;
+&lt;p&gt;Unsurprisingly, this means that the only things you can assign to a variable of
+type &lt;code&gt;never&lt;/code&gt; are more expressions with the type &lt;code&gt;never&lt;/code&gt;. The use of the term
+&amp;quot;expression&amp;quot; is very purposeful, because there is no such thing as a &lt;em&gt;value&lt;/em&gt;
+with type &lt;code&gt;never&lt;/code&gt;, by definition.&lt;/p&gt;
+&lt;p&gt;Less intuitively, an expression of type &lt;code&gt;never&lt;/code&gt; can be assigned to any variable
+of any type. For example:&lt;/p&gt;
+&lt;pre class=&quot;language-ts&quot;&gt;&lt;code class=&quot;language-ts&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;never&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;err&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;// This is legal!&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; bar&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This is a kind of &lt;a href=&quot;https://en.wikipedia.org/wiki/Vacuous_truth&quot;&gt;vacuous truth&lt;/a&gt;.
+It&#39;s true, in an unsatisfying way, that &lt;code&gt;bar&lt;/code&gt; is being assigned a number because
+it&#39;s not being assigned any value at all.&lt;/p&gt;
+&lt;p&gt;If it&#39;s not obvious to you why &lt;code&gt;never&lt;/code&gt; is useful or even necessary, you are not
+alone. Unless you&#39;re writing advanced conditional types (a topic for another day)
+you are pretty unlikely to need &lt;code&gt;never&lt;/code&gt;. Though, you may encounter it from time
+to time if you&#39;re using a library with complex generic types and you don&#39;t
+specify the type arguments correctly.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;never&lt;/code&gt; serves some important theoretical purposes (another topic for another
+day), but the most practical usecase I can think of for most people is
+exhaustiveness checking. Here&#39;s an example:&lt;/p&gt;
+&lt;pre class=&quot;language-ts&quot;&gt;&lt;code class=&quot;language-ts&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ComputerScienceStudent&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  major&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;cs&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  favoriteLanguage&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ArchitectureStudent&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  major&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;arch&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  favoriteBuilding&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;MathStudent&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  major&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;math&#39;&lt;/span&gt;
+  favoriteEquation&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;type&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Student&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;
+ &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; ComputerScienceStudent
+ &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; ArchitectureStudent
+ &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; MathStudent&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;greetStudent&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;student&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; Student&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;student&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;major&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;cs&#39;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token builtin&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;Student&#39;s favorite language is &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;student&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;favoriteLanguage&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;arch&#39;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token builtin&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;Student&#39;s favorite building is: &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;student&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;favoriteBuilding&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;math&#39;&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token builtin&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;Students favorite equation is: &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;student&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;favoriteEquation&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;default&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;// THIS IS THE IMPORTANT BIT&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;// This assignment will produce a compiler error if you are not&lt;/span&gt;
+      &lt;span class=&quot;token comment&quot;&gt;// handling every possible variant of `Student`.&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; _check&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;never&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; student&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+      &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; _check
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;What we&#39;re doing is producing a statement that is only valid if it&#39;s impossible
+for the &lt;code&gt;default&lt;/code&gt; case of the switch statement to actually run. The &lt;code&gt;default&lt;/code&gt;
+case will never run if all the variants of &lt;code&gt;Student&lt;/code&gt; are processed by a preceding
+branch of the &lt;code&gt;switch&lt;/code&gt;. So, if we were to add a variant to the &lt;code&gt;Student&lt;/code&gt; type
+later and fail to update &lt;code&gt;greetStudent&lt;/code&gt;, we&#39;d get a compile error because it
+would be possible to assign a real value to the &lt;code&gt;_check&lt;/code&gt; variable.&lt;/p&gt;
+&lt;h1&gt;Summary&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;any&lt;/code&gt; and &lt;code&gt;unknown&lt;/code&gt; are both types that encompass all possible values.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;any&lt;/code&gt; basically turns off type-checking.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;unknown&lt;/code&gt; allows you to process values of any type, while also forcing you
+to in some way assert the type of the value before you can actually use it.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;never&lt;/code&gt; is a type that contains no values.&lt;/li&gt;
+&lt;li&gt;Outside the world of conditional types, &lt;code&gt;never&lt;/code&gt; is pretty niche. You can use
+it to make sure you&#39;re processing all variants of a discriminated union type.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;never&lt;/code&gt; becomes way more useful when you&#39;re writing conditional and/or
+recursive types. If you&#39;re doing that you probably didn&#39;t need this post.&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+  </entry>
+</feed>
