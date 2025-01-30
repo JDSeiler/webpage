@@ -30,3 +30,9 @@ Make sure you're using at *least* Node 18.
 5. Through some means, push to trunk
   a. Direct push?
   b. Push a branch and merge in GitHub?
+
+## `jj` Configuration
+I have configured JJ's `git.private-commits` setting to use the revset: `files(drafts)`.
+This means any commit which touches a draft cannot be pushed.
+
+To see what commits are affected, run: `jj log -r 'files(drafts)'`.
