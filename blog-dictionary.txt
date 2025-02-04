@@ -14,3 +14,16 @@ Kumbaya
 reviewee
 reviewees
 usecase
+Omnifocus
+Asana
+Toggl
+Timery
+Timewarrior
+Pomodoro
+Zettelkasten
+overapplication
+misordering
+accomplishming
+Gantt
+buzzphrase
+Pomodoro
