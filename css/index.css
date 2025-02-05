@@ -194,9 +194,10 @@ POST STYLING
 
 .post-container > pre {
     border: 1px solid black;
-    box-shadow: -8px 8px black;
     /* This padding applies to code-blocks without a language tagged */
     padding: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .post-container > ol {
@@ -212,24 +213,21 @@ POST STYLING
 .post-container > p {
     font-size: 1.125rem;
     line-height: 1.5;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
-.post-container > h1 {
-    margin-bottom: 0.5rem;
+.post-container > h1::before {
+    content: "# ";
 }
-
-.post-container > h2 {
-    margin-bottom: 0.5rem;
+.post-container > h2::before {
+    content: "## ";
 }
-
-.post-container > h3 {
-    margin-bottom: 0.5rem;
+.post-container > h3::before {
+    content: "### ";
 }
-
-.post-container > h4 {
-    margin-bottom: 0.5rem;
+.post-container > h4::before {
+    content: "#### ";
 }
 
 .post-container:last-child {
