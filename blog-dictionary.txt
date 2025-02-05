@@ -27,3 +27,8 @@ accomplishming
 Gantt
 buzzphrase
 Pomodoro
+rubocop
+dayjob
+lazygit
+autojump
+zoxide
