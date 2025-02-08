@@ -4,13 +4,205 @@
   <subtitle>Weblog of Jordan Seiler</subtitle>
   <link href="https://jordanseiler.xyz/feed.xml" rel="self" />
   <link href="https://jordanseiler.xyz/blog/" />
-  <updated>2025-01-30T00:00:00Z</updated>
+  <updated>2025-02-07T00:00:00Z</updated>
   <id>https://jordanseiler.xyz/blog/</id>
   <author>
     <name>Jordan Seiler</name>
   </author>
   <entry>
-    <title>Meta-Work</title>
+    <title>Take Out the Splinter Already</title>
+    <link href="https://jordanseiler.xyz/posts/2025-02-07-splinters/" />
+    <updated>2025-02-07T00:00:00Z</updated>
+    <id>https://jordanseiler.xyz/posts/2025-02-07-splinters/</id>
+    <content type="html">&lt;h1&gt;Take Out the Splinter Already&lt;/h1&gt;
+&lt;p&gt;A splinter might be small, but if it&#39;s lodged in your foot it&#39;ll change the way
+you walk.&lt;/p&gt;
+&lt;p&gt;Day-to-day, we all encounter &amp;quot;inefficiencies&amp;quot; in our workflows. These are
+things like invoking an action manually (usually with the mouse) instead of
+with a keyboard shortcut, not having fast access to commonly used resources,
+having to look up an arcane &lt;code&gt;git&lt;/code&gt; command, etc.&lt;/p&gt;
+&lt;p&gt;Generally, it&#39;s doing something in a way that&#39;s you find slow and annoying, but
+it&#39;s not &amp;quot;bad&amp;quot; enough that you&#39;ll bother to change it.&lt;/p&gt;
+&lt;p&gt;I call these little annoyances &amp;quot;splinters&amp;quot; and I am here to tell you: &lt;strong&gt;TAKE
+OUT THE SPLINTER&lt;/strong&gt;! It&#39;s worth it!&lt;/p&gt;
+&lt;h1&gt;&amp;quot;Personal Efficiency&amp;quot; and Mental Energy&lt;/h1&gt;
+&lt;p&gt;I used to think that &amp;quot;personal efficiency&amp;quot; was all about getting things done
+and done quick. We want to be efficient so we can be &lt;em&gt;fast&lt;/em&gt;, right? Nowadays, I
+don&#39;t think that&#39;s the whole picture. Speed might be one of the usual
+byproducts of efficiency, but there&#39;s more to the story.&lt;/p&gt;
+&lt;p&gt;Every day we wake up with only so much mental energy. We&#39;ve got a finite amount
+of attention, focus, and care, that we can expend on our work and lives.&lt;/p&gt;
+&lt;p&gt;Every splinter we remove, every rough corner we sand down, we get to spend more
+of our energy on the things that really matter instead of irrelevant
+distractions that pull on our focus and sap our patience. From this
+perspective, efficiency is not about working fast for &amp;quot;The Man&amp;quot; or avoiding
+work so you can be lazy. It&#39;s about getting less bogged down by the hundreds
+of tiny interruptions that occur over the course of the day.&lt;/p&gt;
+&lt;p&gt;This is particularly applicable to professional work, but it&#39;s true in our
+personal lives as well. You&#39;d be amazed how satisfying it is to grease all the
+door hinges in your house. All it takes 15 minutes, a shop rag, and a can of
+WD-40.&lt;/p&gt;
+&lt;h2&gt;Splinters VS Meta-work&lt;/h2&gt;
+&lt;p&gt;If you read my last post on &lt;a href=&quot;https://jordanseiler.xyz/posts/2025-01-30-meta-work&quot;&gt;Meta-work&lt;/a&gt;, you might be
+wondering why taking out splinters isn&#39;t &amp;quot;Meta-work&amp;quot;, and thus to be avoided.
+While it&#39;s true that in the process of removing splinters you might get
+side-tracked into meta-work, I think you can stay on track through two
+simple guidelines:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Only solve problems you know you already have.&lt;/li&gt;
+&lt;li&gt;Don&#39;t go overboard or over generalize your solution.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h1&gt;Examples of Splinters&lt;/h1&gt;
+&lt;p&gt;Everyone&#39;s splinters will be different, since everyone both works differently
+and has different opinions on what is considered &amp;quot;slow and annoying&amp;quot;. So,
+instead of giving suggestions on how to streamline your workflow, I&#39;ll give
+examples of things I&#39;ve implemented as a software engineer that have improved
+my life.&lt;/p&gt;
+&lt;h2&gt;Search Engine Shortcuts&lt;/h2&gt;
+&lt;p&gt;At work I&#39;ve set up a number of custom search engines in Chrome so that I can
+get to what I want more quickly. This feature might go by another name (like
+&amp;quot;Keyword Search&amp;quot; in Firefox), but here&#39;s the gist:&lt;/p&gt;
+&lt;p&gt;You define a format string, like
+&lt;code&gt;https://github.com/search?q=%s&amp;amp;type=repositories&lt;/code&gt;, where the placeholder &lt;code&gt;%s&lt;/code&gt;
+will get replaced by whatever your search term is. In addition to the format
+string, you define a trigger keyword, like &lt;code&gt;gh&lt;/code&gt;.  Then, instead of:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Go to GitHub&lt;/li&gt;
+&lt;li&gt;Wait for the page to load&lt;/li&gt;
+&lt;li&gt;Click on the search bar&lt;/li&gt;
+&lt;li&gt;Make your search&lt;/li&gt;
+&lt;li&gt;Wait for the search to load&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;You can:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Type &lt;code&gt;gh &amp;lt;whatever your query is&amp;gt;&lt;/code&gt; into your address bar&lt;/li&gt;
+&lt;li&gt;Hit Enter&lt;/li&gt;
+&lt;li&gt;Wait for the search to load&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;You might think, &amp;quot;You cut out two steps, big whoop&amp;quot;, but the fact that removing
+those two steps is a big deal is the point of this post. If you have any
+websites you search on often, you should try this! I have one set up for my
+companies GitHub repos, Google Drive, and internal documentation, and it makes
+a world of difference.&lt;/p&gt;
+&lt;h2&gt;Autojump Tools&lt;/h2&gt;
+&lt;p&gt;At my dayjob I spent a fair amount of time in the terminal and I switch between
+a lot of different projects. To streamline my workflow, I use a plugin through
+&lt;a href=&quot;https://ohmyz.sh/&quot;&gt;Oh My ZSH&lt;/a&gt; called &lt;a href=&quot;https://github.com/agkozak/zsh-z&quot;&gt;zsh-z&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;A number of these tools exist and are typically marketed as a &amp;quot;smart cd&amp;quot; or
+&amp;quot;autojump&amp;quot; tool. They all have the same general idea:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;The tool keeps a record of what directories you visit.&lt;/li&gt;
+&lt;li&gt;You invoke the tool with an approximate/partial string for where you
+want to go.&lt;/li&gt;
+&lt;li&gt;The record of what directories you&#39;ve been in is used to predict what the
+best matching directory is based on your query.&lt;/li&gt;
+&lt;li&gt;The tool changes directory for you, based on what it thinks the best match
+is.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;For instance, when I want to work on my blog, I type &lt;code&gt;z web&lt;/code&gt; or &lt;code&gt;z webpage&lt;/code&gt; and
+I&#39;m automatically jumped to where I have the repository checked out.&lt;/p&gt;
+&lt;p&gt;I find this to be a huge timesaver over iteratively calling &lt;code&gt;ls+cd&lt;/code&gt; or using an
+interactive interface to navigate jump into to a shell. I can quickly open up
+any number of terminals and get them to exactly the project I want in a single
+command.&lt;/p&gt;
+&lt;p&gt;Some examples other than &lt;code&gt;zsh-z&lt;/code&gt; include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/ajeetdsouza/zoxide&quot;&gt;zoxide&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/wting/autojump&quot;&gt;autojump&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/gsamokovarov/jump&quot;&gt;jump&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Alternate Version Control Tools&lt;/h2&gt;
+&lt;p&gt;For a long time, I prided myself on using the &lt;code&gt;git&lt;/code&gt; CLI without extra tooling.
+It was some weird and silly ego thing that I was comfortable using the tool &amp;quot;as
+it was intended&amp;quot; instead of shelling out to a GUI.&lt;/p&gt;
+&lt;p&gt;Now, I think that perspective was 1) unhealthy and 2) wasted a lot of my time.
+I realized that using &lt;code&gt;git&lt;/code&gt; at the terminal added a non-trivial amount of typing
+to my day and was disruptive to boot.&lt;/p&gt;
+&lt;p&gt;There are a lot of ways to address this kind of problem. I&#39;ll share two:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/jesseduffield/lazygit&quot;&gt;lazygit&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://jj-vcs.github.io/jj/latest/&quot;&gt;jj&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;lazygit&lt;/code&gt; is a TUI program that layers over &lt;code&gt;git&lt;/code&gt;. The vast majority of my
+&lt;code&gt;git&lt;/code&gt; usage is branch management (creating, deleting, switching), staging
+things, and normal commits plus the occasional amend. For those simple
+operations, &lt;code&gt;lazygit&lt;/code&gt; was so much faster for me. For more advanced operations,
+like rebasing, I&#39;d go back to the CLI. Not because &lt;code&gt;lazygit&lt;/code&gt; can&#39;t do them, but
+because I was more comfortable doing them with the CLI and I didn&#39;t want to
+learn the &lt;code&gt;lazygit&lt;/code&gt; interface for them.&lt;/p&gt;
+&lt;p&gt;You may have noticed I&#39;m speaking about &lt;code&gt;lazygit&lt;/code&gt; in the past-tense, and that&#39;s
+because today I use &lt;a href=&quot;https://jj-vcs.github.io/jj/latest/&quot;&gt;&lt;code&gt;jj&lt;/code&gt;&lt;/a&gt;. &lt;code&gt;jj&lt;/code&gt; is a
+completely different version control system that is compatible with &lt;code&gt;git&lt;/code&gt;. It
+really deserves its own post, but I&#39;ll summarize with the following points:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;jj&lt;/code&gt; is a different interface, experience, and way of working.&lt;/li&gt;
+&lt;li&gt;I like it much more than &lt;code&gt;git&lt;/code&gt; and do not intend to go back.&lt;/li&gt;
+&lt;li&gt;It&#39;s compatible with &lt;code&gt;git&lt;/code&gt; in such a way that none of my coworkers need to
+know or care, and I can &amp;quot;escape hatch&amp;quot; out to &lt;code&gt;git&lt;/code&gt; if I need to.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Suggesting that you switch version control systems is a lot to ask, which is
+why I wrote &lt;code&gt;lazygit&lt;/code&gt; into this post. But &lt;code&gt;jj&lt;/code&gt; has been an absolute game
+changer that was totally worth the small learning curve.&lt;/p&gt;
+&lt;h2&gt;Turn Off Email Notifications&lt;/h2&gt;
+&lt;p&gt;I&#39;m rather compulsive when it comes to checking notifications. If I see a red
+bubble on an app, or my phone chimes, I &lt;em&gt;really&lt;/em&gt; want to check it. So, I do my
+best to control when it&#39;s possible for me to see notifications so that I don&#39;t
+get distracted.&lt;/p&gt;
+&lt;p&gt;Up until recently, I considered email an &amp;quot;important&amp;quot; notification channel and
+did little-to-nothing to block it. This was rather ironic, because most of the
+email I receive is marketing garbage or non-urgent confirmations/receipts.&lt;/p&gt;
+&lt;p&gt;Now, I push all email notifications into the iOS &lt;a href=&quot;https://support.apple.com/guide/iphone/view-and-respond-to-notifications-iph6534c01bc/ios&quot;&gt;Scheduled
+Summary&lt;/a&gt;
+feature and don&#39;t receive them at any other time. All of the emails I receive
+can wait at least a day. I don&#39;t need to see them immediately.&lt;/p&gt;
+&lt;p&gt;This small change has helped my focus &lt;em&gt;so much&lt;/em&gt; and I&#39;ve been recommending it to
+everyone I can. I think there&#39;s great value in aggressively pruning notifications
+that are not essential to your life.&lt;/p&gt;
+&lt;h2&gt;&lt;code&gt;fzf&lt;/code&gt; for Ruby Tools&lt;/h2&gt;
+&lt;p&gt;At my dayjob, I&#39;m often switching between JavaScript and Ruby on Rails
+projects. In JavaScript land, for all it&#39;s flaws, I can invoke tools like the
+test runner and formatter with glob patterns:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;jest src/foo/bar&lt;/code&gt;: Only run tests found in the &lt;code&gt;src/foo/bar&lt;/code&gt; directory&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;prettier --write lib/**/*.js&lt;/code&gt;: Only format JavaScript files in &lt;code&gt;lib&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This is &lt;em&gt;really&lt;/em&gt; handy because if I&#39;m working on &lt;code&gt;super-search.tsx&lt;/code&gt; and the
+test file is called &lt;code&gt;super-search.test.tsx&lt;/code&gt;, all I have to type is &lt;code&gt;jest super-search&lt;/code&gt; and it does the rest.&lt;/p&gt;
+&lt;p&gt;In Rails land, I am not so lucky, and commands like &lt;code&gt;rails test&lt;/code&gt; or &lt;code&gt;rubocop&lt;/code&gt;
+require &lt;strong&gt;complete paths to the file you want to test/process&lt;/strong&gt;. So instead of
+typing &lt;code&gt;rails test post_controller&lt;/code&gt; I have to type &lt;code&gt;rails test test/controllers/blog/post_controller_test.rb&lt;/code&gt;. If you have a large project
+with lots of nesting this can be very annoying. There&#39;s the &lt;code&gt;-n&lt;/code&gt; option which
+is &lt;em&gt;so close&lt;/em&gt; to what I want, except it filters based on the actual &lt;em&gt;names of
+the test cases&lt;/em&gt;, not on the test files themselves. Thank goodness I can pass a
+line range to only run a portion of the test file though. That&#39;s exactly what I
+want to do.&lt;/p&gt;
+&lt;p&gt;If you can&#39;t tell I&#39;ve got a chip on my shoulder when it comes to Rails. But that&#39;s
+for another post.&lt;/p&gt;
+&lt;p&gt;Here&#39;s a slightly more tolerable option. Instead of specifying the name of the
+test, you interpolate the output of &lt;code&gt;fzf&lt;/code&gt;. Syntax for this will vary, but
+here&#39;s what it looks like for zsh: &lt;code&gt;rails test $(fzf)&lt;/code&gt;. Running this command
+will invoke fzf. Once you make a selection, the &lt;code&gt;$(fzf)&lt;/code&gt; part will get replaced
+with the path to the file that you selected.&lt;/p&gt;
+&lt;p&gt;Using &lt;code&gt;fzf&lt;/code&gt; this way has a downside, which is that you can&#39;t easily repeat the
+last command from your shell history to re-run the tests. To get around this,
+you can assign the result of &lt;code&gt;fzf&lt;/code&gt; to a variable and reference that when invoking
+&lt;code&gt;rails test&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;$ export T=$(fzf)
+$ rails test $T
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h1&gt;Wrap-Up&lt;/h1&gt;
+&lt;p&gt;Efficiency can help you get &lt;em&gt;more&lt;/em&gt; done, that&#39;s true. But it can also help you
+refocus your efforts onto the things that matter to you. Splinters are small
+disruptions to your life that can be found in any process you do regularly. I
+think that time spent on removing splinters from your life (if you&#39;re able) is
+a sound investment, because a life filled with distractions is wasteful and
+exhausting.&lt;/p&gt;
+&lt;p&gt;Grease the door hinges! Organize the spice cabinet! Automate that crappy
+process at work! Make the small changes to help your life be delightful.&lt;/p&gt;
+</content>
+  </entry>
+  <entry>
+    <title>Meta-work</title>
     <link href="https://jordanseiler.xyz/posts/2025-01-30-meta-work/" />
     <updated>2025-01-30T00:00:00Z</updated>
     <id>https://jordanseiler.xyz/posts/2025-01-30-meta-work/</id>

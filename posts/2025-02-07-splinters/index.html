@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/prism-gruvbox-dark.css" />
+  </head>
+  <body>
+    <div id="nav-bar">
+      <a class="nav-link" href="/">SEILER'S CORNER</a>
+      <div class="spacer"></div>
+      <a class="nav-link" href="/about">ABOUT</a>
+      <a class="nav-link" href="/blog">BLOG</a>
+      <a class="nav-link" href="/socials">SOCIALS</a>
+      <a class="nav-link" href="/feed.xml">ATOM FEED</a>
+    </div>
+    <div class="content-area">
+      <div class="post-container">
+ <h1>Take Out the Splinter Already</h1>
+<p>A splinter might be small, but if it's lodged in your foot it'll change the way
+you walk.</p>
+<p>Day-to-day, we all encounter &quot;inefficiencies&quot; in our workflows. These are
+things like invoking an action manually (usually with the mouse) instead of
+with a keyboard shortcut, not having fast access to commonly used resources,
+having to look up an arcane <code>git</code> command, etc.</p>
+<p>Generally, it's doing something in a way that's you find slow and annoying, but
+it's not &quot;bad&quot; enough that you'll bother to change it.</p>
+<p>I call these little annoyances &quot;splinters&quot; and I am here to tell you: <strong>TAKE
+OUT THE SPLINTER</strong>! It's worth it!</p>
+<h1>&quot;Personal Efficiency&quot; and Mental Energy</h1>
+<p>I used to think that &quot;personal efficiency&quot; was all about getting things done
+and done quick. We want to be efficient so we can be <em>fast</em>, right? Nowadays, I
+don't think that's the whole picture. Speed might be one of the usual
+byproducts of efficiency, but there's more to the story.</p>
+<p>Every day we wake up with only so much mental energy. We've got a finite amount
+of attention, focus, and care, that we can expend on our work and lives.</p>
+<p>Every splinter we remove, every rough corner we sand down, we get to spend more
+of our energy on the things that really matter instead of irrelevant
+distractions that pull on our focus and sap our patience. From this
+perspective, efficiency is not about working fast for &quot;The Man&quot; or avoiding
+work so you can be lazy. It's about getting less bogged down by the hundreds
+of tiny interruptions that occur over the course of the day.</p>
+<p>This is particularly applicable to professional work, but it's true in our
+personal lives as well. You'd be amazed how satisfying it is to grease all the
+door hinges in your house. All it takes 15 minutes, a shop rag, and a can of
+WD-40.</p>
+<h2>Splinters VS Meta-work</h2>
+<p>If you read my last post on <a href="../2025-01-30-meta-work">Meta-work</a>, you might be
+wondering why taking out splinters isn't &quot;Meta-work&quot;, and thus to be avoided.
+While it's true that in the process of removing splinters you might get
+side-tracked into meta-work, I think you can stay on track through two
+simple guidelines:</p>
+<ol>
+<li>Only solve problems you know you already have.</li>
+<li>Don't go overboard or over generalize your solution.</li>
+</ol>
+<h1>Examples of Splinters</h1>
+<p>Everyone's splinters will be different, since everyone both works differently
+and has different opinions on what is considered &quot;slow and annoying&quot;. So,
+instead of giving suggestions on how to streamline your workflow, I'll give
+examples of things I've implemented as a software engineer that have improved
+my life.</p>
+<h2>Search Engine Shortcuts</h2>
+<p>At work I've set up a number of custom search engines in Chrome so that I can
+get to what I want more quickly. This feature might go by another name (like
+&quot;Keyword Search&quot; in Firefox), but here's the gist:</p>
+<p>You define a format string, like
+<code>https://github.com/search?q=%s&amp;type=repositories</code>, where the placeholder <code>%s</code>
+will get replaced by whatever your search term is. In addition to the format
+string, you define a trigger keyword, like <code>gh</code>.  Then, instead of:</p>
+<ol>
+<li>Go to GitHub</li>
+<li>Wait for the page to load</li>
+<li>Click on the search bar</li>
+<li>Make your search</li>
+<li>Wait for the search to load</li>
+</ol>
+<p>You can:</p>
+<ol>
+<li>Type <code>gh &lt;whatever your query is&gt;</code> into your address bar</li>
+<li>Hit Enter</li>
+<li>Wait for the search to load</li>
+</ol>
+<p>You might think, &quot;You cut out two steps, big whoop&quot;, but the fact that removing
+those two steps is a big deal is the point of this post. If you have any
+websites you search on often, you should try this! I have one set up for my
+companies GitHub repos, Google Drive, and internal documentation, and it makes
+a world of difference.</p>
+<h2>Autojump Tools</h2>
+<p>At my dayjob I spent a fair amount of time in the terminal and I switch between
+a lot of different projects. To streamline my workflow, I use a plugin through
+<a href="https://ohmyz.sh/">Oh My ZSH</a> called <a href="https://github.com/agkozak/zsh-z">zsh-z</a>.</p>
+<p>A number of these tools exist and are typically marketed as a &quot;smart cd&quot; or
+&quot;autojump&quot; tool. They all have the same general idea:</p>
+<ol>
+<li>The tool keeps a record of what directories you visit.</li>
+<li>You invoke the tool with an approximate/partial string for where you
+want to go.</li>
+<li>The record of what directories you've been in is used to predict what the
+best matching directory is based on your query.</li>
+<li>The tool changes directory for you, based on what it thinks the best match
+is.</li>
+</ol>
+<p>For instance, when I want to work on my blog, I type <code>z web</code> or <code>z webpage</code> and
+I'm automatically jumped to where I have the repository checked out.</p>
+<p>I find this to be a huge timesaver over iteratively calling <code>ls+cd</code> or using an
+interactive interface to navigate jump into to a shell. I can quickly open up
+any number of terminals and get them to exactly the project I want in a single
+command.</p>
+<p>Some examples other than <code>zsh-z</code> include:</p>
+<ul>
+<li><a href="https://github.com/ajeetdsouza/zoxide">zoxide</a></li>
+<li><a href="https://github.com/wting/autojump">autojump</a></li>
+<li><a href="https://github.com/gsamokovarov/jump">jump</a></li>
+</ul>
+<h2>Alternate Version Control Tools</h2>
+<p>For a long time, I prided myself on using the <code>git</code> CLI without extra tooling.
+It was some weird and silly ego thing that I was comfortable using the tool &quot;as
+it was intended&quot; instead of shelling out to a GUI.</p>
+<p>Now, I think that perspective was 1) unhealthy and 2) wasted a lot of my time.
+I realized that using <code>git</code> at the terminal added a non-trivial amount of typing
+to my day and was disruptive to boot.</p>
+<p>There are a lot of ways to address this kind of problem. I'll share two:</p>
+<ul>
+<li><a href="https://github.com/jesseduffield/lazygit">lazygit</a></li>
+<li><a href="https://jj-vcs.github.io/jj/latest/">jj</a></li>
+</ul>
+<p><code>lazygit</code> is a TUI program that layers over <code>git</code>. The vast majority of my
+<code>git</code> usage is branch management (creating, deleting, switching), staging
+things, and normal commits plus the occasional amend. For those simple
+operations, <code>lazygit</code> was so much faster for me. For more advanced operations,
+like rebasing, I'd go back to the CLI. Not because <code>lazygit</code> can't do them, but
+because I was more comfortable doing them with the CLI and I didn't want to
+learn the <code>lazygit</code> interface for them.</p>
+<p>You may have noticed I'm speaking about <code>lazygit</code> in the past-tense, and that's
+because today I use <a href="https://jj-vcs.github.io/jj/latest/"><code>jj</code></a>. <code>jj</code> is a
+completely different version control system that is compatible with <code>git</code>. It
+really deserves its own post, but I'll summarize with the following points:</p>
+<ul>
+<li><code>jj</code> is a different interface, experience, and way of working.</li>
+<li>I like it much more than <code>git</code> and do not intend to go back.</li>
+<li>It's compatible with <code>git</code> in such a way that none of my coworkers need to
+know or care, and I can &quot;escape hatch&quot; out to <code>git</code> if I need to.</li>
+</ul>
+<p>Suggesting that you switch version control systems is a lot to ask, which is
+why I wrote <code>lazygit</code> into this post. But <code>jj</code> has been an absolute game
+changer that was totally worth the small learning curve.</p>
+<h2>Turn Off Email Notifications</h2>
+<p>I'm rather compulsive when it comes to checking notifications. If I see a red
+bubble on an app, or my phone chimes, I <em>really</em> want to check it. So, I do my
+best to control when it's possible for me to see notifications so that I don't
+get distracted.</p>
+<p>Up until recently, I considered email an &quot;important&quot; notification channel and
+did little-to-nothing to block it. This was rather ironic, because most of the
+email I receive is marketing garbage or non-urgent confirmations/receipts.</p>
+<p>Now, I push all email notifications into the iOS <a href="https://support.apple.com/guide/iphone/view-and-respond-to-notifications-iph6534c01bc/ios">Scheduled
+Summary</a>
+feature and don't receive them at any other time. All of the emails I receive
+can wait at least a day. I don't need to see them immediately.</p>
+<p>This small change has helped my focus <em>so much</em> and I've been recommending it to
+everyone I can. I think there's great value in aggressively pruning notifications
+that are not essential to your life.</p>
+<h2><code>fzf</code> for Ruby Tools</h2>
+<p>At my dayjob, I'm often switching between JavaScript and Ruby on Rails
+projects. In JavaScript land, for all it's flaws, I can invoke tools like the
+test runner and formatter with glob patterns:</p>
+<ul>
+<li><code>jest src/foo/bar</code>: Only run tests found in the <code>src/foo/bar</code> directory</li>
+<li><code>prettier --write lib/**/*.js</code>: Only format JavaScript files in <code>lib</code></li>
+</ul>
+<p>This is <em>really</em> handy because if I'm working on <code>super-search.tsx</code> and the
+test file is called <code>super-search.test.tsx</code>, all I have to type is <code>jest super-search</code> and it does the rest.</p>
+<p>In Rails land, I am not so lucky, and commands like <code>rails test</code> or <code>rubocop</code>
+require <strong>complete paths to the file you want to test/process</strong>. So instead of
+typing <code>rails test post_controller</code> I have to type <code>rails test test/controllers/blog/post_controller_test.rb</code>. If you have a large project
+with lots of nesting this can be very annoying. There's the <code>-n</code> option which
+is <em>so close</em> to what I want, except it filters based on the actual <em>names of
+the test cases</em>, not on the test files themselves. Thank goodness I can pass a
+line range to only run a portion of the test file though. That's exactly what I
+want to do.</p>
+<p>If you can't tell I've got a chip on my shoulder when it comes to Rails. But that's
+for another post.</p>
+<p>Here's a slightly more tolerable option. Instead of specifying the name of the
+test, you interpolate the output of <code>fzf</code>. Syntax for this will vary, but
+here's what it looks like for zsh: <code>rails test $(fzf)</code>. Running this command
+will invoke fzf. Once you make a selection, the <code>$(fzf)</code> part will get replaced
+with the path to the file that you selected.</p>
+<p>Using <code>fzf</code> this way has a downside, which is that you can't easily repeat the
+last command from your shell history to re-run the tests. To get around this,
+you can assign the result of <code>fzf</code> to a variable and reference that when invoking
+<code>rails test</code>:</p>
+<pre><code>$ export T=$(fzf)
+$ rails test $T
+</code></pre>
+<h1>Wrap-Up</h1>
+<p>Efficiency can help you get <em>more</em> done, that's true. But it can also help you
+refocus your efforts onto the things that matter to you. Splinters are small
+disruptions to your life that can be found in any process you do regularly. I
+think that time spent on removing splinters from your life (if you're able) is
+a sound investment, because a life filled with distractions is wasteful and
+exhausting.</p>
+<p>Grease the door hinges! Organize the spice cabinet! Automate that crappy
+process at work! Make the small changes to help your life be delightful.</p>
+
+</div>
+
+    </div>
+  </body>
+</html>
