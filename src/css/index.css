@@ -52,11 +52,24 @@ select {
 
 :root {
     /* Default font settings */
-    font-family: "Inter", sans-serif;
+    /* https://modernfontstacks.com/ >>> Geometric Humanist */
+    font-family: Avenir, Montserrat, Corbel, "URW Gothic", source-sans-pro,
+        sans-serif;
+    font-weight: normal;
     font-optical-sizing: auto;
-    font-weight: 400;
     font-style: normal;
     font-variation-settings: "slnt" 0;
+
+    /* Fluid type scale from Utopia */
+
+    --step--2: clamp(0.7813rem, 0.7747rem + 0.0326vw, 0.8rem);
+    --step--1: clamp(0.9375rem, 0.9158rem + 0.1087vw, 1rem);
+    --step-0: clamp(1.125rem, 1.0815rem + 0.2174vw, 1.25rem);
+    --step-1: clamp(1.35rem, 1.2761rem + 0.3696vw, 1.5625rem);
+    --step-2: clamp(1.62rem, 1.5041rem + 0.5793vw, 1.9531rem);
+    --step-3: clamp(1.944rem, 1.771rem + 0.8651vw, 2.4414rem);
+    --step-4: clamp(2.3328rem, 2.0827rem + 1.2504vw, 3.0518rem);
+    --step-5: clamp(2.7994rem, 2.4462rem + 1.7658vw, 3.8147rem);
 
     /* Theme colors */
     --bg: hsl(0, 25%, 95%);
@@ -65,12 +78,63 @@ select {
     --secondary: hsl(199, 60%, 45%);
 }
 
+/* Exclude code elements inside `pre` so that I don't
+mess up syntax highlighted codeblocks */
+:not(pre) > code {
+    /* Default font settings */
+    /* https://modernfontstacks.com/ >>> Monospace Code */
+    font-size: var(--step-0);
+    font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
+        Consolas, "DejaVu Sans Mono", monospace;
+    font-weight: normal;
+
+    background-color: #e2e2e2;
+    border-radius: 4px;
+    border: 2px solid #a8a8a8;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+p,
+ol,
+ul {
+    font-size: var(--step-0);
+}
+h4 {
+    font-size: var(--step-1);
+}
+h3 {
+    font-size: var(--step-2);
+}
+h2 {
+    font-size: var(--step-3);
+}
+h1 {
+    font-size: var(--step-4);
+}
+
 #nav-bar {
     display: flex;
     gap: 2rem;
 
     @media screen and (max-width: 800px) {
         gap: 1rem;
+    }
+
+    @media screen and (max-width: 600px) {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 1fr 5px 1fr 1fr;
+        gap: 0.5rem;
+
+        > .spacer {
+            height: 4px;
+            grid-column: 1 / 3;
+        }
+
+        > #home {
+            grid-column: 1 / 3;
+        }
     }
 
     padding: 1rem;
@@ -113,11 +177,7 @@ select {
 }
 
 .content-area > * {
-    @media screen and (max-width: 800px) {
-        width: 90vw;
-    }
-
-    width: 65vw;
+    width: 70vw;
 }
 
 /*
@@ -180,6 +240,7 @@ POST STYLING
 
 .post-container {
     margin-top: 2rem;
+    max-width: 100ch;
 }
 
 .post-container > blockquote {
@@ -201,17 +262,15 @@ POST STYLING
 }
 
 .post-container > ol {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
-
 .post-container > ul {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .post-container > p {
-    font-size: 1.125rem;
     line-height: 1.5;
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
