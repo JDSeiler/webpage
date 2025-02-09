@@ -4,6 +4,9 @@ title: Any, Unknown, and Never, in TypeScript
 date: 2022-11-15
 layout: layouts/post-layout.njk
 ---
+
+# Any, Unknown, and Never, in TypeScript
+
 In my years of writing TypeScript, I've encountered areas of the language where
 myself and others often get tripped up. One example are three special types:
 

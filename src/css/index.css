@@ -1,36 +1,25 @@
-/* https://www.joshwcomeau.com/css/custom-css-reset */
+/* https://www.joshwcomeau.com/css/custom-css-reset/ */
 
-/*
-  1. Use a more-intuitive box-sizing model.
-*/
+/* 1. Use a more-intuitive box-sizing model */
 *,
 *::before,
 *::after {
     box-sizing: border-box;
 }
 
-/*
-  2. Remove default margin
-*/
+/* 2. Remove default margin */
 * {
     margin: 0;
 }
 
-/*
-  Typographic tweaks!
-  3. Add accessible line-height
-  4. Improve text rendering
-*/
-
 body {
+    /* 3. Add accessible line-height */
     line-height: 1.5;
+    /* 4. Improve text rendering */
     -webkit-font-smoothing: antialiased;
-    background: var(--bg);
 }
 
-/*
-  5. Improve media defaults
-*/
+/* 5. Improve media defaults */
 img,
 picture,
 video,
@@ -40,15 +29,53 @@ svg {
     max-width: 100%;
 }
 
-/*
-  6. Remove built-in form typography styles
-*/
+/* 6. Inherit fonts for form controls */
 input,
 button,
 textarea,
 select {
     font: inherit;
 }
+
+/* 7. Avoid text overflows */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+/* 8. Improve line wrapping */
+/*
+J-NOTE:
+text-wrap: pretty is not supported in Safari or FF so
+I'm removing it from my styles.
+*/
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-wrap: balance;
+}
+
+/*
+  9. Create a root stacking context
+*/
+#root,
+#__next {
+    isolation: isolate;
+}
+
+/*
+
+END CSS RESET
+
+*/
 
 :root {
     /* Default font settings */
@@ -60,58 +87,92 @@ select {
     font-style: normal;
     font-variation-settings: "slnt" 0;
 
-    /* Fluid type scale from Utopia */
-
-    --step--2: clamp(0.7813rem, 0.7747rem + 0.0326vw, 0.8rem);
-    --step--1: clamp(0.9375rem, 0.9158rem + 0.1087vw, 1rem);
-    --step-0: clamp(1.125rem, 1.0815rem + 0.2174vw, 1.25rem);
-    --step-1: clamp(1.35rem, 1.2761rem + 0.3696vw, 1.5625rem);
-    --step-2: clamp(1.62rem, 1.5041rem + 0.5793vw, 1.9531rem);
-    --step-3: clamp(1.944rem, 1.771rem + 0.8651vw, 2.4414rem);
-    --step-4: clamp(2.3328rem, 2.0827rem + 1.2504vw, 3.0518rem);
-    --step-5: clamp(2.7994rem, 2.4462rem + 1.7658vw, 3.8147rem);
+    /* Fluid type scale from utopia.fyi */
+    --step--2: clamp(0.7738rem, 0.7838rem + -0.0129vw, 0.7813rem);
+    --step--1: clamp(0.9375rem, 0.9048rem + 0.1635vw, 1.0315rem);
+    --step-0: clamp(1.125rem, 1.038rem + 0.4348vw, 1.375rem);
+    --step-1: clamp(1.35rem, 1.182rem + 0.8398vw, 1.8329rem);
+    --step-2: clamp(1.62rem, 1.3337rem + 1.4317vw, 2.4432rem);
+    --step-3: clamp(1.944rem, 1.4874rem + 2.2832vw, 3.2568rem);
+    --step-4: clamp(2.3328rem, 1.6342rem + 3.4931vw, 4.3413rem);
+    --step-5: clamp(2.7994rem, 1.7602rem + 5.1959vw, 5.787rem);
 
     /* Theme colors */
     --bg: hsl(0, 25%, 95%);
     --fg: hsl(0, 3%, 7%);
     --primary: hsl(41, 100%, 53%);
     --secondary: hsl(199, 60%, 45%);
+
+    --flow-space: 1rem;
 }
 
-/* Exclude code elements inside `pre` so that I don't
-mess up syntax highlighted codeblocks */
-:not(pre) > code {
-    /* Default font settings */
-    /* https://modernfontstacks.com/ >>> Monospace Code */
-    font-size: var(--step-0);
-    font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
-        Consolas, "DejaVu Sans Mono", monospace;
-    font-weight: normal;
-
-    background-color: #e2e2e2;
-    border-radius: 4px;
-    border: 2px solid #a8a8a8;
-    padding-left: 2px;
-    padding-right: 2px;
-}
-
+/* font sizing */
 p,
 ol,
 ul {
     font-size: var(--step-0);
 }
-h4 {
-    font-size: var(--step-1);
-}
-h3 {
-    font-size: var(--step-2);
+h1 {
+    font-size: var(--step-4);
 }
 h2 {
     font-size: var(--step-3);
 }
-h1 {
-    font-size: var(--step-4);
+h3 {
+    font-size: var(--step-2);
 }
+h4 {
+    font-size: var(--step-1);
+}
+/*
+we want pre and code to inherit font size by default
+but we need to also set the font size for top-level code
+blocks
+*/
+.post-container > pre {
+    font-size: var(--step-0);
+    overflow-x: scroll;
+}
+
+/*
+=============
+GLOBAL LAYOUT
+=============
+*/
+
+main.content-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#landing,
+#about,
+#socials,
+#blog,
+.post-container {
+    max-width: min(100ch, 90vw);
+    /* Add empty space at the bottom of main containers */
+    margin-bottom: 20vh;
+}
+
+/* Space adjacent post elements */
+.flow > * + * {
+    margin-top: var(--flow-space, 1em);
+}
+
+/* Used on all non post pages */
+.banner {
+    padding: 1rem;
+    border: 2px solid black;
+    text-align: center;
+}
+
+/*
+=======
+NAV BAR
+=======
+*/
 
 #nav-bar {
     display: flex;
@@ -170,34 +231,6 @@ h1 {
     box-shadow: 0px 0px;
 }
 
-.content-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.content-area > * {
-    width: 70vw;
-}
-
-/*
-=================
-MAIN LANDING PAGE
-=================
-*/
-
-.banner {
-    margin: 1rem;
-    border: 2px solid black;
-    padding: 1rem;
-    text-align: center;
-}
-
-.blurb {
-    margin: 1rem;
-    font-size: 1.25rem;
-}
-
 /*
 ============
 SOCIALS PAGE
@@ -205,8 +238,8 @@ SOCIALS PAGE
 */
 
 #socials-list {
+    width: 100%;
     display: flex;
-    margin: 1rem;
     flex-direction: column;
     border: 2px solid black;
 }
@@ -216,7 +249,7 @@ SOCIALS PAGE
     color: var(--fg);
     padding: 1rem;
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: var(--step-1);
     transition: background-color 200ms linear;
 }
 
@@ -233,64 +266,49 @@ SOCIALS PAGE
 }
 
 /*
-============
-POST STYLING
-============
+=====
+POSTS
+=====
 */
 
-.post-container {
-    margin-top: 2rem;
-    max-width: 100ch;
+/* section spacing */
+/* override flow spacing on headers to separate sections */
+h1,
+h2,
+h3,
+h4,
+h5 {
+    margin-top: calc(var(--flow-space) * 3) !important;
+}
+
+/*
+add empty space at the bottom of each post so it looks less dumb
+*/
+.post-container:last-child {
 }
 
 .post-container > blockquote {
     padding: 0.5rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
     margin-left: 2rem;
     border-left: 4px solid var(--primary);
     font-style: italic;
     backdrop-filter: brightness(98%);
 }
 
+/* inline monospace text */
+:not(pre) > code {
+    background-color: #e2e2e2;
+    border-radius: 4px;
+    border: 2px solid #a8a8a8;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+/* full code blocks */
 .post-container > pre {
     border: 1px solid black;
     /* This padding applies to code-blocks without a language tagged */
     padding: 1rem;
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.post-container > ol {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-.post-container > ul {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.post-container > p {
-    line-height: 1.5;
-    margin-top: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.post-container > h1::before {
-    content: "# ";
-}
-.post-container > h2::before {
-    content: "## ";
-}
-.post-container > h3::before {
-    content: "### ";
-}
-.post-container > h4::before {
-    content: "#### ";
-}
-
-.post-container:last-child {
-    margin-bottom: 5rem;
 }
 
 /* IDK why the katex plugin was rendering a MathML and an HTML version

@@ -31,11 +31,11 @@ computing the automata at the boundaries of our space.
 
 To figure out the next value of a cell, you look at that cell's
 value and the values of its left and right neighbors. Depending on the values
-of all three cells, we assign a new value to the center cell. 
+of all three cells, we assign a new value to the center cell.
 
 Because we only ever consider three cells at a time, and each cell can have
 two values, we can completely describe an elementary cellular automata in 8
-rules ($2^3$). 
+rules ($2^3$).
 
 ## Defining Elementary Cellular Automata
 First, let's talk about a way to notate the update rules for a single cell.
@@ -67,7 +67,7 @@ Then, we treat the binary digits we've just laid out as a number, in this
 case: `00011110` or `30` in base 10. Thus, `30` is the Wolfram Code with the
 following rules:
 
-- `111 -> 0` 
+- `111 -> 0`
 - `110 -> 0`
 - `101 -> 0`
 - `100 -> 1`
@@ -98,6 +98,5 @@ Here are some of my favorite automata:
 - Rule 169 (specifically in random mode)
 
 The source code for the visualize is available on GitHub at:
-https://github.com/JDSeiler/automata-explorer. The implementation is...
+[automata-explorer](https://github.com/JDSeiler/automata-explorer). The implementation is...
 uninspired... but it was a great afternoon project.
-
