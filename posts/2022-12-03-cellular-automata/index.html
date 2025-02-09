@@ -2,6 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
@@ -9,16 +10,16 @@
     <link rel="stylesheet" href="/css/prism-gruvbox-dark.css" />
   </head>
   <body>
-    <div id="nav-bar">
+    <nav id="nav-bar">
       <a id="home" class="nav-link" href="/">SEILER'S CORNER</a>
       <div class="spacer"></div>
       <a class="nav-link" href="/about">ABOUT</a>
       <a class="nav-link" href="/blog">BLOG</a>
       <a class="nav-link" href="/socials">SOCIALS</a>
       <a class="nav-link" href="/feed.xml">ATOM FEED</a>
-    </div>
-    <div class="content-area">
-      <div class="post-container">
+    </nav>
+    <main class="content-area">
+      <div class="post-container flow">
  <h1>Exploring the Elementary Cellular Automata</h1>
 <p>Recently, I became quite interested in cellular automata. For the uninitiated,
 a cellular automata is a grid (not necessarily square, you might have triangular
@@ -101,11 +102,11 @@ your computer if you'd like.</p>
 <li>Rule 169 (specifically in random mode)</li>
 </ul>
 <p>The source code for the visualize is available on GitHub at:
-https://github.com/JDSeiler/automata-explorer. The implementation is...
+<a href="https://github.com/JDSeiler/automata-explorer">automata-explorer</a>. The implementation is...
 uninspired... but it was a great afternoon project.</p>
 
 </div>
 
-    </div>
+    </main>
   </body>
 </html>

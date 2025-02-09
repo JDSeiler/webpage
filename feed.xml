@@ -1290,7 +1290,7 @@ your computer if you&#39;d like.&lt;/p&gt;
 &lt;li&gt;Rule 169 (specifically in random mode)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;The source code for the visualize is available on GitHub at:
-https://github.com/JDSeiler/automata-explorer. The implementation is...
+&lt;a href=&quot;https://github.com/JDSeiler/automata-explorer&quot;&gt;automata-explorer&lt;/a&gt;. The implementation is...
 uninspired... but it was a great afternoon project.&lt;/p&gt;
 </content>
   </entry>
@@ -1299,7 +1299,8 @@ uninspired... but it was a great afternoon project.&lt;/p&gt;
     <link href="https://jordanseiler.xyz/posts/2022-11-15-any-unknown-never/" />
     <updated>2022-11-15T00:00:00Z</updated>
     <id>https://jordanseiler.xyz/posts/2022-11-15-any-unknown-never/</id>
-    <content type="html">&lt;p&gt;In my years of writing TypeScript, I&#39;ve encountered areas of the language where
+    <content type="html">&lt;h1&gt;Any, Unknown, and Never, in TypeScript&lt;/h1&gt;
+&lt;p&gt;In my years of writing TypeScript, I&#39;ve encountered areas of the language where
 myself and others often get tripped up. One example are three special types:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;any&lt;/code&gt;&lt;/li&gt;
