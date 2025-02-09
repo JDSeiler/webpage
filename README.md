@@ -31,3 +31,17 @@ Make sure you're using at *least* Node 18.
   a. Direct push?
   b. Push a branch and merge in GitHub?
 
+### Mobile Testing
+To test the site locally on mobile, you can use a reverse proxy. My personal
+preference is Caddy. Reverse proxy your development machine's IP address to the
+address of the 11ty server:
+
+```
+caddy reverse-proxy --from "$(ipconfig getifaddr en0)" --to localhost:8080
+```
+
+Then, from your mobile device, type in the address of your development machine
+in your phone's web browser. You will get a warning about the certificate not
+being safe because it is a self-signed Caddy certificate, but it's ok because
+you're connecting to your own development server.
+
