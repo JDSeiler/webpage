@@ -17,7 +17,7 @@ myself and others often get tripped up. One example are three special types:
 In this post, I want to give a rundown of what these types mean and how to use
 them from a practical perspective.
 
-# `any`
+## `any`
 `any` is the most straightforward of the three special types. A value of type
 `any` can be, well, anything! You can think of variables with the type `any` as
 having type-checking disabled. We say that all types are assignable to `any`,
@@ -45,7 +45,7 @@ let mySquare = square(y);
 Typically, `any` is used as an escape-hatch from the type system when it'd be
 too difficult or tedious to convince TypeScript that some code is correct.
 
-# `unknown`
+## `unknown`
 `unknown` is the "type-safe" version of `any`. You can assign anything to a
 variable of type `unknown`, but basically no operations are permitted on an
 `unknown` value except for assignment to `any` and type-casting.
@@ -76,7 +76,7 @@ for asserting or otherwise specifying the type of a value, and the details are
 outside the scope of this post. But, you can read all about it in the
 TypeScript manual page on [narrowing](https://www.typescriptlang.org/docs/handbook/2/narrowing.html).
 
-# The characters so far:
+## The characters so far:
 - `any`
   - Can be assigned a value of any type.
   - Can be used in place of any type.
@@ -84,7 +84,7 @@ TypeScript manual page on [narrowing](https://www.typescriptlang.org/docs/handbo
   - Can be assigned a value of any type.
   - **Cannot** be used without a type-cast.
 
-# `never`
+## `never`
 You can think of `never` as the "opposite" of `any` and `unknown`. Whereas `any`
 and `unknown` are types that contain all possible values, `never` is a type that
 contains **no** values.
@@ -168,7 +168,7 @@ branch of the `switch`. So, if we were to add a variant to the `Student` type
 later and fail to update `greetStudent`, we'd get a compile error because it
 would be possible to assign a real value to the `_check` variable.
 
-# Summary
+## Summary
 - `any` and `unknown` are both types that encompass all possible values.
 - `any` basically turns off type-checking.
 - `unknown` allows you to process values of any type, while also forcing you

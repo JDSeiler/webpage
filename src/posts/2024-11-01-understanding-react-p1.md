@@ -18,7 +18,7 @@ I hope this will be a series of posts where I can share my "a-ha!" moments about
 React. Throughout I'll be assuming an intermediate-advanced knowledge of
 JavaScript and React.
 
-# Credits
+## Credits
 
 The person who sparked my new understanding of React was Nadia Makarevich, the
 author of the [Developer Way](https://www.developerway.com/) blog and the book
@@ -26,7 +26,7 @@ author of the [Developer Way](https://www.developerway.com/) blog and the book
 (and perhaps I just got a lemon) my Amazon print-on-demand copy quickly started
 falling apart. So, maybe get the Kindle edition and spare yourself some trouble.
 
-# Elements vs Components
+## Elements vs Components
 I want to start at the very beginning. "Element" and "Component" are words that
 any React developer should know, but what are they exactly?
 
@@ -168,7 +168,7 @@ const usage = (
 );
 ```
 
-# Rendering and Reconciliation
+## Rendering and Reconciliation
 OK, great, JSX is simply sugar for `createElement` and elements themselves are plain-old
 objects. But how does this all come together during rendering?
 
@@ -229,7 +229,7 @@ tree of elements, which is agnostic to how the UI is being rendered. Then, the
 `react-dom` package takes the element tree and figures out how to render it
 *specifically* as a webpage.
 
-## Subsequent Renders
+### Subsequent Renders
 React wouldn't be that useful if our apps were static and only rendered once.
 Things change! Our applications have *state*. When a state change occurs in your
 React app, React will rerender that element (the affected node in the element
@@ -241,7 +241,7 @@ cases React might need to destroy and rebuild entire subtrees of the DOM.
 For further reading, this process of figuring out what changed by comparing
 element trees is called *reconciliation*.
 
-## Recap
+### Recap
 1. Components are functions which return elements.
 2. Elements are lightweight JavaScript objects which describe what needs to be
 rendered.
@@ -253,11 +253,11 @@ elements.
 heuristics to figure out what changed and update the real DOM as quickly as
 possible. This process is called reconciliation.
 
-# Application
+## Application
 The understanding of JSX as function calls, and React's deep interest in the
 element tree, leads to some insights.
 
-## What Triggers Re-Renders
+### What Triggers Re-Renders
 When you first learn React, you're taught that when a component re-renders, React
 will re-render its children too. Using the knowledge that JSX is sugar for function
 calls, we can see why this is the case:
@@ -280,7 +280,7 @@ Ultimately, all re-renders are directly or indirectly caused by state changes.
 Either a component had a state update itself, or one of its parents up the chain
 had a state update.
 
-## Elements as Props
+### Elements as Props
 When we talk about parent-child relationships, as it pertains to re-renders, it
 is important to note that it's *not* about how the JSX is nested.
 
@@ -344,7 +344,7 @@ JSX is only a thin layer on top of functions and simple nested objects.
 
 > You can read more in the [`createElement` docs](https://react.dev/reference/react/createElement).
 
-## Memoization
+### Memoization
 We'll wrap up part 1 with a brief look at an often misapplied feature of React: memoization.
 
 Recall from earlier that React doesn't care if props have changed when it's
@@ -384,5 +384,5 @@ code. Memoization is easy to break for non-trivial components due to the
 extra work to preserve it. Without concrete evidence that the memoization is
 effective, I don't think it's worth the trouble.
 
-# Next Time
+## Next Time
 In Part 2, I'll discuss how to understand, manage, and eliminate effects.

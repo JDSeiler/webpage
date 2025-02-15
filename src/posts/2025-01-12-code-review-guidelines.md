@@ -24,7 +24,7 @@ Throughout this post you'll see the terms "Pull Request" (PR) and "Change List"
 (CL). I treat them as synonyms and use them to mean "a `git` patch that someone
 wants to merge into some other branch, typically the main branch".
 
-# Why Code Review Matters
+## Why Code Review Matters
 Why should we even care about writing good reviews? What do I even mean when I
 say a review is "good" or "bad"?
 
@@ -55,7 +55,7 @@ Beyond the functional goals, there are qualitative aspects to a good review:
   people defensive ("being kind") is not only good for
   morale, it's also more efficient.
 
-# "The Senior Principle"
+## "The Senior Principle"
 Google cites the following as [The Senior Principle](https://google.github.io/eng-practices/review/reviewer/standard.html)
 among all of their code review guidelines:
 
@@ -69,13 +69,13 @@ yourself if the change makes the system better. What's
 acceptable or what "better" means is going to be different
 from company to company, but the idea transfers.
 
-# What's Worth Talking About
+## What's Worth Talking About
 One of the simplest strategies you can employ to keep reviews
 effective and lean is to _make fewer comments_. You can make
 fewer comments without sacrificing review quality by focusing
 on the things that really matter.
 
-## Three Filters for Feedback
+### Three Filters for Feedback
 Before leaving any feedback, you can pass it through three
 yes/no screener questions. If you answer "no" to any of these
 questions, then you need to rephrase your comment or discard
@@ -110,7 +110,7 @@ specifically encountered them through Philipp Hauer's
 post on Code Review Guidelines:
 [Hauer - Three Filters for Feedback](https://phauer.com/2018/code-review-guidelines/#three-filters-for-feedback)
 
-## Pick Your Battles
+### Pick Your Battles
 Another helpful tidbit from Philipp Hauer is:
 ["Don't Jump in Front of Every Train"](https://phauer.com/2018/code-review-guidelines/#dont-jump-in-front-of-every-train).
 
@@ -130,7 +130,7 @@ to solve nearly every issue. Just because someone didn't pick
 your preferred method to solve the problem, doesn't mean their
 choice is less valid.
 
-## Technical Basics
+### Technical Basics
 This post is more concerned with how to write a _good_ code
 review, as opposed to how to write one at all. But, a review
 that doesn't handle the basics can hardly be called "good".
@@ -147,7 +147,7 @@ but generally speaking, examine:
 Beyond the basics, there are two specific topics that are
 worth speaking about more: complexity and style.
 
-## Complexity
+### Complexity
 [Google Standard of Code Review: What to look for in a code review](https://google.github.io/eng-practices/review/reviewer/looking-for.html)
 
 Code should not be more complex than it needs to be.
@@ -172,7 +172,7 @@ Google makes a big deal of complexity, from: [What to look for in a code review 
 > add up, so it’s important to prevent even small complexities
 > in new changes.
 
-## Style
+### Style
 Style issues are _dangerous_. They are easy to have opinions
 about, argue about, and typically _don't matter that much_.
 Style is important, because consistently formatting code aids
@@ -214,7 +214,7 @@ major style changes with functional changes. Style changes
 can easily obscure functional changes, and so it's best
 if they can be split into separate PRs.
 
-## Praise
+### Praise
 People learn not only by being told what they did wrong but
 also by being told when they do something good. Besides,
 it can be disheartening to only ever receive negative
@@ -224,12 +224,12 @@ good in a PR, leave some encouraging positive feedback!
 Doing so can reinforce behaviors you want to see more of,
 as well as boost morale.
 
-# Phrasing Feedback
+## Phrasing Feedback
 Philipp Hauer's blog post
 [Code Review Guidelines for Humans](https://phauer.com/2018/code-review-guidelines)
 is the inspiration for this section.
 
-## Why Kindness Matters
+### Why Kindness Matters
 From a technical perspective, the "Senior Principle" is the
 health of the codebase. From an interpersonal perspective,
 I think the senior principle is kindness.
@@ -244,7 +244,7 @@ provides my favorite argument for why we should be kind:
 > efficient because you don’t trigger someone’s defensive
 > reaction.
 
-## Avoiding Defensive Reactions
+### Avoiding Defensive Reactions
 How do we avoid making people defensive?
 Here are two strategies I've found very easy to apply.
 
@@ -284,7 +284,7 @@ about your own opinions and experience are simply what they
 are. Keeping your review to those two areas as much as
 possible can help you avoid making people defensive.
 
-## Explain Your Reasoning
+### Explain Your Reasoning
 When giving feedback, explain your thought process to give the
 reviewee additional context. Overly terse feedback like:
 "Don't do it this way, use a `BufReader` instead." probably
@@ -298,7 +298,7 @@ change to be made. If you're too specific about what to do,
 you rob people of the opportunity to figure things out for
 themselves and really learn.
 
-## Don't Write the Code
+### Don't Write the Code
 This section is in regards to a particular species of review comment, that looks something like:
 
 ```
@@ -347,7 +347,7 @@ aside for someone else to do the work. If someone truly needs to be removed from
 a particular piece of work, then that situation should be handled specially and
 with substantial tact.
 
-## Conventional Comments
+### Conventional Comments
 Lastly, I want to plug a semi-structured format for writing
 commits that I've found incredibly helpful:
 [Conventional Comments](https://conventionalcomments.org/)
@@ -389,7 +389,7 @@ can write "suggestion (if-easy)" and focus on my suggestion.
 reviewee context on the type of comment you're leaving and
 how much of their attention it will require.
 
-# Wrapping Up
+## Wrapping Up
 Over the past few years, these guidelines and strategies have
 served me well, and I hope they'll do the same for you!
 

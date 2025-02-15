@@ -20,7 +20,7 @@ it's not "bad" enough that you'll bother to change it.
 I call these little annoyances "splinters" and I am here to tell you: **TAKE
 OUT THE SPLINTER**! It's worth it!
 
-# "Personal Efficiency" and Mental Energy
+## "Personal Efficiency" and Mental Energy
 I used to think that "personal efficiency" was all about getting things done
 and done quick. We want to be efficient so we can be *fast*, right? Nowadays, I
 don't think that's the whole picture. Speed might be one of the usual
@@ -41,7 +41,7 @@ personal lives as well. You'd be amazed how satisfying it is to grease all the
 door hinges in your house. All it takes 15 minutes, a shop rag, and a can of
 WD-40.
 
-## Splinters VS Meta-work
+### Splinters VS Meta-work
 
 If you read my last post on [Meta-work](../2025-01-30-meta-work), you might be
 wondering why taking out splinters isn't "Meta-work", and thus to be avoided.
@@ -52,14 +52,14 @@ simple guidelines:
 1. Only solve problems you know you already have.
 2. Don't go overboard or over generalize your solution.
 
-# Examples of Splinters
+## Examples of Splinters
 Everyone's splinters will be different, since everyone both works differently
 and has different opinions on what is considered "slow and annoying". So,
 instead of giving suggestions on how to streamline your workflow, I'll give
 examples of things I've implemented as a software engineer that have improved
 my life.
 
-## Search Engine Shortcuts
+### Search Engine Shortcuts
 At work I've set up a number of custom search engines in Chrome so that I can
 get to what I want more quickly. This feature might go by another name (like
 "Keyword Search" in Firefox), but here's the gist:
@@ -87,7 +87,7 @@ websites you search on often, you should try this! I have one set up for my
 companies GitHub repos, Google Drive, and internal documentation, and it makes
 a world of difference.
 
-## Autojump Tools
+### Autojump Tools
 At my dayjob I spent a fair amount of time in the terminal and I switch between
 a lot of different projects. To streamline my workflow, I use a plugin through
 [Oh My ZSH](https://ohmyz.sh/) called [zsh-z](https://github.com/agkozak/zsh-z).
@@ -116,7 +116,7 @@ Some examples other than `zsh-z` include:
 - [autojump](https://github.com/wting/autojump)
 - [jump](https://github.com/gsamokovarov/jump)
 
-## Alternate Version Control Tools
+### Alternate Version Control Tools
 For a long time, I prided myself on using the `git` CLI without extra tooling.
 It was some weird and silly ego thing that I was comfortable using the tool "as
 it was intended" instead of shelling out to a GUI.
@@ -152,7 +152,7 @@ Suggesting that you switch version control systems is a lot to ask, which is
 why I wrote `lazygit` into this post. But `jj` has been an absolute game
 changer that was totally worth the small learning curve.
 
-## Turn Off Email Notifications
+### Turn Off Email Notifications
 I'm rather compulsive when it comes to checking notifications. If I see a red
 bubble on an app, or my phone chimes, I *really* want to check it. So, I do my
 best to control when it's possible for me to see notifications so that I don't
@@ -171,7 +171,7 @@ This small change has helped my focus *so much* and I've been recommending it to
 everyone I can. I think there's great value in aggressively pruning notifications
 that are not essential to your life.
 
-## `fzf` for Ruby Tools
+### `fzf` for Ruby Tools
 
 At my dayjob, I'm often switching between JavaScript and Ruby on Rails
 projects. In JavaScript land, for all it's flaws, I can invoke tools like the
@@ -212,7 +212,7 @@ $ export T=$(fzf)
 $ rails test $T
 ```
 
-# Wrap-Up
+## Wrap-Up
 Efficiency can help you get *more* done, that's true. But it can also help you
 refocus your efforts onto the things that matter to you. Splinters are small
 disruptions to your life that can be found in any process you do regularly. I
