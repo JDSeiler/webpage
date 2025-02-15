@@ -27,7 +27,7 @@ myself and others often get tripped up. One example are three special types:</p>
 </ul>
 <p>In this post, I want to give a rundown of what these types mean and how to use
 them from a practical perspective.</p>
-<h1><code>any</code></h1>
+<h2><code>any</code></h2>
 <p><code>any</code> is the most straightforward of the three special types. A value of type
 <code>any</code> can be, well, anything! You can think of variables with the type <code>any</code> as
 having type-checking disabled. We say that all types are assignable to <code>any</code>,
@@ -50,7 +50,7 @@ x<span class="token punctuation">.</span><span class="token function">someMadeUp
 <span class="token class-name"><span class="token keyword">let</span></span> mySquare <span class="token operator">=</span> <span class="token function">square</span><span class="token punctuation">(</span>y<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 <p>Typically, <code>any</code> is used as an escape-hatch from the type system when it'd be
 too difficult or tedious to convince TypeScript that some code is correct.</p>
-<h1><code>unknown</code></h1>
+<h2><code>unknown</code></h2>
 <p><code>unknown</code> is the &quot;type-safe&quot; version of <code>any</code>. You can assign anything to a
 variable of type <code>unknown</code>, but basically no operations are permitted on an
 <code>unknown</code> value except for assignment to <code>any</code> and type-casting.</p>
@@ -76,7 +76,7 @@ before the compiler will let us use it. TypeScript offers many different ways
 for asserting or otherwise specifying the type of a value, and the details are
 outside the scope of this post. But, you can read all about it in the
 TypeScript manual page on <a href="https://www.typescriptlang.org/docs/handbook/2/narrowing.html">narrowing</a>.</p>
-<h1>The characters so far:</h1>
+<h2>The characters so far:</h2>
 <ul>
 <li><code>any</code>
 <ul>
@@ -91,7 +91,7 @@ TypeScript manual page on <a href="https://www.typescriptlang.org/docs/handbook/
 </ul>
 </li>
 </ul>
-<h1><code>never</code></h1>
+<h2><code>never</code></h2>
 <p>You can think of <code>never</code> as the &quot;opposite&quot; of <code>any</code> and <code>unknown</code>. Whereas <code>any</code>
 and <code>unknown</code> are types that contain all possible values, <code>never</code> is a type that
 contains <strong>no</strong> values.</p>
@@ -163,7 +163,7 @@ case will never run if all the variants of <code>Student</code> are processed by
 branch of the <code>switch</code>. So, if we were to add a variant to the <code>Student</code> type
 later and fail to update <code>greetStudent</code>, we'd get a compile error because it
 would be possible to assign a real value to the <code>_check</code> variable.</p>
-<h1>Summary</h1>
+<h2>Summary</h2>
 <ul>
 <li><code>any</code> and <code>unknown</code> are both types that encompass all possible values.</li>
 <li><code>any</code> basically turns off type-checking.</li>

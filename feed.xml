@@ -4,11 +4,127 @@
   <subtitle>Weblog of Jordan Seiler</subtitle>
   <link href="https://jordanseiler.xyz/feed.xml" rel="self" />
   <link href="https://jordanseiler.xyz/blog/" />
-  <updated>2025-02-07T00:00:00Z</updated>
+  <updated>2025-02-15T00:00:00Z</updated>
   <id>https://jordanseiler.xyz/blog/</id>
   <author>
     <name>Jordan Seiler</name>
   </author>
+  <entry>
+    <title>`utils` and Other Useless Names</title>
+    <link href="https://jordanseiler.xyz/posts/2025-02-15-never-name-utils/" />
+    <updated>2025-02-15T00:00:00Z</updated>
+    <id>https://jordanseiler.xyz/posts/2025-02-15-never-name-utils/</id>
+    <content type="html">&lt;h1&gt;&lt;code&gt;utils&lt;/code&gt; and Other Useless Names&lt;/h1&gt;
+&lt;p&gt;It&#39;s hard to organize source code. You can choose to do it an almost limitless
+number of ways and there are many different factors to consider:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;What features does your language of choice even provide for modularity?&lt;/li&gt;
+&lt;li&gt;What is the prevailing style for your language and/or framework?&lt;/li&gt;
+&lt;li&gt;Are you using specific tools (IDEs, build tools, or otherwise) that interact
+with particular file or folder structures poorly?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Software is difficult to architect in general, and the files and folders that
+make up your application are often a reflection of your abstract architecture.
+It&#39;s hard to get right, but it&#39;s important!&lt;/p&gt;
+&lt;p&gt;Imagine a kitchen where every dish and utensil is arbitrarily strewn through
+the drawers and cabinets, and every ingredient is arbitrarily arranged in the
+pantry or refrigerator. Would that be a pleasant place to cook in? Of course
+not! The workspaces of experts, from chefs to carpenters to surgeons, are
+thoughtfully organized to help facilitate their best work.&lt;/p&gt;
+&lt;p&gt;I will make the (hopefully) uncontroversial statement that clear, well
+reasoned, organization of source files makes work easier and more pleasant
+than poor organization. The files and folders that make up an application&#39;s
+code base are one aspect of a software engineer&#39;s workspace, so it stands to
+reason that we should organize them with care.&lt;/p&gt;
+&lt;p&gt;When it comes to &lt;em&gt;naming&lt;/em&gt; source files, there is one pattern I have seen several
+times and is a HUGE pet peeve of mine. It is the pattern of naming files or
+folders something like &lt;code&gt;utils&lt;/code&gt;, &lt;code&gt;tools&lt;/code&gt;, or &lt;code&gt;helpers&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;What is a Utility?&lt;/h2&gt;
+&lt;p&gt;I think it&#39;s only fair for me to lay out what I mean by &amp;quot;utility&amp;quot; before
+critiquing it as a name.&lt;/p&gt;
+&lt;p&gt;Utility is a word all about &lt;em&gt;usefulness&lt;/em&gt;. But in day to day life, we don&#39;t
+really refer to individual objects as &amp;quot;utilities&amp;quot;. The only things we call
+by that word are things like water or electric service. But, separate from
+our day to day understanding, software development has a particular idea
+for the meaning of the term.&lt;/p&gt;
+&lt;p&gt;If we look at the category of &amp;quot;utility software&amp;quot; (zooming out a bit from
+individual source files) we find all kinds of things:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Disk Defragmenters&lt;/li&gt;
+&lt;li&gt;Compression Software&lt;/li&gt;
+&lt;li&gt;Encoders/Decoders/Converters&lt;/li&gt;
+&lt;li&gt;System Monitors&lt;/li&gt;
+&lt;li&gt;Diagnostic Tools&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;It&#39;s easy to get wrapped around the axle trying to classify all software as
+either a utility or not. So, I think it&#39;s more helpful to think of utility
+as a quality that software can possess more or less of on a sliding scale.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Specifically in the context of software&lt;/em&gt;, I think utility is about how
+much a program&#39;s usefulness is in relation to &amp;quot;something else&amp;quot;. It&#39;s
+software that you use to do work with or on other programs.&lt;/p&gt;
+&lt;p&gt;For example, a file manager ranks highly on the utility scale, because a
+file manager&#39;s usefulness is only realized in relation to all the other
+programs that create files.&lt;/p&gt;
+&lt;p&gt;A video game, in contrast, has very little utility, both in the general sense
+and the specific sense I introduced earlier. All the value of the game, as a
+piece of software, is realized in itself and not in conjunction with other
+things.&lt;/p&gt;
+&lt;h2&gt;Utilities in Source Code&lt;/h2&gt;
+&lt;p&gt;Taking a look at utility &lt;em&gt;software&lt;/em&gt; is a good first step. But what is a utility
+in the context of &lt;em&gt;source code&lt;/em&gt;?&lt;/p&gt;
+&lt;p&gt;If the line between application and utility software is blurry, then the line
+between utility and application code is a smear.&lt;/p&gt;
+&lt;p&gt;The problem is that almost any code can be called a utility &lt;em&gt;in relation to
+something&lt;/em&gt;. The functions that assist in some piece of critical business
+logic are just the &lt;em&gt;very specific utilities&lt;/em&gt; for &lt;em&gt;this specific feature&lt;/em&gt;.
+Nothing to see here! Move along!&lt;/p&gt;
+&lt;p&gt;But &amp;quot;technically correct&amp;quot; and &amp;quot;actually useful&amp;quot; are two very different things.
+If you see someone walking their dog, you &lt;em&gt;could&lt;/em&gt; say: &amp;quot;Look at that person
+walking their animal&amp;quot; and be technically correct, but why would you say that?
+You know it&#39;s a dog, I know it&#39;s a dog, so call it a dog. You could also
+organize you code by language construct (&lt;code&gt;class&lt;/code&gt;, &lt;code&gt;function&lt;/code&gt;, &lt;code&gt;struct&lt;/code&gt;, etc.)
+and be technically correct, but I wouldn&#39;t recommend it if you want to stay
+on speaking terms with your coworkers.&lt;/p&gt;
+&lt;p&gt;What do the names &lt;code&gt;utils&lt;/code&gt;, &lt;code&gt;tools&lt;/code&gt;, or &lt;code&gt;helpers&lt;/code&gt; communicate? All they
+communicate is that the code inside has some kind of usefulness. So, you&#39;re
+telling me that your application contains code whose &lt;em&gt;most unique&lt;/em&gt;
+classification is that it&#39;s &lt;em&gt;useful&lt;/em&gt;? Seriously? That&#39;s the best possible name?
+A name like &lt;code&gt;utils&lt;/code&gt; is so preposterously general that it communicates &lt;em&gt;almost
+nothing&lt;/em&gt; about the code inside. You&#39;d be just as well off naming the file
+&lt;code&gt;code&lt;/code&gt; and hoping that the surrounding context gives enough information.&lt;/p&gt;
+&lt;p&gt;I wont say that there are &lt;em&gt;no&lt;/em&gt; cases where a name like &lt;code&gt;utils&lt;/code&gt; is acceptable.
+But I do think it&#39;s very rare that it&#39;s the right choice, and that most times
+it&#39;s used because someone can&#39;t be bothered to think of a better name.&lt;/p&gt;
+&lt;h2&gt;The Maintenance Problem of &lt;code&gt;utils&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;It would be one thing if a vague name simply failed to be helpful. That would
+at least leave you no worse than before. Unfortunately, names like &lt;code&gt;utils&lt;/code&gt; have
+consequences beyond being vague.&lt;/p&gt;
+&lt;p&gt;As an application grows, new code obviously needs a place to go. The trouble is
+that files or folders with overly general names become garbage dumps for code
+only related by the fact that someone didn&#39;t know how to classify it. It becomes
+an escape hatch for people who don&#39;t want to do the difficult but necessary
+work of deciding how their code ought to be organized.&lt;/p&gt;
+&lt;p&gt;In extreme cases, such a garbage file may begin strongly coupling totally
+separate parts of an application, or otherwise centralizing behavior and state
+in a way that makes refactoring difficult.&lt;/p&gt;
+&lt;h2&gt;Alternatives&lt;/h2&gt;
+&lt;p&gt;What do I think people should do instead?&lt;/p&gt;
+&lt;p&gt;It&#39;s going to be highly contextual based on your application, but I think I
+great place to start is to ask: &amp;quot;utils &lt;strong&gt;for what&lt;/strong&gt;?&amp;quot;. The answer to that
+question becomes the starting point for your new name. If a &lt;code&gt;utils&lt;/code&gt; file has
+been accumulating cruft for a while, you may need to break it into multiple
+parts before sensible names can be found.&lt;/p&gt;
+&lt;p&gt;Another tip that has helped me is to spend time sketching out the design
+separately from any code before I begin working. My go-to mediums for this are
+simple text files or paper, but use whatever you like best. The point is to
+get an idea of how to organize the code &lt;em&gt;before&lt;/em&gt; any substantial amount is
+written. You may find it helpful to iterate this process as you narrow in on
+a design.&lt;/p&gt;
+&lt;p&gt;Whatever you do, don&#39;t settle for a bad name. If the best name you can come up
+with is &lt;code&gt;utils&lt;/code&gt;, that&#39;s a symptom of a more substantial organization problem
+that needs to be addressed.&lt;/p&gt;
+</content>
+  </entry>
   <entry>
     <title>Take Out the Splinter Already</title>
     <link href="https://jordanseiler.xyz/posts/2025-02-07-splinters/" />
@@ -25,7 +141,7 @@ having to look up an arcane &lt;code&gt;git&lt;/code&gt; command, etc.&lt;/p&gt;
 it&#39;s not &amp;quot;bad&amp;quot; enough that you&#39;ll bother to change it.&lt;/p&gt;
 &lt;p&gt;I call these little annoyances &amp;quot;splinters&amp;quot; and I am here to tell you: &lt;strong&gt;TAKE
 OUT THE SPLINTER&lt;/strong&gt;! It&#39;s worth it!&lt;/p&gt;
-&lt;h1&gt;&amp;quot;Personal Efficiency&amp;quot; and Mental Energy&lt;/h1&gt;
+&lt;h2&gt;&amp;quot;Personal Efficiency&amp;quot; and Mental Energy&lt;/h2&gt;
 &lt;p&gt;I used to think that &amp;quot;personal efficiency&amp;quot; was all about getting things done
 and done quick. We want to be efficient so we can be &lt;em&gt;fast&lt;/em&gt;, right? Nowadays, I
 don&#39;t think that&#39;s the whole picture. Speed might be one of the usual
@@ -42,7 +158,7 @@ of tiny interruptions that occur over the course of the day.&lt;/p&gt;
 personal lives as well. You&#39;d be amazed how satisfying it is to grease all the
 door hinges in your house. All it takes 15 minutes, a shop rag, and a can of
 WD-40.&lt;/p&gt;
-&lt;h2&gt;Splinters VS Meta-work&lt;/h2&gt;
+&lt;h3&gt;Splinters VS Meta-work&lt;/h3&gt;
 &lt;p&gt;If you read my last post on &lt;a href=&quot;https://jordanseiler.xyz/posts/2025-01-30-meta-work&quot;&gt;Meta-work&lt;/a&gt;, you might be
 wondering why taking out splinters isn&#39;t &amp;quot;Meta-work&amp;quot;, and thus to be avoided.
 While it&#39;s true that in the process of removing splinters you might get
@@ -52,13 +168,13 @@ simple guidelines:&lt;/p&gt;
 &lt;li&gt;Only solve problems you know you already have.&lt;/li&gt;
 &lt;li&gt;Don&#39;t go overboard or over generalize your solution.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h1&gt;Examples of Splinters&lt;/h1&gt;
+&lt;h2&gt;Examples of Splinters&lt;/h2&gt;
 &lt;p&gt;Everyone&#39;s splinters will be different, since everyone both works differently
 and has different opinions on what is considered &amp;quot;slow and annoying&amp;quot;. So,
 instead of giving suggestions on how to streamline your workflow, I&#39;ll give
 examples of things I&#39;ve implemented as a software engineer that have improved
 my life.&lt;/p&gt;
-&lt;h2&gt;Search Engine Shortcuts&lt;/h2&gt;
+&lt;h3&gt;Search Engine Shortcuts&lt;/h3&gt;
 &lt;p&gt;At work I&#39;ve set up a number of custom search engines in Chrome so that I can
 get to what I want more quickly. This feature might go by another name (like
 &amp;quot;Keyword Search&amp;quot; in Firefox), but here&#39;s the gist:&lt;/p&gt;
@@ -84,7 +200,7 @@ those two steps is a big deal is the point of this post. If you have any
 websites you search on often, you should try this! I have one set up for my
 companies GitHub repos, Google Drive, and internal documentation, and it makes
 a world of difference.&lt;/p&gt;
-&lt;h2&gt;Autojump Tools&lt;/h2&gt;
+&lt;h3&gt;Autojump Tools&lt;/h3&gt;
 &lt;p&gt;At my dayjob I spent a fair amount of time in the terminal and I switch between
 a lot of different projects. To streamline my workflow, I use a plugin through
 &lt;a href=&quot;https://ohmyz.sh/&quot;&gt;Oh My ZSH&lt;/a&gt; called &lt;a href=&quot;https://github.com/agkozak/zsh-z&quot;&gt;zsh-z&lt;/a&gt;.&lt;/p&gt;
@@ -111,7 +227,7 @@ command.&lt;/p&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/wting/autojump&quot;&gt;autojump&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&quot;https://github.com/gsamokovarov/jump&quot;&gt;jump&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h2&gt;Alternate Version Control Tools&lt;/h2&gt;
+&lt;h3&gt;Alternate Version Control Tools&lt;/h3&gt;
 &lt;p&gt;For a long time, I prided myself on using the &lt;code&gt;git&lt;/code&gt; CLI without extra tooling.
 It was some weird and silly ego thing that I was comfortable using the tool &amp;quot;as
 it was intended&amp;quot; instead of shelling out to a GUI.&lt;/p&gt;
@@ -143,7 +259,7 @@ know or care, and I can &amp;quot;escape hatch&amp;quot; out to &lt;code&gt;git&
 &lt;p&gt;Suggesting that you switch version control systems is a lot to ask, which is
 why I wrote &lt;code&gt;lazygit&lt;/code&gt; into this post. But &lt;code&gt;jj&lt;/code&gt; has been an absolute game
 changer that was totally worth the small learning curve.&lt;/p&gt;
-&lt;h2&gt;Turn Off Email Notifications&lt;/h2&gt;
+&lt;h3&gt;Turn Off Email Notifications&lt;/h3&gt;
 &lt;p&gt;I&#39;m rather compulsive when it comes to checking notifications. If I see a red
 bubble on an app, or my phone chimes, I &lt;em&gt;really&lt;/em&gt; want to check it. So, I do my
 best to control when it&#39;s possible for me to see notifications so that I don&#39;t
@@ -158,7 +274,7 @@ can wait at least a day. I don&#39;t need to see them immediately.&lt;/p&gt;
 &lt;p&gt;This small change has helped my focus &lt;em&gt;so much&lt;/em&gt; and I&#39;ve been recommending it to
 everyone I can. I think there&#39;s great value in aggressively pruning notifications
 that are not essential to your life.&lt;/p&gt;
-&lt;h2&gt;&lt;code&gt;fzf&lt;/code&gt; for Ruby Tools&lt;/h2&gt;
+&lt;h3&gt;&lt;code&gt;fzf&lt;/code&gt; for Ruby Tools&lt;/h3&gt;
 &lt;p&gt;At my dayjob, I&#39;m often switching between JavaScript and Ruby on Rails
 projects. In JavaScript land, for all it&#39;s flaws, I can invoke tools like the
 test runner and formatter with glob patterns:&lt;/p&gt;
@@ -190,7 +306,7 @@ you can assign the result of &lt;code&gt;fzf&lt;/code&gt; to a variable and refe
 &lt;pre&gt;&lt;code&gt;$ export T=$(fzf)
 $ rails test $T
 &lt;/code&gt;&lt;/pre&gt;
-&lt;h1&gt;Wrap-Up&lt;/h1&gt;
+&lt;h2&gt;Wrap-Up&lt;/h2&gt;
 &lt;p&gt;Efficiency can help you get &lt;em&gt;more&lt;/em&gt; done, that&#39;s true. But it can also help you
 refocus your efforts onto the things that matter to you. Splinters are small
 disruptions to your life that can be found in any process you do regularly. I
@@ -215,7 +331,7 @@ pattern of behavior I&#39;ve retroactively identified in my own life, and only
 recently begun to mitigate.&lt;/p&gt;
 &lt;p&gt;I want to talk about what I think meta-work is, how I think it can disrupt
 our lives, and what we can do about it.&lt;/p&gt;
-&lt;h1&gt;What is Meta-work?&lt;/h1&gt;
+&lt;h2&gt;What is Meta-work?&lt;/h2&gt;
 &lt;p&gt;A compact definition of meta-work is:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Disproportionate preoccupation with the tools or processes used
@@ -358,7 +474,7 @@ burden yourself.&lt;/p&gt;
 productive. Having the same bullet journal template or writing software as your
 favorite author isn&#39;t going to make you write as much as them. Setting up the
 tools might feel like working, but it&#39;s not, it&#39;s procrastination.&lt;/p&gt;
-&lt;h1&gt;Why Meta-work is Disruptive&lt;/h1&gt;
+&lt;h2&gt;Why Meta-work is Disruptive&lt;/h2&gt;
 &lt;p&gt;Meta-work is disruptive for a very simple reason: you&#39;re putting your time
 and effort into the wrong things. The twist is that when you&#39;re putting
 time into your &amp;quot;productivity system&amp;quot; it feels like it&#39;s for work. But the
@@ -367,7 +483,7 @@ and using the Pomodoro method doesn&#39;t make you good at your job or help
 you be who you want to be. If being productive is what you actually want,
 then the tools and processes you use should be totally subservient to the
 work. Inversion in this hierarchy indicates a distraction.&lt;/p&gt;
-&lt;h2&gt;When Meta-work DOESN&#39;T Hurt&lt;/h2&gt;
+&lt;h3&gt;When Meta-work DOESN&#39;T Hurt&lt;/h3&gt;
 &lt;p&gt;The other day, I bought a new notebook. On each page the top half is blank and
 the bottom half is ruled. The idea is that you can sketch on the top half and
 write on the bottom half. &amp;quot;Oh this will be great for work&amp;quot;, I thought to
@@ -385,7 +501,7 @@ ultimately bought the notebook &lt;em&gt;simply because I liked it&lt;/em&gt;.&l
 &lt;p&gt;As long as you&#39;re realistic with yourself about what things exist in your life
 as &lt;em&gt;tools&lt;/em&gt; and what things exist in your life as &lt;em&gt;hobbies&lt;/em&gt; (or for your
 comfort), I don&#39;t see an issue.&lt;/p&gt;
-&lt;h1&gt;How to Address Meta-work&lt;/h1&gt;
+&lt;h2&gt;How to Address Meta-work&lt;/h2&gt;
 &lt;p&gt;Taking an honest look at your goals, external demands, and how you manage tasks
 in your life, is the first step. If you&#39;re generally happy with the tools you
 have and how &amp;quot;optimized&amp;quot; they may or may not be, don&#39;t change anything! But, if
@@ -403,7 +519,7 @@ being.&lt;/p&gt;
 &lt;p&gt;Now, the point isn&#39;t to be minimalist for the sake of it. The point is to get
 rid of distractions and only reintroduce tools or techniques when they can
 address a specific need.&lt;/p&gt;
-&lt;h1&gt;Finding Balance&lt;/h1&gt;
+&lt;h2&gt;Finding Balance&lt;/h2&gt;
 &lt;p&gt;It might sound like I&#39;m decrying productivity tools in general, but I&#39;m not.
 I&#39;m warning against using them in a counter-productive way. The answer is not
 &amp;quot;use all the tools&amp;quot; or &amp;quot;use none of the tools&amp;quot;. Instead, we have to do the hard
@@ -440,7 +556,7 @@ appropriate.&lt;/p&gt;
 &lt;p&gt;Throughout this post you&#39;ll see the terms &amp;quot;Pull Request&amp;quot; (PR) and &amp;quot;Change List&amp;quot;
 (CL). I treat them as synonyms and use them to mean &amp;quot;a &lt;code&gt;git&lt;/code&gt; patch that someone
 wants to merge into some other branch, typically the main branch&amp;quot;.&lt;/p&gt;
-&lt;h1&gt;Why Code Review Matters&lt;/h1&gt;
+&lt;h2&gt;Why Code Review Matters&lt;/h2&gt;
 &lt;p&gt;Why should we even care about writing good reviews? What do I even mean when I
 say a review is &amp;quot;good&amp;quot; or &amp;quot;bad&amp;quot;?&lt;/p&gt;
 &lt;p&gt;In my opinion, the functional goals of code review are:&lt;/p&gt;
@@ -471,7 +587,7 @@ more on this later. But, writing reviews that don&#39;t make
 people defensive (&amp;quot;being kind&amp;quot;) is not only good for
 morale, it&#39;s also more efficient.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1&gt;&amp;quot;The Senior Principle&amp;quot;&lt;/h1&gt;
+&lt;h2&gt;&amp;quot;The Senior Principle&amp;quot;&lt;/h2&gt;
 &lt;p&gt;Google cites the following as &lt;a href=&quot;https://google.github.io/eng-practices/review/reviewer/standard.html&quot;&gt;The Senior Principle&lt;/a&gt;
 among all of their code review guidelines:&lt;/p&gt;
 &lt;blockquote&gt;
@@ -484,12 +600,12 @@ worked on, even if the CL isn&#39;t perfect.&lt;/p&gt;
 yourself if the change makes the system better. What&#39;s
 acceptable or what &amp;quot;better&amp;quot; means is going to be different
 from company to company, but the idea transfers.&lt;/p&gt;
-&lt;h1&gt;What&#39;s Worth Talking About&lt;/h1&gt;
+&lt;h2&gt;What&#39;s Worth Talking About&lt;/h2&gt;
 &lt;p&gt;One of the simplest strategies you can employ to keep reviews
 effective and lean is to &lt;em&gt;make fewer comments&lt;/em&gt;. You can make
 fewer comments without sacrificing review quality by focusing
 on the things that really matter.&lt;/p&gt;
-&lt;h2&gt;Three Filters for Feedback&lt;/h2&gt;
+&lt;h3&gt;Three Filters for Feedback&lt;/h3&gt;
 &lt;p&gt;Before leaving any feedback, you can pass it through three
 yes/no screener questions. If you answer &amp;quot;no&amp;quot; to any of these
 questions, then you need to rephrase your comment or discard
@@ -519,7 +635,7 @@ reviewer.&lt;/p&gt;
 specifically encountered them through Philipp Hauer&#39;s
 post on Code Review Guidelines:
 &lt;a href=&quot;https://phauer.com/2018/code-review-guidelines/#three-filters-for-feedback&quot;&gt;Hauer - Three Filters for Feedback&lt;/a&gt;&lt;/p&gt;
-&lt;h2&gt;Pick Your Battles&lt;/h2&gt;
+&lt;h3&gt;Pick Your Battles&lt;/h3&gt;
 &lt;p&gt;Another helpful tidbit from Philipp Hauer is:
 &lt;a href=&quot;https://phauer.com/2018/code-review-guidelines/#dont-jump-in-front-of-every-train&quot;&gt;&amp;quot;Don&#39;t Jump in Front of Every Train&amp;quot;&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;This is another way to say that not everything that comes to
@@ -535,7 +651,7 @@ potential PR comment is worth posting.&lt;/p&gt;
 to solve nearly every issue. Just because someone didn&#39;t pick
 your preferred method to solve the problem, doesn&#39;t mean their
 choice is less valid.&lt;/p&gt;
-&lt;h2&gt;Technical Basics&lt;/h2&gt;
+&lt;h3&gt;Technical Basics&lt;/h3&gt;
 &lt;p&gt;This post is more concerned with how to write a &lt;em&gt;good&lt;/em&gt; code
 review, as opposed to how to write one at all. But, a review
 that doesn&#39;t handle the basics can hardly be called &amp;quot;good&amp;quot;.
@@ -551,7 +667,7 @@ but generally speaking, examine:&lt;/p&gt;
 &lt;/ol&gt;
 &lt;p&gt;Beyond the basics, there are two specific topics that are
 worth speaking about more: complexity and style.&lt;/p&gt;
-&lt;h2&gt;Complexity&lt;/h2&gt;
+&lt;h3&gt;Complexity&lt;/h3&gt;
 &lt;p&gt;&lt;a href=&quot;https://google.github.io/eng-practices/review/reviewer/looking-for.html&quot;&gt;Google Standard of Code Review: What to look for in a code review&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Code should not be more complex than it needs to be.
 The following are warning signs of complexity:&lt;/p&gt;
@@ -575,7 +691,7 @@ Most systems become complex through many small changes that
 add up, so it’s important to prevent even small complexities
 in new changes.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2&gt;Style&lt;/h2&gt;
+&lt;h3&gt;Style&lt;/h3&gt;
 &lt;p&gt;Style issues are &lt;em&gt;dangerous&lt;/em&gt;. They are easy to have opinions
 about, argue about, and typically &lt;em&gt;don&#39;t matter that much&lt;/em&gt;.
 Style is important, because consistently formatting code aids
@@ -612,7 +728,7 @@ shown to be equally valid, accept the author&#39;s choice.&lt;/p&gt;
 major style changes with functional changes. Style changes
 can easily obscure functional changes, and so it&#39;s best
 if they can be split into separate PRs.&lt;/p&gt;
-&lt;h2&gt;Praise&lt;/h2&gt;
+&lt;h3&gt;Praise&lt;/h3&gt;
 &lt;p&gt;People learn not only by being told what they did wrong but
 also by being told when they do something good. Besides,
 it can be disheartening to only ever receive negative
@@ -620,11 +736,11 @@ feedback. So, when you see something you genuinely think is
 good in a PR, leave some encouraging positive feedback!&lt;/p&gt;
 &lt;p&gt;Doing so can reinforce behaviors you want to see more of,
 as well as boost morale.&lt;/p&gt;
-&lt;h1&gt;Phrasing Feedback&lt;/h1&gt;
+&lt;h2&gt;Phrasing Feedback&lt;/h2&gt;
 &lt;p&gt;Philipp Hauer&#39;s blog post
 &lt;a href=&quot;https://phauer.com/2018/code-review-guidelines&quot;&gt;Code Review Guidelines for Humans&lt;/a&gt;
 is the inspiration for this section.&lt;/p&gt;
-&lt;h2&gt;Why Kindness Matters&lt;/h2&gt;
+&lt;h3&gt;Why Kindness Matters&lt;/h3&gt;
 &lt;p&gt;From a technical perspective, the &amp;quot;Senior Principle&amp;quot; is the
 health of the codebase. From an interpersonal perspective,
 I think the senior principle is kindness.&lt;/p&gt;
@@ -638,7 +754,7 @@ strategy to give feedback that will be accepted. It’s
 efficient because you don’t trigger someone’s defensive
 reaction.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2&gt;Avoiding Defensive Reactions&lt;/h2&gt;
+&lt;h3&gt;Avoiding Defensive Reactions&lt;/h3&gt;
 &lt;p&gt;How do we avoid making people defensive?
 Here are two strategies I&#39;ve found very easy to apply.&lt;/p&gt;
 &lt;p&gt;First, focus on the code. The review you&#39;re writing is about
@@ -673,7 +789,7 @@ that can be argued using technical facts and data. Statements
 about your own opinions and experience are simply what they
 are. Keeping your review to those two areas as much as
 possible can help you avoid making people defensive.&lt;/p&gt;
-&lt;h2&gt;Explain Your Reasoning&lt;/h2&gt;
+&lt;h3&gt;Explain Your Reasoning&lt;/h3&gt;
 &lt;p&gt;When giving feedback, explain your thought process to give the
 reviewee additional context. Overly terse feedback like:
 &amp;quot;Don&#39;t do it this way, use a &lt;code&gt;BufReader&lt;/code&gt; instead.&amp;quot; probably
@@ -685,7 +801,7 @@ guidance and being &lt;em&gt;too&lt;/em&gt; specific about how you want a
 change to be made. If you&#39;re too specific about what to do,
 you rob people of the opportunity to figure things out for
 themselves and really learn.&lt;/p&gt;
-&lt;h2&gt;Don&#39;t Write the Code&lt;/h2&gt;
+&lt;h3&gt;Don&#39;t Write the Code&lt;/h3&gt;
 &lt;p&gt;This section is in regards to a particular species of review comment, that looks something like:&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;Try this: &amp;lt;big block of code&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
@@ -729,7 +845,7 @@ to struggle. Furthermore, few things are more damaging to morale than being brus
 aside for someone else to do the work. If someone truly needs to be removed from
 a particular piece of work, then that situation should be handled specially and
 with substantial tact.&lt;/p&gt;
-&lt;h2&gt;Conventional Comments&lt;/h2&gt;
+&lt;h3&gt;Conventional Comments&lt;/h3&gt;
 &lt;p&gt;Lastly, I want to plug a semi-structured format for writing
 commits that I&#39;ve found incredibly helpful:
 &lt;a href=&quot;https://conventionalcomments.org/&quot;&gt;Conventional Comments&lt;/a&gt;&lt;/p&gt;
@@ -768,7 +884,7 @@ can write &amp;quot;suggestion (if-easy)&amp;quot; and focus on my suggestion.&l
 reviewee context on the type of comment you&#39;re leaving and
 how much of their attention it will require.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h1&gt;Wrapping Up&lt;/h1&gt;
+&lt;h2&gt;Wrapping Up&lt;/h2&gt;
 &lt;p&gt;Over the past few years, these guidelines and strategies have
 served me well, and I hope they&#39;ll do the same for you!&lt;/p&gt;
 &lt;p&gt;Writing code reviews is a skill that takes practice to perfect.
@@ -794,13 +910,13 @@ lacked a fundamental understanding of what makes React tick.&lt;/p&gt;
 &lt;p&gt;I hope this will be a series of posts where I can share my &amp;quot;a-ha!&amp;quot; moments about
 React. Throughout I&#39;ll be assuming an intermediate-advanced knowledge of
 JavaScript and React.&lt;/p&gt;
-&lt;h1&gt;Credits&lt;/h1&gt;
+&lt;h2&gt;Credits&lt;/h2&gt;
 &lt;p&gt;The person who sparked my new understanding of React was Nadia Makarevich, the
 author of the &lt;a href=&quot;https://www.developerway.com/&quot;&gt;Developer Way&lt;/a&gt; blog and the book
 &amp;quot;Advanced React&amp;quot;. I can highly recommend the content in &amp;quot;Advanced React&amp;quot;, but
 (and perhaps I just got a lemon) my Amazon print-on-demand copy quickly started
 falling apart. So, maybe get the Kindle edition and spare yourself some trouble.&lt;/p&gt;
-&lt;h1&gt;Elements vs Components&lt;/h1&gt;
+&lt;h2&gt;Elements vs Components&lt;/h2&gt;
 &lt;p&gt;I want to start at the very beginning. &amp;quot;Element&amp;quot; and &amp;quot;Component&amp;quot; are words that
 any React developer should know, but what are they exactly?&lt;/p&gt;
 &lt;p&gt;Components are the core building blocks in React. They are normal functions
@@ -921,7 +1037,7 @@ examples are practically identical:&lt;/p&gt;
     &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;img&lt;/span&gt; &lt;span class=&quot;token attr-name&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;token attr-value&quot;&gt;&lt;span class=&quot;token punctuation attr-equals&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;https://placecats.com/300/200&lt;span class=&quot;token punctuation&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
   &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;IconButton&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
 &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;h1&gt;Rendering and Reconciliation&lt;/h1&gt;
+&lt;h2&gt;Rendering and Reconciliation&lt;/h2&gt;
 &lt;p&gt;OK, great, JSX is simply sugar for &lt;code&gt;createElement&lt;/code&gt; and elements themselves are plain-old
 objects. But how does this all come together during rendering?&lt;/p&gt;
 &lt;p&gt;A typical React entrypoint is going to look something like this:&lt;/p&gt;
@@ -974,7 +1090,7 @@ actually put on the webpage. This is also why you need both the &lt;code&gt;reac
 tree of elements, which is agnostic to how the UI is being rendered. Then, the
 &lt;code&gt;react-dom&lt;/code&gt; package takes the element tree and figures out how to render it
 &lt;em&gt;specifically&lt;/em&gt; as a webpage.&lt;/p&gt;
-&lt;h2&gt;Subsequent Renders&lt;/h2&gt;
+&lt;h3&gt;Subsequent Renders&lt;/h3&gt;
 &lt;p&gt;React wouldn&#39;t be that useful if our apps were static and only rendered once.
 Things change! Our applications have &lt;em&gt;state&lt;/em&gt;. When a state change occurs in your
 React app, React will rerender that element (the affected node in the element
@@ -984,7 +1100,7 @@ In some cases, React might only need to update a few attributes, but in other
 cases React might need to destroy and rebuild entire subtrees of the DOM.&lt;/p&gt;
 &lt;p&gt;For further reading, this process of figuring out what changed by comparing
 element trees is called &lt;em&gt;reconciliation&lt;/em&gt;.&lt;/p&gt;
-&lt;h2&gt;Recap&lt;/h2&gt;
+&lt;h3&gt;Recap&lt;/h3&gt;
 &lt;ol&gt;
 &lt;li&gt;Components are functions which return elements.&lt;/li&gt;
 &lt;li&gt;Elements are lightweight JavaScript objects which describe what needs to be
@@ -997,10 +1113,10 @@ elements.&lt;/li&gt;
 heuristics to figure out what changed and update the real DOM as quickly as
 possible. This process is called reconciliation.&lt;/li&gt;
 &lt;/ol&gt;
-&lt;h1&gt;Application&lt;/h1&gt;
+&lt;h2&gt;Application&lt;/h2&gt;
 &lt;p&gt;The understanding of JSX as function calls, and React&#39;s deep interest in the
 element tree, leads to some insights.&lt;/p&gt;
-&lt;h2&gt;What Triggers Re-Renders&lt;/h2&gt;
+&lt;h3&gt;What Triggers Re-Renders&lt;/h3&gt;
 &lt;p&gt;When you first learn React, you&#39;re taught that when a component re-renders, React
 will re-render its children too. Using the knowledge that JSX is sugar for function
 calls, we can see why this is the case:&lt;/p&gt;
@@ -1017,7 +1133,7 @@ regardless of prop changes, because new renders create new objects.&lt;/p&gt;
 &lt;p&gt;Ultimately, all re-renders are directly or indirectly caused by state changes.
 Either a component had a state update itself, or one of its parents up the chain
 had a state update.&lt;/p&gt;
-&lt;h2&gt;Elements as Props&lt;/h2&gt;
+&lt;h3&gt;Elements as Props&lt;/h3&gt;
 &lt;p&gt;When we talk about parent-child relationships, as it pertains to re-renders, it
 is important to note that it&#39;s &lt;em&gt;not&lt;/em&gt; about how the JSX is nested.&lt;/p&gt;
 &lt;p&gt;Consider the following VERY contrived example:&lt;/p&gt;
@@ -1071,7 +1187,7 @@ JSX is only a thin layer on top of functions and simple nested objects.&lt;/p&gt
 &lt;blockquote&gt;
 &lt;p&gt;You can read more in the &lt;a href=&quot;https://react.dev/reference/react/createElement&quot;&gt;&lt;code&gt;createElement&lt;/code&gt; docs&lt;/a&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2&gt;Memoization&lt;/h2&gt;
+&lt;h3&gt;Memoization&lt;/h3&gt;
 &lt;p&gt;We&#39;ll wrap up part 1 with a brief look at an often misapplied feature of React: memoization.&lt;/p&gt;
 &lt;p&gt;Recall from earlier that React doesn&#39;t care if props have changed when it&#39;s
 deciding whether to re-render a component. But, sometimes we &lt;em&gt;want&lt;/em&gt; to prevent
@@ -1104,7 +1220,7 @@ code. Memoization is easy to break for non-trivial components due to the
 &amp;quot;memoization chains&amp;quot; described above, and future maintainers may have to perform
 extra work to preserve it. Without concrete evidence that the memoization is
 effective, I don&#39;t think it&#39;s worth the trouble.&lt;/p&gt;
-&lt;h1&gt;Next Time&lt;/h1&gt;
+&lt;h2&gt;Next Time&lt;/h2&gt;
 &lt;p&gt;In Part 2, I&#39;ll discuss how to understand, manage, and eliminate effects.&lt;/p&gt;
 </content>
   </entry>
@@ -1309,7 +1425,7 @@ myself and others often get tripped up. One example are three special types:&lt;
 &lt;/ul&gt;
 &lt;p&gt;In this post, I want to give a rundown of what these types mean and how to use
 them from a practical perspective.&lt;/p&gt;
-&lt;h1&gt;&lt;code&gt;any&lt;/code&gt;&lt;/h1&gt;
+&lt;h2&gt;&lt;code&gt;any&lt;/code&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;any&lt;/code&gt; is the most straightforward of the three special types. A value of type
 &lt;code&gt;any&lt;/code&gt; can be, well, anything! You can think of variables with the type &lt;code&gt;any&lt;/code&gt; as
 having type-checking disabled. We say that all types are assignable to &lt;code&gt;any&lt;/code&gt;,
@@ -1332,7 +1448,7 @@ x&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&q
 &lt;span class=&quot;token class-name&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;let&lt;/span&gt;&lt;/span&gt; mySquare &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;square&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;y&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Typically, &lt;code&gt;any&lt;/code&gt; is used as an escape-hatch from the type system when it&#39;d be
 too difficult or tedious to convince TypeScript that some code is correct.&lt;/p&gt;
-&lt;h1&gt;&lt;code&gt;unknown&lt;/code&gt;&lt;/h1&gt;
+&lt;h2&gt;&lt;code&gt;unknown&lt;/code&gt;&lt;/h2&gt;
 &lt;p&gt;&lt;code&gt;unknown&lt;/code&gt; is the &amp;quot;type-safe&amp;quot; version of &lt;code&gt;any&lt;/code&gt;. You can assign anything to a
 variable of type &lt;code&gt;unknown&lt;/code&gt;, but basically no operations are permitted on an
 &lt;code&gt;unknown&lt;/code&gt; value except for assignment to &lt;code&gt;any&lt;/code&gt; and type-casting.&lt;/p&gt;
@@ -1358,7 +1474,7 @@ before the compiler will let us use it. TypeScript offers many different ways
 for asserting or otherwise specifying the type of a value, and the details are
 outside the scope of this post. But, you can read all about it in the
 TypeScript manual page on &lt;a href=&quot;https://www.typescriptlang.org/docs/handbook/2/narrowing.html&quot;&gt;narrowing&lt;/a&gt;.&lt;/p&gt;
-&lt;h1&gt;The characters so far:&lt;/h1&gt;
+&lt;h2&gt;The characters so far:&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;any&lt;/code&gt;
 &lt;ul&gt;
@@ -1373,7 +1489,7 @@ TypeScript manual page on &lt;a href=&quot;https://www.typescriptlang.org/docs/h
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h1&gt;&lt;code&gt;never&lt;/code&gt;&lt;/h1&gt;
+&lt;h2&gt;&lt;code&gt;never&lt;/code&gt;&lt;/h2&gt;
 &lt;p&gt;You can think of &lt;code&gt;never&lt;/code&gt; as the &amp;quot;opposite&amp;quot; of &lt;code&gt;any&lt;/code&gt; and &lt;code&gt;unknown&lt;/code&gt;. Whereas &lt;code&gt;any&lt;/code&gt;
 and &lt;code&gt;unknown&lt;/code&gt; are types that contain all possible values, &lt;code&gt;never&lt;/code&gt; is a type that
 contains &lt;strong&gt;no&lt;/strong&gt; values.&lt;/p&gt;
@@ -1445,7 +1561,7 @@ case will never run if all the variants of &lt;code&gt;Student&lt;/code&gt; are 
 branch of the &lt;code&gt;switch&lt;/code&gt;. So, if we were to add a variant to the &lt;code&gt;Student&lt;/code&gt; type
 later and fail to update &lt;code&gt;greetStudent&lt;/code&gt;, we&#39;d get a compile error because it
 would be possible to assign a real value to the &lt;code&gt;_check&lt;/code&gt; variable.&lt;/p&gt;
-&lt;h1&gt;Summary&lt;/h1&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;code&gt;any&lt;/code&gt; and &lt;code&gt;unknown&lt;/code&gt; are both types that encompass all possible values.&lt;/li&gt;
 &lt;li&gt;&lt;code&gt;any&lt;/code&gt; basically turns off type-checking.&lt;/li&gt;

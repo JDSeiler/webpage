@@ -26,13 +26,13 @@ lacked a fundamental understanding of what makes React tick.</p>
 <p>I hope this will be a series of posts where I can share my &quot;a-ha!&quot; moments about
 React. Throughout I'll be assuming an intermediate-advanced knowledge of
 JavaScript and React.</p>
-<h1>Credits</h1>
+<h2>Credits</h2>
 <p>The person who sparked my new understanding of React was Nadia Makarevich, the
 author of the <a href="https://www.developerway.com/">Developer Way</a> blog and the book
 &quot;Advanced React&quot;. I can highly recommend the content in &quot;Advanced React&quot;, but
 (and perhaps I just got a lemon) my Amazon print-on-demand copy quickly started
 falling apart. So, maybe get the Kindle edition and spare yourself some trouble.</p>
-<h1>Elements vs Components</h1>
+<h2>Elements vs Components</h2>
 <p>I want to start at the very beginning. &quot;Element&quot; and &quot;Component&quot; are words that
 any React developer should know, but what are they exactly?</p>
 <p>Components are the core building blocks in React. They are normal functions
@@ -153,7 +153,7 @@ examples are practically identical:</p>
     </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>img</span> <span class="token attr-name">src</span><span class="token attr-value"><span class="token punctuation attr-equals">=</span><span class="token punctuation">"</span>https://placecats.com/300/200<span class="token punctuation">"</span></span> <span class="token punctuation">/></span></span><span class="token plain-text">
   </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span><span class="token class-name">IconButton</span></span><span class="token punctuation">></span></span>
 <span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
-<h1>Rendering and Reconciliation</h1>
+<h2>Rendering and Reconciliation</h2>
 <p>OK, great, JSX is simply sugar for <code>createElement</code> and elements themselves are plain-old
 objects. But how does this all come together during rendering?</p>
 <p>A typical React entrypoint is going to look something like this:</p>
@@ -206,7 +206,7 @@ actually put on the webpage. This is also why you need both the <code>react</cod
 tree of elements, which is agnostic to how the UI is being rendered. Then, the
 <code>react-dom</code> package takes the element tree and figures out how to render it
 <em>specifically</em> as a webpage.</p>
-<h2>Subsequent Renders</h2>
+<h3>Subsequent Renders</h3>
 <p>React wouldn't be that useful if our apps were static and only rendered once.
 Things change! Our applications have <em>state</em>. When a state change occurs in your
 React app, React will rerender that element (the affected node in the element
@@ -216,7 +216,7 @@ In some cases, React might only need to update a few attributes, but in other
 cases React might need to destroy and rebuild entire subtrees of the DOM.</p>
 <p>For further reading, this process of figuring out what changed by comparing
 element trees is called <em>reconciliation</em>.</p>
-<h2>Recap</h2>
+<h3>Recap</h3>
 <ol>
 <li>Components are functions which return elements.</li>
 <li>Elements are lightweight JavaScript objects which describe what needs to be
@@ -229,10 +229,10 @@ elements.</li>
 heuristics to figure out what changed and update the real DOM as quickly as
 possible. This process is called reconciliation.</li>
 </ol>
-<h1>Application</h1>
+<h2>Application</h2>
 <p>The understanding of JSX as function calls, and React's deep interest in the
 element tree, leads to some insights.</p>
-<h2>What Triggers Re-Renders</h2>
+<h3>What Triggers Re-Renders</h3>
 <p>When you first learn React, you're taught that when a component re-renders, React
 will re-render its children too. Using the knowledge that JSX is sugar for function
 calls, we can see why this is the case:</p>
@@ -249,7 +249,7 @@ regardless of prop changes, because new renders create new objects.</p>
 <p>Ultimately, all re-renders are directly or indirectly caused by state changes.
 Either a component had a state update itself, or one of its parents up the chain
 had a state update.</p>
-<h2>Elements as Props</h2>
+<h3>Elements as Props</h3>
 <p>When we talk about parent-child relationships, as it pertains to re-renders, it
 is important to note that it's <em>not</em> about how the JSX is nested.</p>
 <p>Consider the following VERY contrived example:</p>
@@ -303,7 +303,7 @@ JSX is only a thin layer on top of functions and simple nested objects.</p>
 <blockquote>
 <p>You can read more in the <a href="https://react.dev/reference/react/createElement"><code>createElement</code> docs</a>.</p>
 </blockquote>
-<h2>Memoization</h2>
+<h3>Memoization</h3>
 <p>We'll wrap up part 1 with a brief look at an often misapplied feature of React: memoization.</p>
 <p>Recall from earlier that React doesn't care if props have changed when it's
 deciding whether to re-render a component. But, sometimes we <em>want</em> to prevent
@@ -336,7 +336,7 @@ code. Memoization is easy to break for non-trivial components due to the
 &quot;memoization chains&quot; described above, and future maintainers may have to perform
 extra work to preserve it. Without concrete evidence that the memoization is
 effective, I don't think it's worth the trouble.</p>
-<h1>Next Time</h1>
+<h2>Next Time</h2>
 <p>In Part 2, I'll discuss how to understand, manage, and eliminate effects.</p>
 
 </div>

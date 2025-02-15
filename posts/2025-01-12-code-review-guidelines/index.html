@@ -32,7 +32,7 @@ appropriate.</p>
 <p>Throughout this post you'll see the terms &quot;Pull Request&quot; (PR) and &quot;Change List&quot;
 (CL). I treat them as synonyms and use them to mean &quot;a <code>git</code> patch that someone
 wants to merge into some other branch, typically the main branch&quot;.</p>
-<h1>Why Code Review Matters</h1>
+<h2>Why Code Review Matters</h2>
 <p>Why should we even care about writing good reviews? What do I even mean when I
 say a review is &quot;good&quot; or &quot;bad&quot;?</p>
 <p>In my opinion, the functional goals of code review are:</p>
@@ -63,7 +63,7 @@ more on this later. But, writing reviews that don't make
 people defensive (&quot;being kind&quot;) is not only good for
 morale, it's also more efficient.</li>
 </ul>
-<h1>&quot;The Senior Principle&quot;</h1>
+<h2>&quot;The Senior Principle&quot;</h2>
 <p>Google cites the following as <a href="https://google.github.io/eng-practices/review/reviewer/standard.html">The Senior Principle</a>
 among all of their code review guidelines:</p>
 <blockquote>
@@ -76,12 +76,12 @@ worked on, even if the CL isn't perfect.</p>
 yourself if the change makes the system better. What's
 acceptable or what &quot;better&quot; means is going to be different
 from company to company, but the idea transfers.</p>
-<h1>What's Worth Talking About</h1>
+<h2>What's Worth Talking About</h2>
 <p>One of the simplest strategies you can employ to keep reviews
 effective and lean is to <em>make fewer comments</em>. You can make
 fewer comments without sacrificing review quality by focusing
 on the things that really matter.</p>
-<h2>Three Filters for Feedback</h2>
+<h3>Three Filters for Feedback</h3>
 <p>Before leaving any feedback, you can pass it through three
 yes/no screener questions. If you answer &quot;no&quot; to any of these
 questions, then you need to rephrase your comment or discard
@@ -111,7 +111,7 @@ reviewer.</p>
 specifically encountered them through Philipp Hauer's
 post on Code Review Guidelines:
 <a href="https://phauer.com/2018/code-review-guidelines/#three-filters-for-feedback">Hauer - Three Filters for Feedback</a></p>
-<h2>Pick Your Battles</h2>
+<h3>Pick Your Battles</h3>
 <p>Another helpful tidbit from Philipp Hauer is:
 <a href="https://phauer.com/2018/code-review-guidelines/#dont-jump-in-front-of-every-train">&quot;Don't Jump in Front of Every Train&quot;</a>.</p>
 <p>This is another way to say that not everything that comes to
@@ -127,7 +127,7 @@ potential PR comment is worth posting.</p>
 to solve nearly every issue. Just because someone didn't pick
 your preferred method to solve the problem, doesn't mean their
 choice is less valid.</p>
-<h2>Technical Basics</h2>
+<h3>Technical Basics</h3>
 <p>This post is more concerned with how to write a <em>good</em> code
 review, as opposed to how to write one at all. But, a review
 that doesn't handle the basics can hardly be called &quot;good&quot;.
@@ -143,7 +143,7 @@ but generally speaking, examine:</p>
 </ol>
 <p>Beyond the basics, there are two specific topics that are
 worth speaking about more: complexity and style.</p>
-<h2>Complexity</h2>
+<h3>Complexity</h3>
 <p><a href="https://google.github.io/eng-practices/review/reviewer/looking-for.html">Google Standard of Code Review: What to look for in a code review</a></p>
 <p>Code should not be more complex than it needs to be.
 The following are warning signs of complexity:</p>
@@ -167,7 +167,7 @@ Most systems become complex through many small changes that
 add up, so it’s important to prevent even small complexities
 in new changes.</p>
 </blockquote>
-<h2>Style</h2>
+<h3>Style</h3>
 <p>Style issues are <em>dangerous</em>. They are easy to have opinions
 about, argue about, and typically <em>don't matter that much</em>.
 Style is important, because consistently formatting code aids
@@ -204,7 +204,7 @@ shown to be equally valid, accept the author's choice.</p>
 major style changes with functional changes. Style changes
 can easily obscure functional changes, and so it's best
 if they can be split into separate PRs.</p>
-<h2>Praise</h2>
+<h3>Praise</h3>
 <p>People learn not only by being told what they did wrong but
 also by being told when they do something good. Besides,
 it can be disheartening to only ever receive negative
@@ -212,11 +212,11 @@ feedback. So, when you see something you genuinely think is
 good in a PR, leave some encouraging positive feedback!</p>
 <p>Doing so can reinforce behaviors you want to see more of,
 as well as boost morale.</p>
-<h1>Phrasing Feedback</h1>
+<h2>Phrasing Feedback</h2>
 <p>Philipp Hauer's blog post
 <a href="https://phauer.com/2018/code-review-guidelines">Code Review Guidelines for Humans</a>
 is the inspiration for this section.</p>
-<h2>Why Kindness Matters</h2>
+<h3>Why Kindness Matters</h3>
 <p>From a technical perspective, the &quot;Senior Principle&quot; is the
 health of the codebase. From an interpersonal perspective,
 I think the senior principle is kindness.</p>
@@ -230,7 +230,7 @@ strategy to give feedback that will be accepted. It’s
 efficient because you don’t trigger someone’s defensive
 reaction.</p>
 </blockquote>
-<h2>Avoiding Defensive Reactions</h2>
+<h3>Avoiding Defensive Reactions</h3>
 <p>How do we avoid making people defensive?
 Here are two strategies I've found very easy to apply.</p>
 <p>First, focus on the code. The review you're writing is about
@@ -265,7 +265,7 @@ that can be argued using technical facts and data. Statements
 about your own opinions and experience are simply what they
 are. Keeping your review to those two areas as much as
 possible can help you avoid making people defensive.</p>
-<h2>Explain Your Reasoning</h2>
+<h3>Explain Your Reasoning</h3>
 <p>When giving feedback, explain your thought process to give the
 reviewee additional context. Overly terse feedback like:
 &quot;Don't do it this way, use a <code>BufReader</code> instead.&quot; probably
@@ -277,7 +277,7 @@ guidance and being <em>too</em> specific about how you want a
 change to be made. If you're too specific about what to do,
 you rob people of the opportunity to figure things out for
 themselves and really learn.</p>
-<h2>Don't Write the Code</h2>
+<h3>Don't Write the Code</h3>
 <p>This section is in regards to a particular species of review comment, that looks something like:</p>
 <pre><code>Try this: &lt;big block of code&gt;
 </code></pre>
@@ -321,7 +321,7 @@ to struggle. Furthermore, few things are more damaging to morale than being brus
 aside for someone else to do the work. If someone truly needs to be removed from
 a particular piece of work, then that situation should be handled specially and
 with substantial tact.</p>
-<h2>Conventional Comments</h2>
+<h3>Conventional Comments</h3>
 <p>Lastly, I want to plug a semi-structured format for writing
 commits that I've found incredibly helpful:
 <a href="https://conventionalcomments.org/">Conventional Comments</a></p>
@@ -360,7 +360,7 @@ can write &quot;suggestion (if-easy)&quot; and focus on my suggestion.</li>
 reviewee context on the type of comment you're leaving and
 how much of their attention it will require.</li>
 </ol>
-<h1>Wrapping Up</h1>
+<h2>Wrapping Up</h2>
 <p>Over the past few years, these guidelines and strategies have
 served me well, and I hope they'll do the same for you!</p>
 <p>Writing code reviews is a skill that takes practice to perfect.

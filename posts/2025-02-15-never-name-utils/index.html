@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/index.css" />
+    <link rel="stylesheet" href="/css/prism-gruvbox-dark.css" />
+  </head>
+  <body>
+    <nav id="nav-bar">
+      <a id="home" class="nav-link" href="/">SEILER'S CORNER</a>
+      <div class="spacer"></div>
+      <a class="nav-link" href="/about">ABOUT</a>
+      <a class="nav-link" href="/blog">BLOG</a>
+      <a class="nav-link" href="/socials">SOCIALS</a>
+      <a class="nav-link" href="/feed.xml">ATOM FEED</a>
+    </nav>
+    <main class="content-area">
+      <div class="post-container flow">
+ <h1><code>utils</code> and Other Useless Names</h1>
+<p>It's hard to organize source code. You can choose to do it an almost limitless
+number of ways and there are many different factors to consider:</p>
+<ul>
+<li>What features does your language of choice even provide for modularity?</li>
+<li>What is the prevailing style for your language and/or framework?</li>
+<li>Are you using specific tools (IDEs, build tools, or otherwise) that interact
+with particular file or folder structures poorly?</li>
+</ul>
+<p>Software is difficult to architect in general, and the files and folders that
+make up your application are often a reflection of your abstract architecture.
+It's hard to get right, but it's important!</p>
+<p>Imagine a kitchen where every dish and utensil is arbitrarily strewn through
+the drawers and cabinets, and every ingredient is arbitrarily arranged in the
+pantry or refrigerator. Would that be a pleasant place to cook in? Of course
+not! The workspaces of experts, from chefs to carpenters to surgeons, are
+thoughtfully organized to help facilitate their best work.</p>
+<p>I will make the (hopefully) uncontroversial statement that clear, well
+reasoned, organization of source files makes work easier and more pleasant
+than poor organization. The files and folders that make up an application's
+code base are one aspect of a software engineer's workspace, so it stands to
+reason that we should organize them with care.</p>
+<p>When it comes to <em>naming</em> source files, there is one pattern I have seen several
+times and is a HUGE pet peeve of mine. It is the pattern of naming files or
+folders something like <code>utils</code>, <code>tools</code>, or <code>helpers</code>.</p>
+<h2>What is a Utility?</h2>
+<p>I think it's only fair for me to lay out what I mean by &quot;utility&quot; before
+critiquing it as a name.</p>
+<p>Utility is a word all about <em>usefulness</em>. But in day to day life, we don't
+really refer to individual objects as &quot;utilities&quot;. The only things we call
+by that word are things like water or electric service. But, separate from
+our day to day understanding, software development has a particular idea
+for the meaning of the term.</p>
+<p>If we look at the category of &quot;utility software&quot; (zooming out a bit from
+individual source files) we find all kinds of things:</p>
+<ul>
+<li>Disk Defragmenters</li>
+<li>Compression Software</li>
+<li>Encoders/Decoders/Converters</li>
+<li>System Monitors</li>
+<li>Diagnostic Tools</li>
+</ul>
+<p>It's easy to get wrapped around the axle trying to classify all software as
+either a utility or not. So, I think it's more helpful to think of utility
+as a quality that software can possess more or less of on a sliding scale.</p>
+<p><em>Specifically in the context of software</em>, I think utility is about how
+much a program's usefulness is in relation to &quot;something else&quot;. It's
+software that you use to do work with or on other programs.</p>
+<p>For example, a file manager ranks highly on the utility scale, because a
+file manager's usefulness is only realized in relation to all the other
+programs that create files.</p>
+<p>A video game, in contrast, has very little utility, both in the general sense
+and the specific sense I introduced earlier. All the value of the game, as a
+piece of software, is realized in itself and not in conjunction with other
+things.</p>
+<h2>Utilities in Source Code</h2>
+<p>Taking a look at utility <em>software</em> is a good first step. But what is a utility
+in the context of <em>source code</em>?</p>
+<p>If the line between application and utility software is blurry, then the line
+between utility and application code is a smear.</p>
+<p>The problem is that almost any code can be called a utility <em>in relation to
+something</em>. The functions that assist in some piece of critical business
+logic are just the <em>very specific utilities</em> for <em>this specific feature</em>.
+Nothing to see here! Move along!</p>
+<p>But &quot;technically correct&quot; and &quot;actually useful&quot; are two very different things.
+If you see someone walking their dog, you <em>could</em> say: &quot;Look at that person
+walking their animal&quot; and be technically correct, but why would you say that?
+You know it's a dog, I know it's a dog, so call it a dog. You could also
+organize you code by language construct (<code>class</code>, <code>function</code>, <code>struct</code>, etc.)
+and be technically correct, but I wouldn't recommend it if you want to stay
+on speaking terms with your coworkers.</p>
+<p>What do the names <code>utils</code>, <code>tools</code>, or <code>helpers</code> communicate? All they
+communicate is that the code inside has some kind of usefulness. So, you're
+telling me that your application contains code whose <em>most unique</em>
+classification is that it's <em>useful</em>? Seriously? That's the best possible name?
+A name like <code>utils</code> is so preposterously general that it communicates <em>almost
+nothing</em> about the code inside. You'd be just as well off naming the file
+<code>code</code> and hoping that the surrounding context gives enough information.</p>
+<p>I wont say that there are <em>no</em> cases where a name like <code>utils</code> is acceptable.
+But I do think it's very rare that it's the right choice, and that most times
+it's used because someone can't be bothered to think of a better name.</p>
+<h2>The Maintenance Problem of <code>utils</code></h2>
+<p>It would be one thing if a vague name simply failed to be helpful. That would
+at least leave you no worse than before. Unfortunately, names like <code>utils</code> have
+consequences beyond being vague.</p>
+<p>As an application grows, new code obviously needs a place to go. The trouble is
+that files or folders with overly general names become garbage dumps for code
+only related by the fact that someone didn't know how to classify it. It becomes
+an escape hatch for people who don't want to do the difficult but necessary
+work of deciding how their code ought to be organized.</p>
+<p>In extreme cases, such a garbage file may begin strongly coupling totally
+separate parts of an application, or otherwise centralizing behavior and state
+in a way that makes refactoring difficult.</p>
+<h2>Alternatives</h2>
+<p>What do I think people should do instead?</p>
+<p>It's going to be highly contextual based on your application, but I think I
+great place to start is to ask: &quot;utils <strong>for what</strong>?&quot;. The answer to that
+question becomes the starting point for your new name. If a <code>utils</code> file has
+been accumulating cruft for a while, you may need to break it into multiple
+parts before sensible names can be found.</p>
+<p>Another tip that has helped me is to spend time sketching out the design
+separately from any code before I begin working. My go-to mediums for this are
+simple text files or paper, but use whatever you like best. The point is to
+get an idea of how to organize the code <em>before</em> any substantial amount is
+written. You may find it helpful to iterate this process as you narrow in on
+a design.</p>
+<p>Whatever you do, don't settle for a bad name. If the best name you can come up
+with is <code>utils</code>, that's a symptom of a more substantial organization problem
+that needs to be addressed.</p>
+
+</div>
+
+    </main>
+  </body>
+</html>
