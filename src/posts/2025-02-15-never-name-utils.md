@@ -89,9 +89,9 @@ But "technically correct" and "actually useful" are two very different things.
 If you see someone walking their dog, you *could* say: "Look at that person
 walking their animal" and be technically correct, but why would you say that?
 You know it's a dog, I know it's a dog, so call it a dog. You could also
-organize you code by language construct (`class`, `function`, `struct`, etc.)
-and be technically correct, but I wouldn't recommend it if you want to stay
-on speaking terms with your coworkers.
+organize your code by language construct (`class`, `function`, `struct`, etc.)
+and be technically correct, but I wouldn't recommend it if you want to stay on
+speaking terms with your coworkers.
 
 What do the names `utils`, `tools`, or `helpers` communicate? All they
 communicate is that the code inside has some kind of usefulness. So, you're
