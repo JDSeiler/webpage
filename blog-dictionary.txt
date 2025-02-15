@@ -32,3 +32,5 @@ dayjob
 lazygit
 autojump
 zoxide
+Defragmenters
+struct
