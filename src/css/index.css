@@ -265,6 +265,10 @@ SOCIALS PAGE
     background-color: #0a66c2;
 }
 
+.social-link#bluesky:hover {
+    background-color: #0285ff;
+}
+
 /*
 =====
 POSTS

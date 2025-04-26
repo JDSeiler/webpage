@@ -34,3 +34,5 @@ autojump
 zoxide
 Defragmenters
 struct
+Bluesky
+lede
