@@ -36,3 +36,4 @@ Defragmenters
 struct
 Bluesky
 lede
+Typer
