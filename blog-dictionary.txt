@@ -37,3 +37,5 @@ struct
 Bluesky
 lede
 Typer
+usize
+structs
