@@ -109,9 +109,11 @@ END CSS RESET
 /* font sizing */
 p,
 ol,
-ul,
-code {
+ul {
     font-size: var(--step-0);
+}
+code {
+    font-size: inherit;
 }
 h1 {
     font-size: var(--step-4);
