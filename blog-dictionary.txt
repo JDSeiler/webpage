@@ -23,7 +23,7 @@ Pomodoro
 Zettelkasten
 overapplication
 misordering
-accomplishming
+accomplishing
 Gantt
 buzzphrase
 Pomodoro
@@ -39,3 +39,5 @@ lede
 Typer
 usize
 structs
+societally
+Xboxes
