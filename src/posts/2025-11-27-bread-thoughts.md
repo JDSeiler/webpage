@@ -1,7 +1,7 @@
 ---
 tags: post
 title: "Bread Thoughts"
-date: 2025-10-24
+date: 2025-11-27
 layout: layouts/post-layout.njk
 ---
 
